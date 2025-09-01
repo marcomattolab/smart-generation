@@ -65,8 +65,8 @@ The `App.Java` script orchestrates generators.
 1.  Customize `project.json` to define your application.
 2.  Run the generator:
     ```bash
-    maven clean install
-    java Database
+    mvn clean install
+    java App
     ```
     This will create a new directory (specified by the `name` in `project.json`, e.g., `generated_app/`) containing the complete project.
 
