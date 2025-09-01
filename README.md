@@ -1,6 +1,6 @@
 # 🚀 Smart Generation 🚀
 
-This project is a powerful full stack webcode generator that scaffolds a complete full-stack application, including a web frontend, a backend and a full CI/CD pipeline with Docker. It's designed to accelerate development by automating the creation of boilerplate code and project structure based on a simple JSON configuration.
+This project is a powerful webcode generator that scaffolds a complete full-stack application, including a web frontend, a backend and a full CI/CD pipeline with Docker. It's designed to accelerate development by automating the creation of boilerplate code and project structure based on a simple JSON configuration.
 
 ## ✨ Features
 
