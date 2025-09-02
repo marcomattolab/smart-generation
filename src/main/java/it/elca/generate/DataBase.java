@@ -1,6 +1,5 @@
 package it.elca.generate;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,9 +9,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import it.elca.generate.project.*;
 import org.springframework.util.CollectionUtils;
 
+import it.elca.generate.project.ApplicationApp;
+import it.elca.generate.project.TemplateAngular;
+import it.elca.generate.project.TemplateApplicationWebXml;
+import it.elca.generate.project.TemplateClassPath;
+import it.elca.generate.project.TemplateFactoryPath;
+import it.elca.generate.project.TemplateLoggingAspect;
+import it.elca.generate.project.TemplatePackage;
+import it.elca.generate.project.TemplatePackageLock;
+import it.elca.generate.project.TemplatePom;
 import it.elca.generate.template.conf.TemplateApplicationProperties;
 import it.elca.generate.template.conf.TemplateAsyncConfiguration;
 import it.elca.generate.template.conf.TemplateCacheConfiguration;
@@ -213,7 +220,7 @@ public class DataBase {
 	}
 
 	public Table getTables(String tabellaName) {
-		return (Table) tabelle.get(tabellaName);
+		return tabelle.get(tabellaName);
 	}
 
 	public Map<String, List<String>> getEnumeration() {
@@ -327,7 +334,7 @@ public class DataBase {
 		enumeration.put(name, values);
 	}
 
-	//TODO => DEVELOP THIS LOGIC AND REFACTOR
+	// TODO => DEVELOP THIS LOGIC AND REFACTOR
 	public void generateFile() {
 		System.out.println("-------------------------------------------------------");
 		System.out.println("Generating Project and project Files for BE and FE ...");
@@ -572,7 +579,7 @@ public class DataBase {
 					new TemplateEntityI18N(tabella, languageCode).generateTemplate();  
 				}
 
-				//POC TODO DEVELOP THIS
+				// TODO POC DEVELOP THIS
 				// => new TemplatePOC(this, tabella).generateTemplate();
 
 				new TemplateEntityIndex(tabella).generateTemplate(); 
@@ -610,7 +617,7 @@ public class DataBase {
 			System.out.println("--------------------------------------------------------");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}catch(Throwable t){
+		} catch(Throwable t) {
 			t.printStackTrace();
 		}
 	}
@@ -687,12 +694,9 @@ public class DataBase {
 	}
 
 	/**
-	 * Smart Generator Main Procedure.
-	 * 
-	 * @param args
-	 * @throws IOException
+	 * Smart Generator Main Procedure
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		DataBase db = DataBase.getInstance();
 		db.generateFile();
 	}
