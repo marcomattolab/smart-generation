@@ -579,9 +579,6 @@ public class DataBase {
 					new TemplateEntityI18N(tabella, languageCode).generateTemplate();  
 				}
 
-				// TODO POC DEVELOP THIS
-				// => new TemplatePOC(this, tabella).generateTemplate();
-
 				new TemplateEntityIndex(tabella).generateTemplate(); 
 				new TemplateEntityService(tabella).generateTemplate();  					//DONE MANAGE DATES
 				new TemplateEntityRoute(tabella).generateTemplate(); 
