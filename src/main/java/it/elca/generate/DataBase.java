@@ -10,17 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import it.elca.generate.project.*;
 import org.springframework.util.CollectionUtils;
 
-import it.elca.generate.project.ApplicationApp;
-import it.elca.generate.project.TemplateAngular;
-import it.elca.generate.project.TemplateApplicationWebXml;
-import it.elca.generate.project.TemplateClassPath;
-import it.elca.generate.project.TemplateFactoryPath;
-import it.elca.generate.project.TemplateLoggingAspect;
-import it.elca.generate.project.TemplatePackage;
-import it.elca.generate.project.TemplatePackageLock;
-import it.elca.generate.project.TemplatePom;
 import it.elca.generate.template.conf.TemplateApplicationProperties;
 import it.elca.generate.template.conf.TemplateAsyncConfiguration;
 import it.elca.generate.template.conf.TemplateCacheConfiguration;
@@ -335,6 +327,7 @@ public class DataBase {
 		enumeration.put(name, values);
 	}
 
+	//TODO => DEVELOP THIS LOGIC AND REFACTOR
 	public void generateFile() {
 		System.out.println("-------------------------------------------------------");
 		System.out.println("Generating Project and project Files for BE and FE ...");
@@ -343,8 +336,8 @@ public class DataBase {
 			ConfigCreateProject config = ConfigCreateProject.getIstance();
 			
 			//Build Enumerations for Application
-			buildEnumerationsNameInColumn(this); 
-			
+			buildEnumerationsNameInColumn(this);
+
 			//Project (statics)
 			new TemplateClassPath(this).generateTemplate();
 			new TemplateFactoryPath(this).generateTemplate();
@@ -578,6 +571,9 @@ public class DataBase {
 				for(String languageCode: config.getLanguages()) {
 					new TemplateEntityI18N(tabella, languageCode).generateTemplate();  
 				}
+
+				//POC TODO DEVELOP THIS
+				// => new TemplatePOC(this, tabella).generateTemplate();
 
 				new TemplateEntityIndex(tabella).generateTemplate(); 
 				new TemplateEntityService(tabella).generateTemplate();  					//DONE MANAGE DATES

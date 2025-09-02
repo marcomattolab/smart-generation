@@ -16,6 +16,13 @@
     </properties>
 
     <dependencies>
+        <!-- FreeMarker per Java 17 -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.32</version>
+        </dependency>
+
         <!-- JUnit 4 (se vuoi usare JUnit 5, aggiorniamo dopo) -->
         <dependency>
             <groupId>junit</groupId>
