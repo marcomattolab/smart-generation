@@ -1,80 +1,28 @@
-# 🚀 Smart Generation 🚀
+# 🚀 Smart Scaffolding Generator 🚀
 
-This project is a powerful webcode generator that scaffolds a complete full-stack application, including a web frontend, a backend and a full CI/CD pipeline with Docker. It's designed to accelerate development by automating the creation of boilerplate code and project structure based on a simple JSON configuration.
-
-## ✨ Features
-
-The generator creates a multi-platform application with a rich set of features out of the box.
-
-### 🌐 Frontend (Angular)
-
-- **Modern Angular Setup:** Standalone components, SCSS styling, and the new built-in control flow syntax (`@for`, `@if`).
-- **State Management with Signals:** Uses Angular's built-in Signals for a simple, modern, and reactive state management architecture.
-- **Component Library:** PrimeNG for a rich set of UI components.
-- **Styling:** Tailwind CSS for utility-first styling.
-- **API Integration:** Generates signal-based services for all entities to communicate with the backend.
-- **Development Proxy:** Configures a proxy to the backend to avoid CORS issues.
-- **Internationalization (i18n):** Uses `@ngx-translate` for multi-language support.
-- **Testing:**
-    - **Cypress:** For end-to-end testing.
-    - **Storybook:** For component visualization and testing.
-    - **Component Tests:** Generates basic `.spec.ts` files for all components.
-- **Documentation:** Configured with Compodoc for generating project documentation.
-
-### ⚙️ Backend (Spring Boot)
-
-- **Build System:** Maven for dependency management.
-- **Database:** PostgreSQL for robust data persistence.
-- **API:** Generates a complete RESTful API for all entities.
-- **Architecture:**
-    - **DTO Pattern:** Decouples the API from the database entities.
-    - **Service Layer:** For business logic.
-- **ORM:** Spring Data JPA for data access.
-- **Code Quality:** Uses Lombok to reduce boilerplate code.
-- **Monitoring:** Exposes metrics for Prometheus via Spring Boot Actuator.
+## ✨ The description of business problem which your topic will solve 
+Every time that a new project start, the development suffers from a significant productivity bottleneck at project creation. Every new application requires developers to manually configure multiple interconnected systems wasting a lot of time due to integrate basic structures and configurations and basic structure for web application and mobile app. During this stage each dev team can leverage different solution to address the same problem and some time there is quality decrease and a huge time consuming operations.
 
 
-### 🐳 CI/CD (Docker)
+### 🌐 The description of your solution
+The platform delivers a substantial acceleration in the software development lifecycle, enabling ELCA to move rapidly from initial concept to a first skeleton plug and play. By automating the repetitive scaffolding and configuration steps, development teams can focus on business logic and innovation rather than spending valuable time on setup tasks.
+All generated applications adhere to strict quality and compliance standards, automatically applying ELCA-approved best practices, clean code principles, and scalable architectural patterns designed to ensure long-term maintainability and consistency across projects.
+The platform is highly versatile, supporting in a long term a wide range of technologies including Java Spring Boot with OAuth2 for secure backend services, Angular for modern web frontends and relational databases for reliable and optimized data management.
+In addition to its technical foundation, the platform comes pre-equipped with enterprise-grade infrastructure components. This includes pre-configured CI/CD pipelines and containerization.
+The system introduces a workflow that allows teams to interact via a guided wizard exposed by the platform to generate skeleton plug and play in the Elca ecosystem (OKD, Jenkins, Artifactory ...).
 
-- **Containerization:** Generates multi-stage `Dockerfile`s for the frontend and backend to produce lean, production-ready images.
-- **Orchestration:** Creates a `docker-compose.yml` file to manage the entire application stack.
-- **Services:**
-    - **Nginx:** Acts as a reverse proxy for the frontend and backend.
-    - **PostgreSQL:** The application database.
-    - **MinIO:** S3-compatible object storage.
-    - **Prometheus:** For collecting application metrics.
-    - **Grafana:** For visualizing metrics, pre-configured with Prometheus as a data source.
+### 🌐 Who will use your solution? what's the business value for the ELCA users?
 
-## 🚀 How It Works
+Who: Developers, Teams, Solution Architects at ELCA
+Value:
+1) Enforces standardized, approved architecture 
+2) Time benefits: reduces weeks to minutes
+3) Quality: Minimizes errors and inconsistencies
+4) Time To market: Accelerates prototyping and delivery
+5) Commitment to Business: Lets teams focus on business-critical features
 
-The project reads two main configuration files:
-
-- `project.json`: Defines the basic project structure (e.g., app names, package names)and the list of entities and their properties, which drives the code generation for all platforms.
-
-The `App.Java` script orchestrates generators.
-
-### Prerequisites
-
-- Smart Generation uses Java 17
-- Docker and Docker Compose
-- Node.js and npm (for local frontend development)
-- Java and Maven (for local backend development)
-
-## ▶️ How to Run - Generate the Application
-
-1.  Customize `project.json` to define your application.
-2.  Run the generator:
-    ```bash
-    mvn clean install
-    java App
-    ```
-    This will create a new directory (specified by the `name` in `project.json`, e.g., `generated_app/`) containing the complete project.
-
-### Running the Full Stack with Docker
-
-Navigate to the generated project directory and run:
-```bash
-docker-compose up --build
-```
-This will build the Docker images and start all the services. 
-The application will be available at `http://localhost:8080`
+### 🌐 The Dream Team
+- CALD Davide Caltagirone
+- ZAGN Andrea Zagarella
+- SAVR Francesco Saverino
+- MRTM Marco Martorana
