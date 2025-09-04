@@ -1,0 +1,6 @@
+<div class="progress-bar" id="progressBar">
+  <div *ngFor="let step of wizardSteps; let i = index" class="step" [ngClass]="{'active': i + 1 === currentStep, 'completed': i + 1 < currentStep}">
+    <div class="step-circle">{{step.icon}}</div>
+    <div class="step-title">{{step.title}}</div>
+  </div>
+</div>
