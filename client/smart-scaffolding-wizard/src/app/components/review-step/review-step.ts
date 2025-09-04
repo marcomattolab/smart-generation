@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { WizardStateService } from '../../services/wizard-state';
 import { Plugin } from '../../services/plugin-registry';
-import { CommonModule } from '@angular/common';
+import { CommonModule, KeyValuePipe } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './review-step.html',
   styleUrls: ['./review-step.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, KeyValuePipe]
 })
 export class ReviewStepComponent implements OnInit, OnDestroy {
   projectName = 'Untitled Project';
@@ -18,7 +18,7 @@ export class ReviewStepComponent implements OnInit, OnDestroy {
   pluginConfigurations: { [key: string]: any } = {};
   private subscriptions = new Subscription();
 
-  constructor(private readonly wizardState: WizardStateService) {}
+  constructor(private wizardState: WizardStateService) {}
 
   ngOnInit() {
     this.subscriptions.add(this.wizardState.selectedPlugins$.subscribe(plugins => this.selectedPlugins = plugins));

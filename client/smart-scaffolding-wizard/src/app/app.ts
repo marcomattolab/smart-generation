@@ -1,14 +1,16 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header';
 import { WizardComponent } from './components/wizard/wizard';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  imports: [HeaderComponent, WizardComponent],
+  styleUrls: ['./app.css'],
   standalone: true,
-  styleUrl: './app.css'
+  imports: [RouterOutlet, HeaderComponent, WizardComponent, CommonModule],
 })
-export class App {
-  protected readonly title = signal('smart-scaffolding-wizard');
+export class AppComponent {
+  title = 'smart-scaffolding-wizard';
 }

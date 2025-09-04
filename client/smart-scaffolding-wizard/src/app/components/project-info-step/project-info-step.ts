@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-project-info-step',
-  standalone: true,
   templateUrl: './project-info-step.html',
-  styleUrl: './project-info-step.css'
+  styleUrls: ['./project-info-step.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule]
 })
-export class ProjectInfoStep {
+export class ProjectInfoStepComponent {
 
 }
