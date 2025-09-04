@@ -327,32 +327,32 @@
         }
 
         .hidden {
-            display: none;
+            display: none !important;
         }
 
         /* Plugin Configuration Modal */
         .modal-overlay {
-            position: fixed;
+            position: fixed; /* Stays in place even when scrolling */
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5); /* Semi-transparent black overlay */
+            display: flex; /* Centers the modal */
             justify-content: center;
-            z-index: 1000;
-            padding: 20px;
+            align-items: center;
+            z-index: 999; /* Keeps it above everything else */
         }
 
+        /* The modal content container */
         .modal {
-            background: white;
-            border-radius: 15px;
-            max-width: 1000px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: #fff;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90%;
+            overflow-y: auto; /* Allows scrolling inside the modal */
+            padding: 20px;
         }
 
         .modal-header {
@@ -648,36 +648,37 @@
     </div>
 
     <!-- Plugin Configuration Modal -->
-    <!--
     <div class="modal-overlay hidden" id="pluginModal">
-        <div class="modal">
-            <div class="modal-header">
-                <h2>🔧 Plugin Manager</h2>
-                <button class="modal-close" onclick="closePluginManager()">&times;</button>
+    <div class="modal">
+        <div class="modal-header">
+            <h2>🔧 Plugin Manager</h2>
+            <!-- Close button triggers the close function -->
+            <button class="modal-close" onclick="closePluginManager()">&times;</button>
+        </div>
+        <div class="modal-content">
+            <!-- Category tabs -->
+            <div class="plugin-categories" id="pluginCategories">
+                <div class="category-tab active" data-category="all">All Plugins</div>
+                <div class="category-tab" data-category="backend">Backend</div>
+                <div class="category-tab" data-category="frontend">Frontend</div>
+                <div class="category-tab" data-category="database">Database</div>
+                <div class="category-tab" data-category="devops">DevOps</div>
+                <div class="category-tab" data-category="security">Security</div>
+                <div class="category-tab" data-category="monitoring">Monitoring</div>
             </div>
-            <div class="modal-content">
-                <div class="plugin-categories" id="pluginCategories">
-                    <div class="category-tab active" data-category="all">All Plugins</div>
-                    <div class="category-tab" data-category="backend">Backend</div>
-                    <div class="category-tab" data-category="frontend">Frontend</div>
-                    <div class="category-tab" data-category="database">Database</div>
-                    <div class="category-tab" data-category="devops">DevOps</div>
-                    <div class="category-tab" data-category="security">Security</div>
-                    <div class="category-tab" data-category="monitoring">Monitoring</div>
-                </div>
 
-                <div class="plugins-grid" id="pluginsGrid">
-                    < !-- Plugins will be dynamically generated here - ->
-                </div>
+            <!-- Plugin list will be populated dynamically -->
+            <div class="plugins-grid" id="pluginsGrid"></div>
 
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-primary" onclick="applyPluginConfiguration()">Apply Configuration</button>
-                    <button class="btn btn-secondary" onclick="closePluginManager()" style="margin-left: 15px;">Cancel</button>
-                </div>
+            <!-- Modal footer buttons -->
+            <div style="margin-top: 30px; text-align: center;">
+                <button class="btn btn-primary" onclick="applyPluginConfiguration()">Apply Configuration</button>
+                <button class="btn btn-secondary" onclick="closePluginManager()" style="margin-left: 15px;">Cancel</button>
             </div>
         </div>
     </div>
--->
+</div>
+
 
     <script>
         // Plugin registry with configuration schemas
@@ -1485,32 +1486,48 @@
             updatePluginConfig(pluginId, fieldName, value);
         }
 
-        // Plugin Manager functions
+        // Opens the Plugin Manager modal
         function openPluginManager() {
+            // Render plugin categories and plugin list
             renderPluginManager();
+
+            // Remove the 'hidden' class to make the modal visible
             document.getElementById('pluginModal').classList.remove('hidden');
         }
 
+        // Closes the Plugin Manager modal
         function closePluginManager() {
+            // Add the 'hidden' class to hide the modal overlay
             document.getElementById('pluginModal').classList.add('hidden');
         }
 
+        // Render the plugin manager interface
         function renderPluginManager() {
+            // Initialize category tabs and plugin list
             renderPluginCategories();
-            renderPlugins('all');
+            renderPlugins('all'); // Show all plugins by default
         }
 
+        // Render the plugin categories (with fixed event listener)
         function renderPluginCategories() {
             const categories = document.getElementById('pluginCategories');
-            categories.addEventListener('click', function(e) {
+
+            // Clone the node to remove old event listeners (prevents multiple bindings)
+            const newCategories = categories.cloneNode(true);
+            categories.parentNode.replaceChild(newCategories, categories);
+
+            // Add a single click event listener for category switching
+            newCategories.addEventListener('click', function (e) {
                 if (e.target.classList.contains('category-tab')) {
-                    // Remove active class from all tabs
-                    categories.querySelectorAll('.category-tab').forEach(tab => 
+                    // Remove 'active' from all category tabs
+                    newCategories.querySelectorAll('.category-tab').forEach(tab =>
                         tab.classList.remove('active')
                     );
-                    // Add active class to clicked tab
+
+                    // Add 'active' to the clicked category
                     e.target.classList.add('active');
-                    // Render plugins for selected category
+
+                    // Render plugins for the selected category
                     renderPlugins(e.target.dataset.category);
                 }
             });
