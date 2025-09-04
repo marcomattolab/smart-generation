@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ProjectInfoStep } from './project-info-step';
+import { ProjectInfoStepComponent } from './project-info-step';
 
 describe('ProjectInfoStep', () => {
-  let component: ProjectInfoStep;
-  let fixture: ComponentFixture<ProjectInfoStep>;
+  let component: ProjectInfoStepComponent;
+  let fixture: ComponentFixture<ProjectInfoStepComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ProjectInfoStep]
+      declarations: [ProjectInfoStepComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProjectInfoStep);
+    fixture = TestBed.createComponent(ProjectInfoStepComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
