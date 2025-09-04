@@ -1,0 +1,37 @@
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>🔧 Plugin Manager</h2>
+      <button class="modal-close" (click)="close()">&times;</button>
+    </div>
+    <div class="modal-content">
+      <div class="plugin-categories" id="pluginCategories">
+          <div class="category-tab" [ngClass]="{'active': selectedCategory === 'all'}" (click)="selectCategory('all')">All Plugins</div>
+          <div class="category-tab" [ngClass]="{'active': selectedCategory === 'backend'}" (click)="selectCategory('backend')">Backend</div>
+          <div class="category-tab" [ngClass]="{'active': selectedCategory === 'frontend'}" (click)="selectCategory('frontend')">Frontend</div>
+          <div class="category-tab" [ngClass]="{'active': selectedCategory === 'database'}" (click)="selectCategory('database')">Database</div>
+          <div class="category-tab" [ngClass]="{'active': selectedCategory === 'devops'}" (click)="selectCategory('devops')">DevOps</div>
+          <div class="category-tab" [ngClass]="{'active': selectedCategory === 'security'}" (click)="selectCategory('security')">Security</div>
+          <div class="category-tab" [ngClass]="{'active': selectedCategory === 'monitoring'}" (click)="selectCategory('monitoring')">Monitoring</div>
+      </div>
+      <div class="plugins-grid" id="pluginsGrid">
+        <div *ngFor="let plugin of filteredPlugins" class="plugin-card" [ngClass]="{'selected': isSelected(plugin)}" (click)="togglePlugin(plugin)">
+          <input type="checkbox" class="plugin-checkbox" [checked]="isSelected(plugin)">
+          <div class="plugin-header">
+            <span class="plugin-icon">{{plugin.icon}}</span>
+            <h3>{{plugin.name}}</h3>
+            <span class="plugin-version">v{{plugin.version}}</span>
+          </div>
+          <p>{{plugin.description}}</p>
+          <div class="plugin-tags">
+            <span *ngFor="let tag of plugin.tags" class="plugin-tag">{{tag}}</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 30px; text-align: center;">
+        <button class="btn btn-primary" (click)="apply()">Apply Configuration</button>
+        <button class="btn btn-secondary" (click)="close()" style="margin-left: 15px;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
