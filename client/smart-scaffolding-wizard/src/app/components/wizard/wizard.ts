@@ -2,22 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { WizardStateService } from '../../services/wizard-state';
 import { CommonModule } from '@angular/common';
 import { ProgressBarComponent } from '../progress-bar/progress-bar';
-import { ProjectInfoStepComponent } from '../project-info-step/project-info-step';
 import { PluginConfigStepComponent } from '../plugin-config-step/plugin-config-step';
 import { ReviewStepComponent } from '../review-step/review-step';
+import { ProjectInfoStep } from '../project-info-step/project-info-step';
 
 @Component({
   selector: 'app-wizard',
   templateUrl: './wizard.html',
   styleUrls: ['./wizard.css'],
   standalone: true,
-  imports: [CommonModule, ProgressBarComponent, ProjectInfoStepComponent, PluginConfigStepComponent, ReviewStepComponent]
+  imports: [CommonModule, ProgressBarComponent, ProjectInfoStep, PluginConfigStepComponent, ReviewStepComponent]
 })
 export class WizardComponent implements OnInit {
   currentStep = 1;
   totalSteps = 1;
 
-  constructor(private wizardState: WizardStateService) {}
+  constructor(private readonly wizardState: WizardStateService) {}
 
   ngOnInit() {
     this.wizardState.currentStep$.subscribe(step => this.currentStep = step);

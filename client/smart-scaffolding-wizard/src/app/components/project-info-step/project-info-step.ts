@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-project-info-step',
-  standalone: false,
+  standalone: true,
   templateUrl: './project-info-step.html',
   styleUrl: './project-info-step.css'
 })

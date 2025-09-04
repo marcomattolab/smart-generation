@@ -18,7 +18,7 @@ export class ReviewStepComponent implements OnInit, OnDestroy {
   pluginConfigurations: { [key: string]: any } = {};
   private subscriptions = new Subscription();
 
-  constructor(private wizardState: WizardStateService) {}
+  constructor(private readonly wizardState: WizardStateService) {}
 
   ngOnInit() {
     this.subscriptions.add(this.wizardState.selectedPlugins$.subscribe(plugins => this.selectedPlugins = plugins));

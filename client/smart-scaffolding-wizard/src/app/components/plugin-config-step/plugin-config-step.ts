@@ -18,7 +18,7 @@ export class PluginConfigStepComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
   private currentStep = 0;
 
-  constructor(private wizardState: WizardStateService) {}
+  constructor(private readonly wizardState: WizardStateService) {}
 
   ngOnInit() {
     this.subscriptions.add(this.wizardState.currentStep$.subscribe(step => {

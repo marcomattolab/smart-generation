@@ -1,9 +1,12 @@
 import { Component, signal } from '@angular/core';
+import { HeaderComponent } from './components/header/header';
+import { WizardComponent } from './components/wizard/wizard';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  standalone: false,
+  imports: [HeaderComponent, WizardComponent],
+  standalone: true,
   styleUrl: './app.css'
 })
 export class App {

@@ -20,7 +20,7 @@ export class PluginManagerComponent implements OnInit, OnDestroy {
   selectedCategory = 'all';
   private subscriptions = new Subscription();
 
-  constructor(private wizardState: WizardStateService) {}
+  constructor(private readonly wizardState: WizardStateService) {}
 
   ngOnInit() {
     this.subscriptions.add(this.wizardState.plugins$.subscribe(plugins => {
