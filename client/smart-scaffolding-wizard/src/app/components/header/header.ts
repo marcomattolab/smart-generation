@@ -13,6 +13,10 @@ export class HeaderComponent {
   isPluginManagerOpen = false;
 
   openPluginManager() {
-    this.isPluginManagerOpen = !this.isPluginManagerOpen;
+    this.isPluginManagerOpen = true;
+  }
+
+  closePluginManager() {
+    this.isPluginManagerOpen = false;
   }
 }
