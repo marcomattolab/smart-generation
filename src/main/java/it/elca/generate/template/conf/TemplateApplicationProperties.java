@@ -4,47 +4,43 @@ import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplateApplicationProperties extends AbstractTemplate {
 
-	public TemplateApplicationProperties(DataBase database) {
-		super(database);
-	}
+    public TemplateApplicationProperties(DataBase database) {
+        super(database);
+    }
 
-	public String getTypeFile() {
-		return "java";
-	}
+    public String getTypeFile() {
+        return "java";
+    }
 
-	public String getBody(){
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		// https://www.buildmystring.com/
-		String body = "package "+ conf.getPackageclass() + "." + conf.getSrcConfigFolder() +";\n\n" +
-		"import org.springframework.boot.context.properties.ConfigurationProperties;\n\n" +
-		"/**\n" +
-		" * Properties specific to "+conf.getProjectName()+"\n" +
-		" * <p>\n" +
-		" * Properties are configured in the application.yml file.\n" +
-		//" * See {@link io.github.jhipster.config.JHipsterProperties} for a good example.\n" +
-		" */\n" +
-		"@ConfigurationProperties(prefix = \"application\", ignoreUnknownFields = false)\n" +
-		"public class " + getClassName() + " {\n" +
-		"\n}\n";
-		return body;
-	}
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageClass", conf.getPackageclass());
+        data.put("srcConfigFolder", conf.getSrcConfigFolder());
+        data.put("projectName", conf.getProjectName());
+        data.put("className", getClassName());
+        return FreemarkerTemplate.process("conf/application.properties.java.ftl", data);
+    }
 
-	public String getClassName(){
-		return "ApplicationProperties";
-	}
+    public String getClassName() {
+        return "ApplicationProperties";
+    }
 
-	@Override
-	public String getTypeTemplate() {
-		String typeTemplate = Utils.replace(ConfigCreateProject.getIstance().getSrcConfigFolder(),".","/");
-		return typeTemplate;
-	}
+    @Override
+    public String getTypeTemplate() {
+        return Utils.replace(ConfigCreateProject.getIstance().getSrcConfigFolder(), ".", "/");
+    }
 
-	@Override
-	public String getSourceFolder() {
-		return "src/main/java";
-	}
+    @Override
+    public String getSourceFolder() {
+        return "src/main/java";
+    }
 
 }

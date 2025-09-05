@@ -2,50 +2,43 @@ package it.elca.generate.template.service;
 
 import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
-import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
 
-public class TemplateEntityMapperService extends AbstractTemplate{
+import java.util.HashMap;
+import java.util.Map;
 
-	public TemplateEntityMapperService(DataBase database) {
-		super(database);
-	}
+public class TemplateEntityMapperService extends AbstractTemplate {
 
-	public String getTypeTemplate() {
-		String typeTemplate = Utils.replace(ConfigCreateProject.getIstance().getSrcServiceMapperFolder(),".","/");
-		return typeTemplate;
-	}
+    public TemplateEntityMapperService(DataBase database) {
+        super(database);
+    }
 
-	public String getTypeFile() {
-		return "java";
-	}
+    @Override
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageName", conf.getPackageclass());
+        data.put("mapperPackage", conf.getSrcServiceMapperFolder());
+        return FreemarkerTemplate.process("service/EntityMapper.java.ftl", data);
+    }
 
-	public String getBody() {
-		//https://www.buildmystring.com/
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		String body = "package "+ conf.getPackageclass() + "." + conf.getSrcServiceMapperFolder()+";\r\n\n" +
-		"import java.util.List;\r\n\n" +
-		"/**\r\n" +
-		" * Contract for a generic dto to entity mapper.\r\n" +
-		" *\r\n" +
-		" * @param <D> - DTO type parameter.\r\n" +
-		" * @param <E> - Entity type parameter.\r\n" +
-		" */\r\n" +
-		"public interface EntityMapper <D, E> {\r\n\n" +
-		"    E toEntity(D dto);\r\n\n" +
-		"    D toDto(E entity);\r\n\n" +
-		"    List <E> toEntity(List<D> dtoList);\r\n\n" +
-		"    List <D> toDto(List<E> entityList);\r\n\n" +
-		"}\r\n";
-		return body;
-	}
+    public String getClassName() {
+        return "EntityMapper";
+    }
 
-	public String getClassName() {
-		return "EntityMapper";
-	}
+    @Override
+    public String getTypeTemplate() {
+        return ConfigCreateProject.getIstance().getSrcServiceMapperFolder().replace(".", "/");
+    }
 
-	public String getSourceFolder() {
-		return "src/main/java";
-	}
+    @Override
+    public String getTypeFile() {
+        return "java";
+    }
 
+    @Override
+    public String getSourceFolder() {
+        return "src/main/java";
+    }
 }

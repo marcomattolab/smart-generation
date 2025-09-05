@@ -4,79 +4,42 @@ import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplateDefaultProfileUtil extends AbstractTemplate {
 
-	public TemplateDefaultProfileUtil(DataBase database) {
-		super(database);
-	}
+    public TemplateDefaultProfileUtil(DataBase database) {
+        super(database);
+    }
 
-	public String getTypeFile() {
-		return "java";
-	}
+    public String getTypeFile() {
+        return "java";
+    }
 
-	public String getBody(){
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		// https://www.buildmystring.com/
-		String body = "package "+ conf.getPackageclass() + "." + conf.getSrcConfigFolder() +";\r\n\n" +
-		"import io.github.jhipster.config.JHipsterConstants;\r\n" +
-		"import org.springframework.boot.SpringApplication;\r\n" +
-		"import org.springframework.core.env.Environment;\r\n" +
-		"import java.util.*;\r\n\n" +
-		"/**\r\n" +
-		" * Utility class to load a Spring profile to be used as default\r\n" +
-		" * when there is no <code>spring.profiles.active</code> set in the environment or as command line argument.\r\n" +
-		" * If the value is not available in <code>application.yml</code> then <code>dev</code> profile will be used as default.\r\n" +
-		" */\r\n" +
-		"public final class "+getClassName()+" {\r\n\n" +
-		"    private static final String SPRING_PROFILE_DEFAULT = \"spring.profiles.default\";\r\n" +
-		"    private "+getClassName()+"() {\r\n" +
-		"    }\r\n\n" +
-		"    /**\r\n" +
-		"     * Set a default to use when no profile is configured.\r\n" +
-		"     *\r\n" +
-		"     * @param app the Spring application\r\n" +
-		"     */\r\n" +
-		"    public static void addDefaultProfile(SpringApplication app) {\r\n" +
-		"        Map<String, Object> defProperties = new HashMap<>();\r\n" +
-		"        /*\r\n" +
-		"        * The default profile to use when no other profiles are defined\r\n" +
-		"        * This cannot be set in the <code>application.yml</code> file.\r\n" +
-		"        * See https://github.com/spring-projects/spring-boot/issues/1219\r\n" +
-		"        */\r\n" +
-		"        defProperties.put(SPRING_PROFILE_DEFAULT, JHipsterConstants.SPRING_PROFILE_DEVELOPMENT);\r\n" +
-		"        app.setDefaultProperties(defProperties);\r\n" +
-		"    }\r\n\n" +
-		"    /**\r\n" +
-		"     * Get the profiles that are applied else get default profiles.\r\n" +
-		"     *\r\n" +
-		"     * @param env spring environment\r\n" +
-		"     * @return profiles\r\n" +
-		"     */\r\n" +
-		"    public static String[] getActiveProfiles(Environment env) {\r\n" +
-		"        String[] profiles = env.getActiveProfiles();\r\n" +
-		"        if (profiles.length == 0) {\r\n" +
-		"            return env.getDefaultProfiles();\r\n" +
-		"        }\r\n" +
-		"        return profiles;\r\n" +
-		"    }\r\n\n" +
-		"}\r\n";
-		return body;
-	}
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageClass", conf.getPackageclass());
+        data.put("srcConfigFolder", conf.getSrcConfigFolder());
+        data.put("className", getClassName());
+        return FreemarkerTemplate.process("conf/default.profile.util.java.ftl", data);
+    }
 
-	public String getClassName(){
-		return "DefaultProfileUtil";
-	}
+    public String getClassName() {
+        return "DefaultProfileUtil";
+    }
 
-	@Override
-	public String getTypeTemplate() {
-		String typeTemplate = Utils.replace(ConfigCreateProject.getIstance().getSrcConfigFolder(),".","/");
-		return typeTemplate;
-	}
+    @Override
+    public String getTypeTemplate() {
+        return Utils.replace(ConfigCreateProject.getIstance().getSrcConfigFolder(), ".", "/");
+    }
 
-	@Override
-	public String getSourceFolder() {
-		return "src/main/java";
-	}
+    @Override
+    public String getSourceFolder() {
+        return "src/main/java";
+    }
 
 }

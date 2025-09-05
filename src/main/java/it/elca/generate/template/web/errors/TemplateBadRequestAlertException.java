@@ -2,69 +2,43 @@ package it.elca.generate.template.web.errors;
 
 import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
-import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
 
-public class TemplateBadRequestAlertException extends AbstractTemplate{
+import java.util.HashMap;
+import java.util.Map;
 
-	public TemplateBadRequestAlertException(DataBase dataBase) {
-		super(dataBase);
-	}
+public class TemplateBadRequestAlertException extends AbstractTemplate {
 
-	public String getTypeTemplate() {
-		String typeTemplate = Utils.replace(ConfigCreateProject.getIstance().getSrcWebRestErrorsFolder(),".","/");
-		return typeTemplate;
-	}
+    public TemplateBadRequestAlertException(DataBase dataBase) {
+        super(dataBase);
+    }
 
-	public String getTypeFile() {
-		return "java";
-	}
+    @Override
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageName", conf.getPackageclass());
+        data.put("errorsPackage", conf.getSrcWebRestErrorsFolder());
+        return FreemarkerTemplate.process("web/errors/BadRequestAlertException.java.ftl", data);
+    }
 
-	public String getBody() {
-		// https://www.buildmystring.com/
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		
-		String body = 
-		"package "+ conf.getPackageclass() + "." + conf.getSrcWebRestErrorsFolder()+";\r\n\n" +
-		"import org.zalando.problem.AbstractThrowableProblem;\r\n" +
-		"import org.zalando.problem.Status;\r\n" +
-		"import java.net.URI;\r\n" +
-		"import java.util.HashMap;\r\n" +
-		"import java.util.Map;\r\n\n" +
-		"public class BadRequestAlertException extends AbstractThrowableProblem {\r\n\n" +
-		"    private static final long serialVersionUID = 1L;\r\n" +
-		"    private final String entityName;\r\n" +
-		"    private final String errorKey;\r\n\n" +
-		"    public BadRequestAlertException(String defaultMessage, String entityName, String errorKey) {\r\n" +
-		"        this(ErrorConstants.DEFAULT_TYPE, defaultMessage, entityName, errorKey);\r\n" +
-		"    }\r\n\n" +
-		"    public BadRequestAlertException(URI type, String defaultMessage, String entityName, String errorKey) {\r\n" +
-		"        super(type, defaultMessage, Status.BAD_REQUEST, null, null, null, getAlertParameters(entityName, errorKey));\r\n" +
-		"        this.entityName = entityName;\r\n" +
-		"        this.errorKey = errorKey;\r\n" +
-		"    }\r\n\n" +
-		"    public String getEntityName() {\r\n" +
-		"        return entityName;\r\n" +
-		"    }\r\n\n" +
-		"    public String getErrorKey() {\r\n" +
-		"        return errorKey;\r\n" +
-		"    }\r\n\n" +
-		"    private static Map<String, Object> getAlertParameters(String entityName, String errorKey) {\r\n" +
-		"        Map<String, Object> parameters = new HashMap<>();\r\n" +
-		"        parameters.put(\"message\", \"error.\" + errorKey);\r\n" +
-		"        parameters.put(\"params\", entityName);\r\n" +
-		"        return parameters;\r\n" +
-		"    }\r\n\n" +
-		"}\r\n";
-		return body;
-	}
+    public String getClassName() {
+        return "BadRequestAlertException";
+    }
 
-	public String getClassName() {
-		return "BadRequestAlertException";
-	}
+    @Override
+    public String getTypeTemplate() {
+        return ConfigCreateProject.getIstance().getSrcWebRestErrorsFolder().replace(".", "/");
+    }
 
-	public String getSourceFolder() {
-		return "src/main/java";
-	}
+    @Override
+    public String getTypeFile() {
+        return "java";
+    }
 
+    @Override
+    public String getSourceFolder() {
+        return "src/main/java";
+    }
 }

@@ -4,50 +4,41 @@ import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractResourceTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplateDashboardPolarareachartRoute extends AbstractResourceTemplate {
 
-	public TemplateDashboardPolarareachartRoute(DataBase database) {
-		super(database);
-	}
+    public TemplateDashboardPolarareachartRoute(DataBase database) {
+        super(database);
+    }
 
-	public String getTypeFile() {
-		return "ts";
-	}
+    public String getTypeFile() {
+        return "ts";
+    }
 
-	public String getBody(){
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		// https://www.buildmystring.com/
-		String body = 
-		"import { Route } from '@angular/router';\r\n" + 
-		"import { UserRouteAccessService } from '../../core';\r\n" + 
-		"import { PolarareachartComponent } from './polarareachart.component';\r\n\n" + 
-		"export const polarareachartRoute: Route = {\r\n" + 
-		"    path: 'polarareachart',\r\n" + 
-		"    component: PolarareachartComponent,\r\n" + 
-		"    data: {\r\n" + 
-		"        authorities: ["+Utils.getGlobalAuthorities(conf, Utils.APICE)+"],\r\n" + 
-		"        pageTitle: 'dashboard.polarareachart.home.title'\r\n" + 
-		"    },\r\n" + 
-		"    canActivate: [UserRouteAccessService]\r\n" + 
-		"};\r\n" + 
-		"";
-		return body;
-	}
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("authorities", Utils.getGlobalAuthorities(conf, Utils.APICE));
+        return FreemarkerTemplate.process("fe/dashboard/polarareachart.route.ts.ftl", data);
+    }
 
-	public String getClassName(){
-		return "polarareachart.route";
-	}
+    public String getClassName() {
+        return "polarareachart.route";
+    }
 
-	@Override
-	public String getTypeTemplate() {
-		String typeTemplate = "";
-		return typeTemplate;
-	}
+    @Override
+    public String getTypeTemplate() {
+        String typeTemplate = "";
+        return typeTemplate;
+    }
 
-	@Override
-	public String getSourceFolder() {
-		return "src/main/webapp/app/dashboard/polarareachart";
-	}
+    @Override
+    public String getSourceFolder() {
+        return "src/main/webapp/app/dashboard/polarareachart";
+    }
 
 }

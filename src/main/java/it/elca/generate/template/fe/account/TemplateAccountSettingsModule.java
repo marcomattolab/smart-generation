@@ -4,54 +4,41 @@ import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractResourceTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplateAccountSettingsModule extends AbstractResourceTemplate {
 
-	public TemplateAccountSettingsModule(DataBase database) {
-		super(database);
-	}
+    public TemplateAccountSettingsModule(DataBase database) {
+        super(database);
+    }
 
-	public String getTypeFile() {
-		return "ts";
-	}
+    public String getTypeFile() {
+        return "ts";
+    }
 
-	public String getBody(){
-		// https://www.buildmystring.com/
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		
-		//Authorities
-		String authorities = Utils.getGlobalAuthorities(conf, Utils.APICE);
-		
-		String body = 
-		"import { Route } from '@angular/router';\n" + 
-		"import { UserRouteAccessService } from 'app/core';\n" + 
-		"import { SettingsComponent } from './settings.component';\n\n" + 
-		"export const settingsRoute: Route = {\n" + 
-		"    path: 'settings',\n" + 
-		"    component: SettingsComponent,\n" + 
-		"    data: {\n" + 
-		"        authorities: ["+authorities+"],\n" + 
-		"        pageTitle: 'global.menu.account.settings'\n" + 
-		"    },\n" + 
-		"    canActivate: [UserRouteAccessService]\n" + 
-		"};\n" + 
-		"";
-		return body;
-	}
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("authorities", Utils.getGlobalAuthorities(conf, Utils.APICE));
+        return FreemarkerTemplate.process("fe/account/settings.route.ts.ftl", data);
+    }
 
-	public String getClassName(){
-		return "settings.route";
-	}
+    public String getClassName() {
+        return "settings.route";
+    }
 
-	@Override
-	public String getTypeTemplate() {
-		String typeTemplate = "";
-		return typeTemplate;
-	}
+    @Override
+    public String getTypeTemplate() {
+        String typeTemplate = "";
+        return typeTemplate;
+    }
 
-	@Override
-	public String getSourceFolder() {
-		return "src/main/webapp/app/account/settings";
-	}
+    @Override
+    public String getSourceFolder() {
+        return "src/main/webapp/app/account/settings";
+    }
 
 }

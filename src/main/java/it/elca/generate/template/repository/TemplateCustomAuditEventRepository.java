@@ -4,108 +4,44 @@ import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
 
-public class TemplateCustomAuditEventRepository extends AbstractTemplate{
-	private String CustomAuditEvent = "CustomAuditEvent";
-	
-	public TemplateCustomAuditEventRepository(DataBase database) {
-		super(database);
-	}
+import java.util.HashMap;
+import java.util.Map;
 
-	public String getTypeTemplate() {
-		String typeTemplate = Utils.replace(ConfigCreateProject.getIstance().getSrcRepositoryFolder(),".","/");
-		return typeTemplate;
-	}
-	
-	public String getTypeFile() {
-		return "java";
-	}
+public class TemplateCustomAuditEventRepository extends AbstractTemplate {
+    private String CustomAuditEvent = "CustomAuditEvent";
 
-	public String getBody() {
-		// https://www.buildmystring.com/
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		String body = "package "+ conf.getPackageclass() + "." + conf.getSrcRepositoryFolder()+";\r\n\n" +
-		"import " + conf.getPackageclass() + "." + conf.getSrcConfigFolder() + ".Constants;\r\n" +
-		"import " + conf.getPackageclass() + "." + conf.getSrcConfigAuditFolder() + ".AuditEventConverter;\r\n" +
-		"import " + conf.getPackageclass() + "." + conf.getSrcDomainFolder() + ".PersistentAuditEvent;\r\n" +
-		"import org.slf4j.Logger;\r\n" +
-		"import org.slf4j.LoggerFactory;\r\n" +
-		"import org.springframework.boot.actuate.audit.AuditEvent;\r\n" +
-		"import org.springframework.boot.actuate.audit.AuditEventRepository;\r\n" +
-		"import org.springframework.stereotype.Repository;\r\n" +
-		"import org.springframework.transaction.annotation.Propagation;\r\n" +
-		"import org.springframework.transaction.annotation.Transactional;\r\n" +
-		"import java.time.Instant;\r\n" +
-		"import java.util.*;\r\n\n"+
-		"/**\r\n" +
-		" * An implementation of Spring Boot's AuditEventRepository.\r\n" +
-		" */\r\n" +
-		"@Repository\r\n" +
-		"public class "+getClassName()+" implements AuditEventRepository {\r\n\n" +
-		"    private static final String AUTHORIZATION_FAILURE = \"AUTHORIZATION_FAILURE\";\r\n" +
-		"    /**\r\n" +
-		"     * Should be the same as in Liquibase migration.\r\n" +
-		"     */\r\n" +
-		"    protected static final int EVENT_DATA_COLUMN_MAX_LENGTH = 255;\r\n" +
-		"    private final PersistenceAuditEventRepository persistenceAuditEventRepository;\r\n" +
-		"    private final AuditEventConverter auditEventConverter;\r\n" +
-		"    private final Logger log = LoggerFactory.getLogger(getClass());\r\n\n" +
-		"    public "+getClassName()+"(PersistenceAuditEventRepository persistenceAuditEventRepository,\r\n" +
-		"            AuditEventConverter auditEventConverter) {\r\n" +
-		"        this.persistenceAuditEventRepository = persistenceAuditEventRepository;\r\n" +
-		"        this.auditEventConverter = auditEventConverter;\r\n" +
-		"    }\r\n\n" +
-		"    @Override\r\n" +
-		"    public List<AuditEvent> find(String principal, Instant after, String type) {\r\n" +
-		"        Iterable<PersistentAuditEvent> persistentAuditEvents =\r\n" +
-		"            persistenceAuditEventRepository.findByPrincipalAndAuditEventDateAfterAndAuditEventType(principal, after, type);\r\n" +
-		"        return auditEventConverter.convertToAuditEvent(persistentAuditEvents);\r\n" +
-		"    }\r\n\n" +
-		"    @Override\r\n" +
-		"    @Transactional(propagation = Propagation.REQUIRES_NEW)\r\n" +
-		"    public void add(AuditEvent event) {\r\n" +
-		"        if (!AUTHORIZATION_FAILURE.equals(event.getType()) &&\r\n" +
-		"            !Constants.ANONYMOUS_USER.equals(event.getPrincipal())) {\r\n" +
-		"            PersistentAuditEvent persistentAuditEvent = new PersistentAuditEvent();\r\n" +
-		"            persistentAuditEvent.setPrincipal(event.getPrincipal());\r\n" +
-		"            persistentAuditEvent.setAuditEventType(event.getType());\r\n" +
-		"            persistentAuditEvent.setAuditEventDate(event.getTimestamp());\r\n" +
-		"            Map<String, String> eventData = auditEventConverter.convertDataToStrings(event.getData());\r\n" +
-		"            persistentAuditEvent.setData(truncate(eventData));\r\n" +
-		"            persistenceAuditEventRepository.save(persistentAuditEvent);\r\n" +
-		"        }\r\n" +
-		"    }\r\n\n" +
-		"    /**\r\n" +
-		"     * Truncate event data that might exceed column length.\r\n" +
-		"     */\r\n" +
-		"    private Map<String, String> truncate(Map<String, String> data) {\r\n" +
-		"        Map<String, String> results = new HashMap<>();\r\n" +
-		"        if (data != null) {\r\n" +
-		"            for (Map.Entry<String, String> entry : data.entrySet()) {\r\n" +
-		"                String value = entry.getValue();\r\n" +
-		"                if (value != null) {\r\n" +
-		"                    int length = value.length();\r\n" +
-		"                    if (length > EVENT_DATA_COLUMN_MAX_LENGTH) {\r\n" +
-		"                        value = value.substring(0, EVENT_DATA_COLUMN_MAX_LENGTH);\r\n" +
-		"                        log.warn(\"Event data for {} too long ({}) has been truncated to {}. Consider increasing column width.\",\r\n" +
-		"                                 entry.getKey(), length, EVENT_DATA_COLUMN_MAX_LENGTH);\r\n" +
-		"                    }\r\n" +
-		"                }\r\n" +
-		"                results.put(entry.getKey(), value);\r\n" +
-		"            }\r\n" +
-		"        }\r\n" +
-		"        return results;\r\n" +
-		"    }\r\n\n" +
-		"}\r\n";
-		return body;
-	}
+    public TemplateCustomAuditEventRepository(DataBase database) {
+        super(database);
+    }
 
-	public String getClassName() {
-		return Utils.getRepositoryClassName(CustomAuditEvent);
-	}
-	
-	public String getSourceFolder() {
-		return "src/main/java";
-	}
+    public String getTypeTemplate() {
+        return Utils.replace(ConfigCreateProject.getIstance().getSrcRepositoryFolder(), ".", "/");
+    }
+
+    public String getTypeFile() {
+        return "java";
+    }
+
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageClass", conf.getPackageclass());
+        data.put("srcRepositoryFolder", conf.getSrcRepositoryFolder());
+        data.put("srcConfigFolder", conf.getSrcConfigFolder());
+        data.put("srcConfigAuditFolder", conf.getSrcConfigAuditFolder());
+        data.put("srcDomainFolder", conf.getSrcDomainFolder());
+        data.put("className", getClassName());
+        return FreemarkerTemplate.process("repository/custom.audit.event.repository.java.ftl", data);
+    }
+
+    public String getClassName() {
+        return Utils.getRepositoryClassName(CustomAuditEvent);
+    }
+
+    public String getSourceFolder() {
+        return "src/main/java";
+    }
 
 }

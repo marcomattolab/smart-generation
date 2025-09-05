@@ -1,63 +1,55 @@
 package it.elca.generate.template.fe.i18n;
 
-import java.util.Iterator;
-import java.util.List;
-
 import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.Enumeration;
 import it.elca.generate.template.AbstractResourceTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
 
-public class TemplateEnumerationsI18N extends AbstractResourceTemplate{
-	private String languageCode;
-	
-	public TemplateEnumerationsI18N(Enumeration enumeration, String languageCode) {
-		super(enumeration);
-		this.languageCode = languageCode;
-	}
-	
-	public String getTypeTemplate() {
-		String typeTemplate = "";
-		return typeTemplate;
-	}
+import java.util.HashMap;
+import java.util.Map;
 
-	public String getTypeFile() {
-		return "json";
-	}
+public class TemplateEnumerationsI18N extends AbstractResourceTemplate {
+    private String languageCode;
 
-	public String getBody() {
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		//https://www.buildmystring.com/
-		String body = 
-		"{\r\n" +
-		"    \""+conf.getProjectName()+"App\": {\r\n" +
-		"        \""+enumeration.getNomeEnumeration()+"\": {\r\n" +
-		"            \"null\": \"\",\r\n";
-		List<String> values = enumeration.getValoriEnumeration();
-		for (Iterator it = values.iterator(); it.hasNext();) {
-			String value = (String) it.next();
-			body += "            \""+value+"\": \""+value+"\" " + (it.hasNext()?",\n":"\n");
-		}
-		body +=
-		"        }\r\n" +
-		"    }\r\n" +
-		"}\r\n";
-		return body;
-	}
+    public TemplateEnumerationsI18N(Enumeration enumeration, String languageCode) {
+        super(enumeration);
+        this.languageCode = languageCode;
+    }
 
-	public String getClassName() {
-		return enumeration.getNomeEnumeration().toLowerCase();
-	}
+    @Override
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("projectName", conf.getProjectName());
+        data.put("enumerationName", enumeration.getNomeEnumeration());
+        data.put("values", enumeration.getValoriEnumeration());
+        return FreemarkerTemplate.process("fe/i18n/enumeration.json.ftl", data);
+    }
 
-	public String getSourceFolder() {
-		return "src/main/webapp/i18n/"+languageCode;
-	}
+    public String getClassName() {
+        return enumeration.getNomeEnumeration().toLowerCase();
+    }
 
-	public String getLanguageCode() {
-		return languageCode;
-	}
+    @Override
+    public String getTypeFile() {
+        return "json";
+    }
 
-	public void setLanguageCode(String languageCode) {
-		this.languageCode = languageCode;
-	}
-	
+    @Override
+    public String getTypeTemplate() {
+        return "";
+    }
+
+    @Override
+    public String getSourceFolder() {
+        return "src/main/webapp/i18n/" + languageCode;
+    }
+
+    public String getLanguageCode() {
+        return languageCode;
+    }
+
+    public void setLanguageCode(String languageCode) {
+        this.languageCode = languageCode;
+    }
 }

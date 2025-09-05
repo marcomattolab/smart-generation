@@ -2,69 +2,45 @@ package it.elca.generate.template.web;
 
 import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
-import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
 
-public class TemplateLogsResource extends AbstractTemplate{
+import java.util.HashMap;
+import java.util.Map;
 
-	public TemplateLogsResource(DataBase dataBase) {
-		super(dataBase);
-	}
+public class TemplateLogsResource extends AbstractTemplate {
 
-	public String getTypeTemplate() {
-		String typeTemplate = Utils.replace(ConfigCreateProject.getIstance().getSrcWebRestFolder(),".","/");
-		return typeTemplate;
-	}
+    public TemplateLogsResource(DataBase database) {
+        super(database);
+    }
 
-	public String getTypeFile() {
-		return "java";
-	}
+    @Override
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageName", conf.getPackageclass());
+        data.put("webRestPackage", conf.getSrcWebRestFolder());
+        data.put("vmPackage", conf.getSrcWebRestVmFolder());
 
-	public String getBody() {
-		// https://www.buildmystring.com/
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		String body = "package "+ conf.getPackageclass() + "." + conf.getSrcWebRestFolder()+";\r\n\n" +
-		"import " + conf.getPackageclass() + "." + conf.getSrcWebRestVmFolder()+ ".LoggerVM;\r\n" +
-		"import ch.qos.logback.classic.Level;\r\n" +
-		"import ch.qos.logback.classic.LoggerContext;\r\n" +
-		"import com.codahale.metrics.annotation.Timed;\r\n" +
-		"import org.slf4j.LoggerFactory;\r\n" +
-		"import org.springframework.http.HttpStatus;\r\n" +
-		"import org.springframework.web.bind.annotation.*;\r\n" +
-		"import java.util.List;\r\n" +
-		"import java.util.stream.Collectors;\r\n\n" +
-		"/**\r\n" +
-		" * Controller for view and managing Log Level at runtime.\r\n" +
-		" */\r\n" +
-		"@RestController\r\n" +
-		"@RequestMapping(\"/management\")\r\n" +
-		"public class "+getClassName()+" {\r\n\n" +
-		"    @GetMapping(\"/logs\")\r\n" +
-		"    @Timed\r\n" +
-		"    public List<LoggerVM> getList() {\r\n" +
-		"        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();\r\n" +
-		"        return context.getLoggerList()\r\n" +
-		"            .stream()\r\n" +
-		"            .map(LoggerVM::new)\r\n" +
-		"            .collect(Collectors.toList());\r\n" +
-		"    }\r\n\n" +
-		"    @PutMapping(\"/logs\")\r\n" +
-		"    @ResponseStatus(HttpStatus.NO_CONTENT)\r\n" +
-		"    @Timed\r\n" +
-		"    public void changeLevel(@RequestBody LoggerVM jsonLogger) {\r\n" +
-		"        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();\r\n" +
-		"        context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));\r\n" +
-		"    }\r\n\n" +
-		"}\r\n";
-		return body;
-	}
+        return FreemarkerTemplate.process("web/LogsResource.java.ftl", data);
+    }
 
-	public String getClassName() {
-		return "LogsResource";
-	}
+    public String getClassName() {
+        return "LogsResource";
+    }
 
-	public String getSourceFolder() {
-		return "src/main/java";
-	}
+    @Override
+    public String getTypeTemplate() {
+        return ConfigCreateProject.getIstance().getSrcWebRestFolder().replace(".", "/");
+    }
 
+    @Override
+    public String getTypeFile() {
+        return "java";
+    }
+
+    @Override
+    public String getSourceFolder() {
+        return "src/main/java";
+    }
 }
