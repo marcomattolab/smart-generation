@@ -1,13 +1,5 @@
 package it.elca.generate.template.fe.shared;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.util.CollectionUtils;
-
 import it.elca.generate.Column;
 import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
@@ -16,168 +8,119 @@ import it.elca.generate.ProjectRelation;
 import it.elca.generate.Table;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractResourceTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class TemplateEntitySharedModel extends AbstractResourceTemplate {
 
-	public TemplateEntitySharedModel(Table tabella) {
-		super(tabella);
-	}
-	
-	public TemplateEntitySharedModel(DataBase database, Table tabella) {
-		super(database);
-		this.tabella = tabella;
-	}
+    public TemplateEntitySharedModel(Table tabella) {
+        super(tabella);
+    }
 
-	public String getTypeFile() {
-		return "ts";
-	}
+    public TemplateEntitySharedModel(DataBase database, Table tabella) {
+        super(database);
+        this.tabella = tabella;
+    }
 
-	public String getBody(){
-		// https://www.buildmystring.com/
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
+    @Override
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = super.getMapData();
+        data.put("iName", "I" + Utils.getEntityName(tabella));
+        data.put("className", Utils.getEntityName(tabella));
 
-		List<Enumeration> enumList = Utils.getEnumerationsByDbAndTable(database, tabella);
-		
-		String body = 
-		"import { Moment } from 'moment';\r\n";
-		
-		//RELATION IMPORT
-		//"import { IIncarico } from 'app/shared/model/incarico.model';\r\n" +
-		body += writeImportRelations(conf); 
+        // Enumerations
+        List<Map<String, Object>> enumerations = new ArrayList<>();
+        for (Enumeration enumeration : Utils.getEnumerationsByDbAndTable(database, tabella)) {
+            Map<String, Object> enumData = new HashMap<>();
+            enumData.put("name", enumeration.getNomeEnumeration());
+            enumData.put("values", enumeration.getValoriEnumeration());
+            enumerations.add(enumData);
+        }
+        data.put("enumerations", enumerations);
 
-		
-		//DONE Enumerations
-		for(Enumeration enumeration : enumList) {
-			body += "export const enum "+enumeration.getNomeEnumeration()+" {\r\n";
-			List<String> values = enumeration.getValoriEnumeration();
-			for (Iterator<String> it = values.iterator(); it.hasNext();) {
-				String value = (String) it.next();
-				body += 	"    "+value+" = '"+value+"'" + (it.hasNext()?",\r\n":"\r\n");
-			}
-			body += "}\r\n\n";
-		}
-		
-		//Before RelationsStore Original List
-		List<Column> extendedList = new ArrayList<>(tabella.getColumns());
-		
-		//[Manage Relations]
-		if(!CollectionUtils.isEmpty(conf.getProjectRelations())) {
-			for(ProjectRelation rel: conf.getProjectRelations()) {
-				String relationType = rel.getType();
-				String nomeTabellaSx = rel.getSxTable();
-				String nomeRelazioneDx = rel.getDxName();
-				String nomeRelazioneSx = rel.getSxName();
-				String nomeTabellaDx = rel.getDxTable();
-				String nomeTabella = tabella.getNomeTabella().toLowerCase();
-				
-				if(nomeTabellaSx!=null && nomeTabellaDx != null  ) {
-					
-					if (relationType.equals(Utils.OneToOne) || relationType.equals(Utils.ManyToOne)) {
-						if(nomeTabellaSx.toLowerCase().equals(nomeTabella)) {
-							Column columnId = new Column();
-							columnId.setName(nomeRelazioneSx+"Id");
-							columnId.setTypeColumn(Column.corvertModelType("Long"));
-							extendedList.add(columnId);
-		
-							if (relationType.equals(Utils.ManyToOne)) {
-								Column columnSelect = new Column();
-								columnSelect.setName(nomeRelazioneSx + Utils.getFirstUpperCase(rel.getSxSelect())); 
-								columnSelect.setTypeColumn(Utils.getTypeColumnFromRelation(conf, rel.getSxSelect(), nomeTabellaDx));
-								extendedList.add(columnSelect);
-							}
-						}
-						
-					} else if (relationType.equals(Utils.ManyToMany)) {
-						// Company{myKeyword(keywordCode)} to CompanyKeyword{myCompany(companyName)}
-						
-						if(nomeTabellaSx.toLowerCase().equals(nomeTabella)) {
-							//import { ICompanyKeyword } from 'app/shared/model/company-keyword.model'; 
-							Column columnRel = new Column();
-							columnRel.setName(nomeRelazioneSx+"s");
-							columnRel.setTypeColumnRelation("I"+Utils.getFirstUpperCase(nomeTabellaDx));
-							extendedList.add(columnRel);
-						}
-						if(nomeTabellaDx.toLowerCase().equals(nomeTabella)) {
-							//import { ICompany } from 'app/shared/model/company.model';
-							Column columnRel = new Column();
-							columnRel.setName(nomeRelazioneDx+"s");
-							columnRel.setTypeColumnRelation("I"+Utils.getFirstUpperCase(nomeTabellaSx));
-							extendedList.add(columnRel);
-						}
-						
-					} else if (relationType.equals(Utils.OneToMany)) {
-						//TODO DEVELOP THIS!
-					}
-				} 
-			}
-		}
-		//[/Manage Relations]
-      
-        		
-		//Generate IInetrface
-		body += Utils.generateIInterface(tabella, extendedList);
-		
-		
-		//Generate Class
-		body += Utils.generateIClass(tabella, extendedList);
-		
-				
-		body += "}\r\n";
-		
-		return body;
-	}
-	
-	/**
-	 * @param conf
-	 * @return body with import 
-	 */
-	private String writeImportRelations(ConfigCreateProject conf) {
-		// body += "import { IIncarico } from 'app/shared/model/incarico.model';\r\n" 
-		String res = "";
-		Map<String, String> resMap = new HashMap<>();
-		if(!CollectionUtils.isEmpty(conf.getProjectRelations())) {
-			for(ProjectRelation rel: conf.getProjectRelations()) {
-				String relationType = rel.getType();
-				String nomeTabellaSx = rel.getSxTable();
-				String nomeTabellaDx = rel.getDxTable();
-				String nomeTabella = tabella.getNomeTabella().toLowerCase();
-				
-				if(nomeTabellaSx!=null && nomeTabellaDx != null  ) {
-					if (relationType.equals(Utils.ManyToMany)) {
-						// Company{myKeyword(keywordCode)} to CompanyKeyword{myCompany(companyName)}
-						
-						if(nomeTabellaSx.toLowerCase().equals(nomeTabella)) {
-							String impStr = "import { I"+Utils.getFirstUpperCase(nomeTabellaDx)+" } from 'app/shared/model/"+nomeTabellaDx.toLowerCase()+".model';\n"; 
-							resMap.put(nomeTabellaSx, impStr);
-						}
-						if(nomeTabellaDx.toLowerCase().equals(nomeTabella)) {
-							String impStr = "import { I"+Utils.getFirstUpperCase(nomeTabellaSx)+" } from 'app/shared/model/"+nomeTabellaSx.toLowerCase()+".model';\n";
-							resMap.put(nomeTabellaDx, impStr);
-						}
-					} 
-				} 
-			}
-		}
-		//Print Relation Map
-		res += Utils.printRelationMap(res, resMap);
-		res+="\n";
-		return res;
-	}
+        // Imports and Fields
+        Set<String> imports = new HashSet<>();
+        List<Map<String, String>> fields = new ArrayList<>();
+        processRelationsAndFields(conf, imports, fields);
+        data.put("imports", imports);
+        data.put("fields", fields);
 
+        return FreemarkerTemplate.process("fe/shared/entity.model.ts.ftl", data);
+    }
 
-	public String getClassName(){
-		return Utils.getClassNameLowerCase(tabella)+".model";
-	}
+    private void processRelationsAndFields(ConfigCreateProject conf, Set<String> imports, List<Map<String, String>> fields) {
+        // Initial fields from table columns
+        for (Column column : tabella.getColumns()) {
+            fields.add(createField(Utils.getFieldName(column), column.getTypescriptType()));
+        }
 
-	@Override
-	public String getTypeTemplate() {
-		String typeTemplate = "";
-		return typeTemplate;
-	}
+        // Fields and imports from relations
+        if (!CollectionUtils.isEmpty(conf.getProjectRelations())) {
+            for (ProjectRelation rel : conf.getProjectRelations()) {
+                String relationType = rel.getType();
+                String sxTable = rel.getSxTable().toLowerCase();
+                String dxTable = rel.getDxTable().toLowerCase();
+                String currentTable = tabella.getNomeTabella().toLowerCase();
 
-	@Override
-	public String getSourceFolder() {
-		return "src/main/webapp/app/shared/model";
-	}
+                if (sxTable.equals(currentTable) || dxTable.equals(currentTable)) {
+                    if (relationType.equals(Utils.OneToOne) || relationType.equals(Utils.ManyToOne)) {
+                        if (sxTable.equals(currentTable)) {
+                            fields.add(createField(rel.getSxName() + "Id", "number"));
+                            if (relationType.equals(Utils.ManyToOne)) {
+                                fields.add(createField(rel.getSxName() + Utils.getFirstUpperCase(rel.getSxSelect()),
+                                        Utils.getTypeColumnFromRelation(conf, rel.getSxSelect(), rel.getDxTable())));
+                            }
+                        }
+                    } else if (relationType.equals(Utils.ManyToMany)) {
+                        if (sxTable.equals(currentTable)) {
+                            imports.add(getImportStatement(rel.getDxTable()));
+                            fields.add(createField(rel.getSxName() + "s", "I" + Utils.getFirstUpperCase(rel.getDxTable()) + "[]"));
+                        }
+                        if (dxTable.equals(currentTable)) {
+                            imports.add(getImportStatement(rel.getSxTable()));
+                            fields.add(createField(rel.getDxName() + "s", "I" + Utils.getFirstUpperCase(rel.getSxTable()) + "[]"));
+                        }
+                    }
+                }
+            }
+        }
+    }
 
+    private Map<String, String> createField(String name, String type) {
+        Map<String, String> field = new HashMap<>();
+        field.put("name", name);
+        field.put("type", type);
+        return field;
+    }
+
+    private String getImportStatement(String otherTable) {
+        return "import { I" + Utils.getFirstUpperCase(otherTable) + " } from 'app/shared/model/" + otherTable.toLowerCase() + ".model';";
+    }
+
+    public String getClassName() {
+        return Utils.getClassNameLowerCase(tabella) + ".model";
+    }
+
+    @Override
+    public String getTypeFile() {
+        return "ts";
+    }
+
+    @Override
+    public String getTypeTemplate() {
+        return "";
+    }
+
+    @Override
+    public String getSourceFolder() {
+        return "src/main/webapp/app/shared/model";
+    }
 }

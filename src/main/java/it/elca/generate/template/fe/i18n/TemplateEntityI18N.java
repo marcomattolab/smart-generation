@@ -1,129 +1,101 @@
 package it.elca.generate.template.fe.i18n;
 
-import java.util.Iterator;
-import java.util.Set;
-
-import org.springframework.util.CollectionUtils;
-
 import it.elca.generate.Column;
 import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.ProjectRelation;
 import it.elca.generate.Table;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractResourceTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
+import org.springframework.util.CollectionUtils;
 
-public class TemplateEntityI18N extends AbstractResourceTemplate{
-	private String languageCode;
-	
-	public TemplateEntityI18N(Table tabella) {
-		super(tabella);
-	}
-	
-	public TemplateEntityI18N(Table tabella, String languageCode) {
-		super(tabella);
-		this.languageCode = languageCode;
-	}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-	public String getTypeTemplate() {
-		String typeTemplate = "";
-		return typeTemplate;
-	}
+public class TemplateEntityI18N extends AbstractResourceTemplate {
+    private String languageCode;
 
-	public String getTypeFile() {
-		return "json";
-	}
+    public TemplateEntityI18N(Table tabella) {
+        super(tabella);
+    }
 
-	public String getBody() {
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		//https://www.buildmystring.com/
-		String Tablename = Utils.getEntityName(tabella);
-		String tablename = Utils.getFieldName(tabella);
-		
-		String body = "{\r\n" +
-		"    \""+conf.getProjectName()+"App\": {\r\n" +
-		"        \""+tablename+"\": {\r\n" +
-		"            \"home\": {\r\n" +
-		"                \"title\": \""+Tablename+"s\",\r\n" +
-		"                \"createLabel\": \"Create a new "+Tablename+"\",\r\n" +
-		"                \"createOrEditLabel\": \"Create or edit a "+Tablename+"\"\r\n" +
-		"            },\r\n" +
-		"            \"created\": \"A new "+Tablename+" is created with identifier {{ param }}\",\r\n" +
-		"            \"updated\": \"A "+Tablename+" is updated with identifier {{ param }}\",\r\n" +
-		"            \"deleted\": \"A "+Tablename+" is deleted with identifier {{ param }}\",\r\n" +
-		"            \"delete\": {\r\n" +
-		"                \"question\": \"Are you sure you want to delete "+Tablename+" {{ id }}?\"\r\n" +
-		"            },\r\n" +
-		"            \"detail\": {\r\n" +
-		"                \"title\": \""+Tablename+"\"\r\n" +
-		"            },\r\n" ;
-		
-		//[Manage Relations]
-		if(!CollectionUtils.isEmpty(conf.getProjectRelations())) {
-			for(ProjectRelation rel: conf.getProjectRelations()) {
-				String relationType = rel.getType();
-				String nomeTabellaSx = rel.getSxTable();
-				String nomeRelazioneSx = rel.getSxName();
-				String nomeRelazioneDx = rel.getDxName();
-				String nomeTabellaDx = rel.getDxTable();
-				String nomeTabella = tabella.getNomeTabella().toLowerCase();
-				
-				if(nomeTabellaSx!=null && nomeTabellaDx != null) {
-					if (relationType.equals(Utils.OneToOne) || relationType.equals(Utils.ManyToOne)) {
-						if (nomeTabellaSx.toLowerCase().equals(nomeTabella) ) {
-							Column column = new Column();
-							column.setName(nomeRelazioneSx);
-							body += Utils.generateJson(column)+",\n";
-						}
-					
-					} else if (relationType.equals(Utils.OneToMany) ) {
-						if (nomeTabellaDx.toLowerCase().equals(nomeTabella.toLowerCase()) ) {
-							Column column = new Column();
-							//DONE    nomeTabellaSx ==> nomeRelazioneDx    /   autore ==> preferito2
-							column.setName(nomeRelazioneDx);
-							body += Utils.generateJson(column)+",\n";
-						}
-						
-					} else if (relationType.equals(Utils.ManyToMany) ) {
-						if (nomeTabellaSx.toLowerCase().equals(nomeTabella.toLowerCase()) ) {
-							Column column = new Column();
-							column.setName(nomeRelazioneSx);
-							body +=  Utils.generateJson(column)+",\n";
-						}
-						
-					}
-				}
-			}
-		}
-		//[/Manage Relations]
-		
-		Set<?> set = tabella.getColumnNames();
-		for (Iterator<?> iter = set.iterator(); iter.hasNext();) {
-			String key = (String) iter.next();
-			Column column = tabella.getColumn(key);
-			body += Utils.generateJson(column)+ (iter.hasNext()?",\n":"\n");
-		}
-		
-		body += 
-		"        }\r\n" +
-		"    }\r\n" +
-		"}\r\n";
-		return body;
-	}
+    public TemplateEntityI18N(Table tabella, String languageCode) {
+        super(tabella);
+        this.languageCode = languageCode;
+    }
 
-	public String getClassName() {
-		return Utils.getClassNameLowerCase(tabella);
-	}
+    @Override
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = super.getMapData();
+        data.put("projectName", conf.getProjectName());
+        data.put("entityName", Utils.getEntityName(tabella));
+        data.put("classNameLowerCase", Utils.getFieldName(tabella));
 
-	public String getSourceFolder() {
-		return "src/main/webapp/i18n/"+languageCode;
-	}
+        List<Map<String, String>> columns = new ArrayList<>();
+        for (Object o : tabella.getColumnNames()) {
+            String key = (String) o;
+            Column column = tabella.getColumn(key);
+            Map<String, String> columnData = new HashMap<>();
+            columnData.put("name", Utils.getFieldName(column));
+            columnData.put("capitalizedName", Utils.getLabel(column.getName()));
+            columns.add(columnData);
+        }
+        data.put("columns", columns);
 
-	public String getLanguageCode() {
-		return languageCode;
-	}
+        if (!CollectionUtils.isEmpty(conf.getProjectRelations())) {
+            List<Map<String, String>> relations = new ArrayList<>();
+            for (ProjectRelation rel : conf.getProjectRelations()) {
+                String nomeTabella = tabella.getNomeTabella().toLowerCase();
+                String nomeTabellaSx = rel.getSxTable().toLowerCase();
 
-	public void setLanguageCode(String languageCode) {
-		this.languageCode = languageCode;
-	}
-	
+                if (nomeTabellaSx.equals(nomeTabella) || rel.getDxTable().toLowerCase().equals(nomeTabella)) {
+                    Map<String, String> relData = new HashMap<>();
+                    String name = "";
+                    if (rel.getType().equals(Utils.OneToMany) && rel.getDxTable().toLowerCase().equals(nomeTabella)) {
+                        name = rel.getDxName();
+                    } else if (nomeTabellaSx.equals(nomeTabella)) {
+                        name = rel.getSxName();
+                    }
+                    if (!name.isEmpty()) {
+                        relData.put("name", name);
+                        relData.put("capitalizedName", Utils.getLabel(name));
+                        relations.add(relData);
+                    }
+                }
+            }
+            data.put("relations", relations);
+        }
+
+        return FreemarkerTemplate.process("fe/i18n/entity.json.ftl", data);
+    }
+
+    public String getClassName() {
+        return Utils.getClassNameLowerCase(tabella);
+    }
+
+    @Override
+    public String getTypeFile() {
+        return "json";
+    }
+
+    @Override
+    public String getTypeTemplate() {
+        return "";
+    }
+
+    @Override
+    public String getSourceFolder() {
+        return "src/main/webapp/i18n/" + languageCode;
+    }
+
+    public String getLanguageCode() {
+        return languageCode;
+    }
+
+    public void setLanguageCode(String languageCode) {
+        this.languageCode = languageCode;
+    }
 }

@@ -4,50 +4,42 @@ import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplateCostants extends AbstractTemplate {
 
-	public TemplateCostants(DataBase database) {
-		super(database);
-	}
+    public TemplateCostants(DataBase database) {
+        super(database);
+    }
 
-	public String getTypeFile() {
-		return "java";
-	}
+    public String getTypeFile() {
+        return "java";
+    }
 
-	public String getBody(){
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		// https://www.buildmystring.com/
-		String body = "package "+ conf.getPackageclass() + "." + conf.getSrcConfigFolder() +";\r\n\n" +
-		"/**\r\n" +
-		" * Application constants.\r\n" +
-		" */\r\n" +
-		"public final class "+getClassName()+" {\r\n\n" +
-		"    // Regex for acceptable logins\r\n" +
-		"    public static final String LOGIN_REGEX = \"^[_.@A-Za-z0-9-]*$\";\r\n" +
-		"    public static final String SYSTEM_ACCOUNT = \"system\";\r\n" +
-		"    public static final String ANONYMOUS_USER = \"anonymoususer\";\r\n" +
-		"    public static final String DEFAULT_LANGUAGE = \"it\";\r\n" +
-		"    \r\n" +
-		"    private "+getClassName()+"() {\r\n\n" +
-		"    }\r\n" +
-		"}\r\n";
-		return body;
-	}
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageClass", conf.getPackageclass());
+        data.put("srcConfigFolder", conf.getSrcConfigFolder());
+        data.put("className", getClassName());
+        return FreemarkerTemplate.process("conf/constants.java.ftl", data);
+    }
 
-	public String getClassName(){
-		return "Constants";
-	}
+    public String getClassName() {
+        return "Constants";
+    }
 
-	@Override
-	public String getTypeTemplate() {
-		String typeTemplate = Utils.replace(ConfigCreateProject.getIstance().getSrcConfigFolder(),".","/");
-		return typeTemplate;
-	}
+    @Override
+    public String getTypeTemplate() {
+        return Utils.replace(ConfigCreateProject.getIstance().getSrcConfigFolder(), ".", "/");
+    }
 
-	@Override
-	public String getSourceFolder() {
-		return "src/main/java";
-	}
+    @Override
+    public String getSourceFolder() {
+        return "src/main/java";
+    }
 
 }

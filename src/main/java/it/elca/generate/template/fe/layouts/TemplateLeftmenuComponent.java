@@ -5,6 +5,12 @@ import it.elca.generate.DataBase;
 import it.elca.generate.Table;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractResourceTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TemplateLeftmenuComponent extends AbstractResourceTemplate {
 
@@ -12,64 +18,41 @@ public class TemplateLeftmenuComponent extends AbstractResourceTemplate {
 		super(database);
 	}
 
-	public String getTypeFile() {
-		return "html";
-	}
-
-	public String getBody(){
+	@Override
+	public String getBody() {
 		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		// https://www.buildmystring.com/
-		
-		String gAuthorities = Utils.getGlobalAuthorities(conf, Utils.APICE);
-		String jhiGAuthorities = "*jhiHasAnyAuthority= \"["+gAuthorities+"]\"";
-		
-		String body = 
-		"<nav id=\"sidebar\" class=\"navbar-dark bg-dark\" [ngClass]=\"{'hidden': sideNavService.hideSideNav }\">\r\n" + 
-		"  <ul class=\"navbar-nav\">\r\n" + 
-		"    <li class=\"nav-item active\">\r\n" + 
-		"      <a class=\"nav-link\" routerLink=\"/\" href=\"#\">Home</a>\r\n" + 
-		"    </li>\r\n" + 
-		
-		//ENTITIES
-		"    <li class=\"nav-item\" "  + jhiGAuthorities +" >\r\n" + 
-		"      <a class=\"nav-link\">\r\n" + 
-		"      	Tables\r\n" + 
-		"      	<i class=\"fa fa-caret-down\"></i>\r\n" + 
-		"      </a>\r\n\n" + 
-		"	  <div class=\"dropdown-container\">\r\n";
-		
-		for(Table table: Utils.getTables(database)  ) {
-			String Tablename = Utils.getEntityName(table);
-			String tablename = Utils.getFieldName(table);
-			String authorities = Utils.getAuthorities(table, Utils.APICE);
-			String jhiAuthorities = "*jhiHasAnyAuthority= \"["+authorities+"]\"";
-			
-			body+="	    <a "+jhiAuthorities+" class=\"nav-link\" href=\"#\" routerLink=\""+tablename+"\">"+Tablename+"</a>\r\n";
-		}		
-		body+=
-		"	  </div>\r\n" + 
-		"    </li>\r\n"; 
-		//	
-			
-		
-		body+="  </ul>\r\n";
-		body+="</nav>";
-		return body;
+		Map<String, Object> data = new HashMap<>();
+		data.put("gAuthorities", Utils.getGlobalAuthorities(conf, Utils.APICE));
+
+		List<Map<String, String>> tables = new ArrayList<>();
+		for (Table table : Utils.getTables(database)) {
+			Map<String, String> tableData = new HashMap<>();
+			tableData.put("authorities", Utils.getAuthorities(table, Utils.APICE));
+			tableData.put("fieldName", Utils.getFieldName(table));
+			tableData.put("entityName", Utils.getEntityName(table));
+			tables.add(tableData);
+		}
+		data.put("tables", tables);
+
+		return FreemarkerTemplate.process("fe/layouts/leftmenu.component.html.ftl", data);
 	}
 
-	public String getClassName(){
+	public String getClassName() {
 		return "leftmenu.component";
 	}
 
 	@Override
+	public String getTypeFile() {
+		return "html";
+	}
+
+	@Override
 	public String getTypeTemplate() {
-		String typeTemplate = "";
-		return typeTemplate;
+		return "";
 	}
 
 	@Override
 	public String getSourceFolder() {
 		return "src/main/webapp/app/layouts/leftmenu";
 	}
-
 }

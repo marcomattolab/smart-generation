@@ -4,6 +4,10 @@ import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractResourceTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplateHomeModule extends AbstractResourceTemplate {
 
@@ -11,40 +15,30 @@ public class TemplateHomeModule extends AbstractResourceTemplate {
 		super(database);
 	}
 
-	public String getTypeFile() {
-		return "ts";
-	}
-
-	public String getBody(){
+	@Override
+	public String getBody() {
 		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		// https://www.buildmystring.com/
-		String body = 
-		"import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';\r\n" +
-		"import { RouterModule } from '@angular/router';\r\n" +
-		"import { "+Utils.getClassNameCamelCase(conf.getProjectName()) +"SharedModule } from 'app/shared';\r\n" +
-		"import { HOME_ROUTE, HomeComponent } from './';\r\n" +
-		"@NgModule({\r\n" +
-		"    imports: ["+Utils.getClassNameCamelCase(conf.getProjectName()) +"SharedModule, RouterModule.forChild([HOME_ROUTE])],\r\n" +
-		"    declarations: [HomeComponent],\r\n" +
-		"    schemas: [CUSTOM_ELEMENTS_SCHEMA]\r\n" +
-		"})\r\n" +
-		"export class "+Utils.getClassNameCamelCase(conf.getProjectName()) +"HomeModule {}\r\n";
-		return body;
+		Map<String, Object> data = new HashMap<>();
+		data.put("projectNameCamelCase", Utils.getClassNameCamelCase(conf.getProjectName()));
+		return FreemarkerTemplate.process("fe/home/home.module.ts.ftl", data);
 	}
 
-	public String getClassName(){
+	public String getClassName() {
 		return "home.module";
 	}
 
 	@Override
+	public String getTypeFile() {
+		return "ts";
+	}
+
+	@Override
 	public String getTypeTemplate() {
-		String typeTemplate = "";
-		return typeTemplate;
+		return "";
 	}
 
 	@Override
 	public String getSourceFolder() {
 		return "src/main/webapp/app/home";
 	}
-
 }
