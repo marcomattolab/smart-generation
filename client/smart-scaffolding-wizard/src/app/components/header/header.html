@@ -1,0 +1,6 @@
+<div class="header">
+  <button class="plugin-config-btn" (click)="openPluginManager()">⚙️ Configure Plugins</button>
+  <h1>🚀 Smart Scaffolding Generator</h1>
+  <p>Accelerate your development lifecycle with intelligent project scaffolding</p>
+</div>
+<app-plugin-manager *ngIf="isPluginManagerOpen" (closeManager)="closePluginManager()"></app-plugin-manager>

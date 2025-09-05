@@ -1,6 +1,5 @@
 package it.elca.generate;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -221,7 +220,7 @@ public class DataBase {
 	}
 
 	public Table getTables(String tabellaName) {
-		return (Table) tabelle.get(tabellaName);
+		return tabelle.get(tabellaName);
 	}
 
 	public Map<String, List<String>> getEnumeration() {
@@ -335,6 +334,7 @@ public class DataBase {
 		enumeration.put(name, values);
 	}
 
+	// TODO => DEVELOP THIS LOGIC AND REFACTOR
 	public void generateFile() {
 		System.out.println("-------------------------------------------------------");
 		System.out.println("Generating Project and project Files for BE and FE ...");
@@ -343,8 +343,8 @@ public class DataBase {
 			ConfigCreateProject config = ConfigCreateProject.getIstance();
 			
 			//Build Enumerations for Application
-			buildEnumerationsNameInColumn(this); 
-			
+			buildEnumerationsNameInColumn(this);
+
 			//Project (statics)
 			new TemplateClassPath(this).generateTemplate();
 			new TemplateFactoryPath(this).generateTemplate();
@@ -614,7 +614,7 @@ public class DataBase {
 			System.out.println("--------------------------------------------------------");
 		} catch (Exception e) {
 			e.printStackTrace();
-		}catch(Throwable t){
+		} catch(Throwable t) {
 			t.printStackTrace();
 		}
 	}
@@ -691,12 +691,9 @@ public class DataBase {
 	}
 
 	/**
-	 * Smart Generator Main Procedure.
-	 * 
-	 * @param args
-	 * @throws IOException
+	 * Smart Generator Main Procedure
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		DataBase db = DataBase.getInstance();
 		db.generateFile();
 	}
