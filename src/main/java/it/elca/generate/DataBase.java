@@ -139,7 +139,6 @@ import it.elca.generate.template.service.TemplatePasswordChangeDTO;
 import it.elca.generate.template.service.TemplateQueryService;
 import it.elca.generate.template.service.TemplateRandomUtil;
 import it.elca.generate.template.service.TemplateService;
-import it.elca.generate.template.service.TemplateServiceCriteria;
 import it.elca.generate.template.service.TemplateServiceDTO;
 import it.elca.generate.template.service.TemplateServiceImpl;
 import it.elca.generate.template.service.TemplateUserDTO;
@@ -175,7 +174,6 @@ import it.elca.generate.template.web.TemplateEntityAuditResource;
 import it.elca.generate.template.web.TemplateLogsResource;
 import it.elca.generate.template.web.TemplateReportBase;
 import it.elca.generate.template.web.TemplateResource;
-import it.elca.generate.template.web.TemplateUserJWTController;
 import it.elca.generate.template.web.TemplateUserResource;
 import it.elca.generate.template.web.errors.TemplateBadRequestAlertException;
 import it.elca.generate.template.web.errors.TemplateCustomParameterizedException;
@@ -436,7 +434,7 @@ public class DataBase {
 			new TemplateAccountResource(this).generateTemplate();
 			new TemplateAuditResource(this).generateTemplate();
 			new TemplateUserResource(this).generateTemplate();
-			new TemplateUserJWTController(this).generateTemplate();
+			// FIXME ==> new TemplateUserJWTController(this).generateTemplate();
 			new TemplateLogsResource(this).generateTemplate();
 			new TemplateReportBase(this).generateTemplate();	//Dynamic Jasper	
 
@@ -566,7 +564,7 @@ public class DataBase {
 				new TemplateQueryService(tabella).generateTemplate();
 				new TemplateMapperService(tabella).generateTemplate();
 				new TemplateServiceDTO(tabella).generateTemplate();
-				new TemplateServiceCriteria(this, tabella).generateTemplate(); 				//Added enumeration management
+				// FIXME => new TemplateServiceCriteria(this, tabella).generateTemplate(); 				//Added enumeration management
 				new TemplateResource(tabella).generateTemplate();
 				new TemplateLiquidbaseData(this, tabella).generateTemplate(); 				//DATA CSV
 				new TemplateLiquidbaseChangelog(tabella).generateTemplate(); 	 			//Review/COMPLETE THIS  !!

@@ -1,13 +1,13 @@
 package it.elca.generate.template.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.Table;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
 import it.elca.generate.template.FreemarkerTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class TemplateServiceImpl extends AbstractTemplate {
 
@@ -28,15 +28,15 @@ public class TemplateServiceImpl extends AbstractTemplate {
         data.put("mapperPackage", conf.getSrcServiceMapperFolder());
         data.put("entityName", Utils.getEntityName(tabella));
         data.put("entityFieldName", Utils.getFieldName(tabella));
-        data.put("entityVarName", Utils.getEntityVarName(tabella));
+        // FIXME => data.put("entityVarName", Utils.getEntityVarName(tabella));
         data.put("className", getClassName());
         data.put("serviceClassName", Utils.getServiceClassName(tabella));
         data.put("repositoryClassName", Utils.getRepositoryClassName(tabella));
-        data.put("repositoryVarName", Utils.getRepositoryVarName(tabella));
+        /**FIXME**/data.put("repositoryVarName", Utils.getRepositoryVarName(tabella));
         data.put("dtoClassName", Utils.getDTOClassName(tabella));
-        data.put("dtoVarName", Utils.getDTOVarName(tabella));
+        // FIXME =>data.put("dtoVarName", Utils.getDTOVarName(tabella));
         data.put("mapperClassName", Utils.getMapperClassName(tabella));
-        data.put("mapperVarName", Utils.getMapperVarName(tabella));
+        // FIXME =>data.put("mapperVarName", Utils.getMapperVarName(tabella));
 
         return FreemarkerTemplate.process("service/service-impl.java.ftl", data);
     }
