@@ -4,48 +4,41 @@ import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.Enumeration;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
 
-public class TemplateDomainEnumeration extends AbstractTemplate{
+import java.util.HashMap;
+import java.util.Map;
 
-	public TemplateDomainEnumeration(Enumeration enumeration) {
-		super(enumeration);
-	}
+public class TemplateDomainEnumeration extends AbstractTemplate {
 
-	public String getTypeTemplate() {
-		String typeTemplate = Utils.replace(ConfigCreateProject.getIstance().getSrcDomainEnumerationFolder(),".","/");
-		return typeTemplate;
-	}
+    public TemplateDomainEnumeration(Enumeration enumeration) {
+        super(enumeration);
+    }
 
-	public String getTypeFile() {
-		return "java";
-	}
+    public String getTypeTemplate() {
+        return Utils.replace(ConfigCreateProject.getIstance().getSrcDomainEnumerationFolder(),".","/");
+    }
 
-	public String getBody() {
-		//https://www.buildmystring.com/
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		String body = 
-		"package "+ conf.getPackageclass() + "." + conf.getSrcDomainEnumerationFolder()+";\r\n\n" +
-		"/**\r\n" +
-		" * The "+enumeration.getNomeEnumeration()+" enumeration.\r\n" +
-		" */\r\n" +
-		"public enum "+enumeration.getNomeEnumeration()+" {";
-		for(int i=0;i<enumeration.getValoriEnumeration().size(); i++) {
-			body +="\r\n\t\t" + enumeration.getValoriEnumeration().get(i) 
-					+ (i==enumeration.getValoriEnumeration().size()-1 ? "" : ",");
-		}
-		body +="\r\n\n";
-		//TODO Add For block custom
-		
-		body +="}\r\n";
-		return body;
-	}
+    public String getTypeFile() {
+        return "java";
+    }
 
-	public String getClassName() {
-		return enumeration.getNomeEnumeration();
-	}
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageClass", conf.getPackageclass());
+        data.put("srcDomainEnumerationFolder", conf.getSrcDomainEnumerationFolder());
+        data.put("enumerationName", enumeration.getNomeEnumeration());
+        data.put("values", enumeration.getValoriEnumeration());
+        return FreemarkerTemplate.process("domain/domain.enumeration.java.ftl", data);
+    }
 
-	public String getSourceFolder() {
-		return "src/main/java";
-	}
+    public String getClassName() {
+        return enumeration.getNomeEnumeration();
+    }
+
+    public String getSourceFolder() {
+        return "src/main/java";
+    }
 
 }

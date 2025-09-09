@@ -2,78 +2,43 @@ package it.elca.generate.template.service;
 
 import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
-import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
 
-public class TemplateAbstractAuditingDTO extends AbstractTemplate{
+import java.util.HashMap;
+import java.util.Map;
 
-	public TemplateAbstractAuditingDTO(DataBase database) {
-		super(database);
-	}
+public class TemplateAbstractAuditingDTO extends AbstractTemplate {
 
-	public String getTypeTemplate() {
-		String typeTemplate = Utils.replace(ConfigCreateProject.getIstance().getSrcServiceDtoFolder(),".","/");
-		return typeTemplate;
-	}
+    public TemplateAbstractAuditingDTO(DataBase database) {
+        super(database);
+    }
 
-	public String getTypeFile() {
-		return "java";
-	}
+    @Override
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageName", conf.getPackageclass());
+        data.put("dtoPackage", conf.getSrcServiceDtoFolder());
+        return FreemarkerTemplate.process("service/AbstractAuditingDTO.java.ftl", data);
+    }
 
-	public String getBody() {
-		//https://www.buildmystring.com/
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		String body = 
-		"package "+ conf.getPackageclass() + "." + conf.getSrcServiceDtoFolder()+";\r\n\n" +
-		"import java.io.Serializable;\r\n" +
-		"import java.time.Instant;\r\n" +
-		"import org.springframework.data.annotation.ReadOnlyProperty;\r\n\n" +
-		"/**\r\n" +
-		" * Base abstract class for DTO which will hold definitions for created, last modified by and created,\r\n" +
-		" * last modified by date.\r\n" +
-		" */\r\n" +
-		"public abstract class AbstractAuditingDTO implements Serializable {\r\n\n" +
-		"    private static final long serialVersionUID = 1L;\r\n" +
-		"    @ReadOnlyProperty\r\n" +
-		"    private String createdBy;\r\n" +
-		"    @ReadOnlyProperty\r\n" +
-		"    private Instant createdDate = Instant.now();\r\n" +
-		"    private String lastModifiedBy;\r\n" +
-		"    private Instant lastModifiedDate = Instant.now();\r\n" +
-		"    public String getCreatedBy() {\r\n" +
-		"        return createdBy;\r\n" +
-		"    }\r\n" +
-		"    public void setCreatedBy(String createdBy) {\r\n" +
-		"        this.createdBy = createdBy;\r\n" +
-		"    }\r\n" +
-		"    public Instant getCreatedDate() {\r\n" +
-		"        return createdDate;\r\n" +
-		"    }\r\n" +
-		"    public void setCreatedDate(Instant createdDate) {\r\n" +
-		"        this.createdDate = createdDate;\r\n" +
-		"    }\r\n" +
-		"    public String getLastModifiedBy() {\r\n" +
-		"        return lastModifiedBy;\r\n" +
-		"    }\r\n" +
-		"    public void setLastModifiedBy(String lastModifiedBy) {\r\n" +
-		"        this.lastModifiedBy = lastModifiedBy;\r\n" +
-		"    }\r\n" +
-		"    public Instant getLastModifiedDate() {\r\n" +
-		"        return lastModifiedDate;\r\n" +
-		"    }\r\n" +
-		"    public void setLastModifiedDate(Instant lastModifiedDate) {\r\n" +
-		"        this.lastModifiedDate = lastModifiedDate;\r\n" +
-		"    }\r\n" +
-		"}\r\n";
-		return body;
-	}
+    public String getClassName() {
+        return "AbstractAuditingDTO";
+    }
 
-	public String getClassName() {
-		return "AbstractAuditingDTO";
-	}
+    @Override
+    public String getTypeTemplate() {
+        return ConfigCreateProject.getIstance().getSrcServiceDtoFolder().replace(".", "/");
+    }
 
-	public String getSourceFolder() {
-		return "src/main/java";
-	}
+    @Override
+    public String getTypeFile() {
+        return "java";
+    }
 
+    @Override
+    public String getSourceFolder() {
+        return "src/main/java";
+    }
 }

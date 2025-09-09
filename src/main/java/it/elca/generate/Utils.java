@@ -63,6 +63,10 @@ public class Utils {
 	public static String getRepositoryClassName(Table tabella) {
 		return getEntityName(tabella)+"Repository";
 	}
+
+	public static String getRepositoryVarName(Table tabella) {
+		return getEntityName(tabella)+"_XYZ"; //FIXME
+	}
 	
 	public static String getRepositoryClassName(String tabella) {
 		return tabella+"Repository";
@@ -1422,6 +1426,10 @@ public class Utils {
 			}
 		}
 		return res;
+	}
+
+	public static Object getEntityVarName(Table tabella) {
+		return Utils.getClassNameLowerCase(tabella);
 	}
 	
 }

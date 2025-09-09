@@ -4,48 +4,42 @@ import it.elca.generate.ConfigCreateProject;
 import it.elca.generate.DataBase;
 import it.elca.generate.Utils;
 import it.elca.generate.template.AbstractTemplate;
+import it.elca.generate.template.FreemarkerTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TemplateEntityAuditEventConfig extends AbstractTemplate {
 
-	public TemplateEntityAuditEventConfig(DataBase database) {
-		super(database);
-	}
+    public TemplateEntityAuditEventConfig(DataBase database) {
+        super(database);
+    }
 
-	public String getTypeFile() {
-		return "java";
-	}
+    public String getTypeFile() {
+        return "java";
+    }
 
-	public String getBody(){
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		// https://www.buildmystring.com/
-		String body = 
-		"package "+ conf.getPackageclass() + "." + conf.getSrcConfigAuditFolder() +";\r\n\n" +
-		"import org.springframework.beans.factory.BeanFactory;\r\n" +
-		"import org.springframework.beans.factory.BeanFactoryAware;\r\n" +
-		"import org.springframework.context.annotation.Configuration;\r\n\n" +
-		"@Configuration\r\n" +
-		"public class EntityAuditEventConfig implements BeanFactoryAware {\r\n\n" +
-		"    @Override\r\n" +
-		"    public void setBeanFactory(BeanFactory beanFactory) {\r\n" +
-		"        EntityAuditEventListener.setBeanFactory(beanFactory);\r\n" +
-		"    }\r\n\n" +
-		"}\r\n";
-		return body;
-	}
+    public String getBody() {
+        ConfigCreateProject conf = ConfigCreateProject.getIstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put("packageClass", conf.getPackageclass());
+        data.put("srcConfigAuditFolder", conf.getSrcConfigAuditFolder());
+        data.put("className", getClassName());
+        return FreemarkerTemplate.process("conf/audit/entity.audit.event.config.java.ftl", data);
+    }
 
-	public String getClassName(){
-		return "EntityAuditEventConfig";
-	}
+    public String getClassName() {
+        return "EntityAuditEventConfig";
+    }
 
-	@Override
-	public String getTypeTemplate() {
-		String typeTemplate = Utils.replace(ConfigCreateProject.getIstance().getSrcConfigAuditFolder(),".","/");
-		return typeTemplate;
-	}
+    @Override
+    public String getTypeTemplate() {
+        return Utils.replace(ConfigCreateProject.getIstance().getSrcConfigAuditFolder(), ".", "/");
+    }
 
-	@Override
-	public String getSourceFolder() {
-		return "src/main/java";
-	}
+    @Override
+    public String getSourceFolder() {
+        return "src/main/java";
+    }
 
 }
