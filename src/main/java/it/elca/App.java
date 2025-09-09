@@ -1,14 +1,13 @@
 package it.elca;
 
-import it.elca.generate.DataBase;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class App 
-{
-	/**
-	 * Smart Generator Main Procedure
-	 */
-	public static void main(String[] args) {
-		DataBase db = DataBase.getInstance();
-		db.generateFile();
-	}
+@SpringBootApplication
+public class App {
+
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+
 }

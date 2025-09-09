@@ -11,48 +11,51 @@ import it.elca.generate.Table;
 import it.elca.generate.Utils;
 
 public abstract class AbstractTemplate {
-	protected Table tabella;
-	protected DataBase database;
-	protected Enumeration enumeration;
-	
-	public AbstractTemplate(DataBase database) {
-		this.database = database;
-	}
+    protected Table tabella;
+    protected DataBase database;
+    protected Enumeration enumeration;
+    protected ConfigCreateProject config;
 
-	public AbstractTemplate(Table tabella) {
-		this.tabella = tabella;
-	}
-	
-	public AbstractTemplate(Enumeration enumeration) {
-		this.enumeration = enumeration;
-	}
-	
-	public void generateTemplate() throws IOException{
-		ConfigCreateProject conf = ConfigCreateProject.getIstance();
-		String relative = Utils.replace(conf.getPackageclass(),".","/");
-		String root = conf.getPathname();
-		String projectName = conf.getProjectName();
-		String sourceFolder = getSourceFolder();
-		File f = new File(root + "/"+projectName+"/"+sourceFolder+"/"+relative +"/"+getTypeTemplate().toLowerCase()+"/");
-		if(!f.exists()) {
-			f.mkdirs();
-		}
-		f = new File(f.getAbsolutePath()+"/"+getClassName()+"."+getTypeFile());
-		FileWriter fw = new FileWriter(f);
-		fw.write(getBody());
-		fw.close();
-	}
-	
-	public String getTypeFile() {
-		return "java";
-	}
+    public AbstractTemplate(DataBase database, ConfigCreateProject config) {
+        this.database = database;
+        this.config = config;
+    }
 
-	public abstract String getTypeTemplate() ;
+    public AbstractTemplate(Table tabella, ConfigCreateProject config) {
+        this.tabella = tabella;
+        this.config = config;
+    }
 
-	public abstract String getBody();
-	
-	public abstract String getClassName();
+    public AbstractTemplate(Enumeration enumeration, ConfigCreateProject config) {
+        this.enumeration = enumeration;
+        this.config = config;
+    }
 
-	public abstract String getSourceFolder();
-	
+    public void generateTemplate() throws IOException {
+        String relative = Utils.replace(config.getPackageclass(), ".", "/");
+        String root = config.getPathname();
+        String projectName = config.getProjectName();
+        String sourceFolder = getSourceFolder();
+        File f = new File(root + "/" + projectName + "/" + sourceFolder + "/" + relative + "/" + getTypeTemplate().toLowerCase() + "/");
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+        f = new File(f.getAbsolutePath() + "/" + getClassName() + "." + getTypeFile());
+        FileWriter fw = new FileWriter(f);
+        fw.write(getBody());
+        fw.close();
+    }
+
+    public String getTypeFile() {
+        return "java";
+    }
+
+    public abstract String getTypeTemplate();
+
+    public abstract String getBody();
+
+    public abstract String getClassName();
+
+    public abstract String getSourceFolder();
+
 }
