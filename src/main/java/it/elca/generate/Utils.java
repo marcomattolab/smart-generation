@@ -1427,5 +1427,9 @@ public class Utils {
 		}
 		return res;
 	}
+
+	public static Object getEntityVarName(Table tabella) {
+		return Utils.getClassNameLowerCase(tabella);
+	}
 	
 }

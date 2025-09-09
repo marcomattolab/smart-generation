@@ -28,7 +28,7 @@ public class TemplateServiceImpl extends AbstractTemplate {
         data.put("mapperPackage", conf.getSrcServiceMapperFolder());
         data.put("entityName", Utils.getEntityName(tabella));
         data.put("entityFieldName", Utils.getFieldName(tabella));
-        // FIXME => data.put("entityVarName", Utils.getEntityVarName(tabella));
+        data.put("entityVarName", Utils.getEntityVarName(tabella));
         data.put("className", getClassName());
         data.put("serviceClassName", Utils.getServiceClassName(tabella));
         data.put("repositoryClassName", Utils.getRepositoryClassName(tabella));
