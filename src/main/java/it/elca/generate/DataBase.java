@@ -144,28 +144,6 @@ import it.elca.generate.template.service.TemplateServiceImpl;
 import it.elca.generate.template.service.TemplateUserDTO;
 import it.elca.generate.template.service.TemplateUserMapperService;
 import it.elca.generate.template.service.TemplateUserService;
-import it.elca.generate.template.test.TemplateAccountResourceIntTest;
-import it.elca.generate.template.test.TemplateApplicationYamlTest;
-import it.elca.generate.template.test.TemplateAuditResourceIntTest;
-import it.elca.generate.template.test.TemplateCustomAuditEventRepositoryIntTest;
-import it.elca.generate.template.test.TemplateDateTimeWrapper;
-import it.elca.generate.template.test.TemplateDateTimeWrapperRepository;
-import it.elca.generate.template.test.TemplateDomainUserDetailsServiceIntTest;
-import it.elca.generate.template.test.TemplateExceptionTranslatorIntTest;
-import it.elca.generate.template.test.TemplateExceptionTranslatorTestController;
-import it.elca.generate.template.test.TemplateHibernateTimeZoneTest;
-import it.elca.generate.template.test.TemplateLogsResourceIntTest;
-import it.elca.generate.template.test.TemplateMailServiceIntTest;
-import it.elca.generate.template.test.TemplatePaginationUtilUnitTest;
-import it.elca.generate.template.test.TemplateSecurityJWTFilterTest;
-import it.elca.generate.template.test.TemplateSecurityTokenProviderTest;
-import it.elca.generate.template.test.TemplateSecurityUtilsUnitTest;
-import it.elca.generate.template.test.TemplateTestUtil;
-import it.elca.generate.template.test.TemplateTestWorkflow;
-import it.elca.generate.template.test.TemplateUserResourceIntTest;
-import it.elca.generate.template.test.TemplateUserServiceIntTest;
-import it.elca.generate.template.test.TemplateWebConfigurerTest;
-import it.elca.generate.template.test.TemplateWebConfigurerTestController;
 import it.elca.generate.template.util.TemplateCopyAll;
 import it.elca.generate.template.util.TemplateDeleteTest;
 import it.elca.generate.template.web.TemplateAccountResource;
@@ -519,31 +497,6 @@ public class DataBase {
 			new TemplateAccountSettingsModule(this).generateTemplate(); 
 			
 			
-			//TEST BE Classes
-			if (config.isGenerateTest()) {
-				new TemplateApplicationYamlTest(this).generateTemplate();
-				new TemplateWebConfigurerTest(this).generateTemplate();
-				new TemplateWebConfigurerTestController(this).generateTemplate();
-				new TemplateHibernateTimeZoneTest(this).generateTemplate();
-				new TemplateCustomAuditEventRepositoryIntTest(this).generateTemplate();
-				new TemplateDateTimeWrapperRepository(this).generateTemplate();
-				new TemplateDateTimeWrapper(this).generateTemplate();
-				new TemplateSecurityJWTFilterTest(this).generateTemplate();
-				new TemplateSecurityTokenProviderTest(this).generateTemplate();
-				new TemplateSecurityUtilsUnitTest(this).generateTemplate();
-				new TemplateDomainUserDetailsServiceIntTest(this).generateTemplate();
-				new TemplateMailServiceIntTest(this).generateTemplate();
-				new TemplateUserServiceIntTest(this).generateTemplate();
-				new TemplatePaginationUtilUnitTest(this).generateTemplate();
-				new TemplateExceptionTranslatorIntTest(this).generateTemplate();
-				new TemplateExceptionTranslatorTestController(this).generateTemplate();
-				new TemplateTestUtil(this).generateTemplate();
-				new TemplateAccountResourceIntTest(this).generateTemplate();
-				new TemplateAuditResourceIntTest(this).generateTemplate();
-				new TemplateLogsResourceIntTest(this).generateTemplate();
-				new TemplateUserResourceIntTest(this).generateTemplate();
-				new TemplateTestWorkflow(this).generateTemplate();
-			}
 
 			//Building Data of All Enumerations
 			List<Enumeration> enumList = new ArrayList<>();
@@ -610,8 +563,6 @@ public class DataBase {
 
 			System.out.println("\nGenerating Project Files Succesfully Completed. Try It!");
 			System.out.println("--------------------------------------------------------");
-		} catch (Exception e) {
-			e.printStackTrace();
 		} catch(Throwable t) {
 			t.printStackTrace();
 		}
