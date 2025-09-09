@@ -1,0 +1,63 @@
+<h2 class="text-2xl font-semibold mb-6">Infrastructure & DevOps</h2>
+
+<div class="space-y-8">
+  <div>
+    <label class="block mb-4 font-medium text-gray-700">CI/CD Pipeline</label>
+    <div class="checkbox-group grid grid-cols-1 md:grid-cols-2 gap-4">
+      @for (item of ciCdOptions; track item.id) {
+        <div class="checkbox-item flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300"
+             [class.border-purple-500]="isInfrastructureSelected('ci_cd', item.id)"
+             [class.bg-purple-50]="isInfrastructureSelected('ci_cd', item.id)"
+             (click)="updateInfrastructure('ci_cd', item.id)">
+          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('ci_cd', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div>
+    <label class="block mb-4 font-medium text-gray-700">Containerization</label>
+    <div class="checkbox-group grid grid-cols-1 md:grid-cols-2 gap-4">
+      @for (item of containerizationOptions; track item.id) {
+        <div class="checkbox-item flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300"
+             [class.border-purple-500]="isInfrastructureSelected('containerization', item.id)"
+             [class.bg-purple-50]="isInfrastructureSelected('containerization', item.id)"
+             (click)="updateInfrastructure('containerization', item.id)">
+          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('containerization', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div>
+    <label class="block mb-4 font-medium text-gray-700">Quality & Compliance</label>
+    <div class="checkbox-group grid grid-cols-1 md:grid-cols-2 gap-4">
+      @for (item of qualityOptions; track item.id) {
+        <div class="checkbox-item flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300"
+             [class.border-purple-500]="isInfrastructureSelected('quality', item.id)"
+             [class.bg-purple-50]="isInfrastructureSelected('quality', item.id)"
+             (click)="updateInfrastructure('quality', item.id)">
+          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('quality', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div>
+    <label class="block mb-4 font-medium text-gray-700">Security Features</label>
+    <div class="checkbox-group grid grid-cols-1 md:grid-cols-2 gap-4">
+      @for (item of securityOptions; track item.id) {
+        <div class="checkbox-item flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300"
+             [class.border-purple-500]="isInfrastructureSelected('security', item.id)"
+             [class.bg-purple-50]="isInfrastructureSelected('security', item.id)"
+             (click)="updateInfrastructure('security', item.id)">
+          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('security', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
+          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
+        </div>
+      }
+    </div>
+  </div>
+</div>

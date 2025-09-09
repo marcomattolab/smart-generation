@@ -1,0 +1,65 @@
+<h2 class="text-2xl font-semibold mb-6">Select Technology Stack</h2>
+
+<div class="space-y-8">
+  <div>
+    <label class="block mb-4 font-medium text-gray-700">Backend Framework</label>
+    <div class="tech-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+      @for (tech of backendTechs; track tech.id) {
+        <div class="tech-card border-2 rounded-lg p-6 text-center cursor-pointer transition-all duration-300"
+             [class.border-purple-500]="wizardState.techStack().backend === tech.id"
+             [class.bg-purple-50]="wizardState.techStack().backend === tech.id"
+             [class.shadow-lg]="wizardState.techStack().backend === tech.id"
+             (click)="updateTech('backend', tech.id)">
+          <div class="icon text-5xl mb-3">{{ tech.icon }}</div>
+          <h3 class="text-lg font-semibold mb-1">{{ tech.name }}</h3>
+          <p class="text-sm text-gray-600">{{ tech.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div>
+    <label class="block mb-4 font-medium text-gray-700">Frontend Framework</label>
+    <div class="tech-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+      @for (tech of frontendTechs; track tech.id) {
+        <div class="tech-card border-2 rounded-lg p-6 text-center cursor-pointer transition-all duration-300"
+             [class.border-purple-500]="wizardState.techStack().frontend === tech.id"
+             [class.bg-purple-50]="wizardState.techStack().frontend === tech.id"
+             [class.shadow-lg]="wizardState.techStack().frontend === tech.id"
+             (click)="updateTech('frontend', tech.id)">
+          <div class="icon text-5xl mb-3">{{ tech.icon }}</div>
+          <h3 class="text-lg font-semibold mb-1">{{ tech.name }}</h3>
+          <p class="text-sm text-gray-600">{{ tech.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div>
+    <label class="block mb-4 font-medium text-gray-700">Mobile Development</label>
+    <div class="tech-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+      @for (tech of mobileTechs; track tech.id) {
+        <div class="tech-card border-2 rounded-lg p-6 text-center cursor-pointer transition-all duration-300"
+             [class.border-purple-500]="wizardState.techStack().mobile === tech.id"
+             [class.bg-purple-50]="wizardState.techStack().mobile === tech.id"
+             [class.shadow-lg]="wizardState.techStack().mobile === tech.id"
+             (click)="updateTech('mobile', tech.id)">
+          <div class="icon text-5xl mb-3">{{ tech.icon }}</div>
+          <h3 class="text-lg font-semibold mb-1">{{ tech.name }}</h3>
+          <p class="text-sm text-gray-600">{{ tech.description }}</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="database" class="block mb-2 font-medium text-gray-700">Database</label>
+    <select id="database" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 outline-none transition"
+            (change)="updateDatabase($event)">
+      <option value="">Select Database</option>
+      @for (db of databases; track db.value) {
+        <option [value]="db.value" [selected]="wizardState.techStack().database === db.value">{{ db.name }}</option>
+      }
+    </select>
+  </div>
+</div>
