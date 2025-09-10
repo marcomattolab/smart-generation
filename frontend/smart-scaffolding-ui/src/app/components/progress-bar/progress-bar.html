@@ -1,21 +1,21 @@
 <div class="progress-bar relative flex justify-between mb-10">
-  <div class="absolute top-1/2 left-0 w-full h-0.5 bg-gray-200" style="transform: translateY(-50%);"></div>
-  <div class="absolute top-1/2 left-0 h-0.5 bg-gradient-to-r from-purple-500 to-indigo-600 transition-all duration-300" [style.width]="progressWidth()"></div>
+  <div class="absolute top-[20px] left-0 w-full h-[2px] bg-gray-300" style="transform: translateY(-50%);"></div>
+  <div class="absolute top-[20px] left-0 h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 z-2 transition-all duration-300" [style.width]="progressWidth()"></div>
 
   @for (step of steps; track step.title) {
     <div class="step relative flex flex-col items-center z-10">
       <div class="step-circle w-10 h-10 rounded-full flex items-center justify-center font-bold text-gray-600 transition-all duration-300 mb-2"
-           [class.bg-gradient-to-r]="step.step <= currentStep"
-           [class.from-purple-500]="step.step <= currentStep"
-           [class.to-indigo-600]="step.step <= currentStep"
-           [class.text-white]="step.step <= currentStep"
-           [class.bg-gray-200]="step.step > currentStep">
+           [class.bg-gradient-to-r]="step.step <= currentStep()"
+           [class.from-purple-500]="step.step <= currentStep()"
+           [class.to-indigo-600]="step.step <= currentStep()"
+           [class.text-white]="step.step <= currentStep()"
+           [class.bg-gray-200]="step.step > currentStep()">
         {{ step.step }}
       </div>
       <div class="step-title text-sm font-medium"
-           [class.text-gray-800]="step.step === currentStep"
-           [class.font-semibold]="step.step === currentStep"
-           [class.text-gray-500]="step.step !== currentStep">
+           [class.text-gray-800]="step.step === currentStep()"
+           [class.font-semibold]="step.step === currentStep()"
+           [class.text-gray-500]="step.step !== currentStep()">
         {{ step.title }}
       </div>
     </div>

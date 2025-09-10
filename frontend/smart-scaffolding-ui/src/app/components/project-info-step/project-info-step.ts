@@ -29,7 +29,13 @@ export class ProjectInfoStepComponent implements OnInit, OnDestroy {
     this.subscription = this.form.valueChanges
       .pipe(debounceTime(300))
       .subscribe(value => {
-        this.wizardState.updateProjectInfo(value);
+         const sanitizedValue = {
+            projectName: value.projectName ?? undefined,
+            projectDescription: value.projectDescription ?? undefined,
+            organization: value.organization ?? undefined,
+            packageName: value.packageName ?? undefined
+          };
+          this.wizardState.updateProjectInfo(sanitizedValue);
       });
 
     this.form.get('projectName')?.valueChanges.subscribe(projectName => {
