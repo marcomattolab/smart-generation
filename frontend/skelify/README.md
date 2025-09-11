@@ -57,3 +57,26 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+## TODO LIST
+- Refactoring of Tailwind => use Theme and use variable to change colors easily
+- Add I18N
+- Add Material | PrimeNg | Bootstrap
+- Add OIDC library and logic 
+- Add common utils and directives
+- Add Libraries:
+    - ngx-markdown – Parsing Markdown.
+    - ngx-quill – Editor WYSIWYG.
+    - ngx-editor – Editor testuale avanzato.
+    - ngx-toastr – Notifiche toast
+    - @angular/pwa - Progressive Web App
+    - ngx-formly – Form dinamici basati su JSON.
+    - ngx-validate – Validazioni personalizzate e internazionali.
+    - @ngrx/store – Stato centralizzato tipo Redux.
+    - @ngrx/effects – Gestione effetti collaterali.
+    - @ngrx/entity – Gestione collezioni di dati.
+    - Akita – Alternativa a NgRx, più semplice per stati complessi.
+    - @angular/cdk – Component Dev Kit, per componenti custom.
+    - ng2-file-upload – Upload file drag & drop.
+    - ngx-charts – Grafici reattivi basati su D3.
