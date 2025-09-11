@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.html',
-  styleUrls: ['./modal.css'],
+  selector: 'app-download-modal',
+  templateUrl: './download-modal.html',
+  styleUrls: ['./download-modal.css'],
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalComponent {
+export class DownloadModal {
   isOpen = input<boolean>(false);
   closeModal = output<void>();
 

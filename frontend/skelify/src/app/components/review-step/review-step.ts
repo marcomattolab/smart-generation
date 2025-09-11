@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
-import { ModalComponent } from '../modal/modal';
+import { DownloadModal } from '../../modals/download-modal/download-modal';
 
 @Component({
   selector: 'app-review-step',
   templateUrl: './review-step.html',
-  imports: [CommonModule, ModalComponent],
+  imports: [CommonModule, DownloadModal],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewStep {
