@@ -56,6 +56,13 @@ export class WizardStateService {
     this._state.update(state => ({ ...state, currentStep: state.currentStep - 1 }));
   }
 
+  goToStep(step: number) {
+    // Allow navigation only to previously visited steps
+    if (step < this.currentStep()) {
+      this._state.update(state => ({ ...state, currentStep: step }));
+    }
+  }
+
   updateProjectInfo(projectInfo: Partial<WizardState['projectInfo']>) {
     this._state.update(state => ({ ...state, projectInfo: { ...state.projectInfo, ...projectInfo } }));
   }

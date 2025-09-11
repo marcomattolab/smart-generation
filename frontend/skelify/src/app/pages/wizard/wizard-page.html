@@ -11,7 +11,7 @@
   <div class="bg-white rounded-lg shadow-md p-8 mb-8">
     @switch (wizardState.currentStep()) {
       @case (1) {
-        <app-project-info-step />
+        <app-project-info-step (isFormValid)="isProjectInfoFormValid.set($event)" />
       }
       @case (2) {
         <app-tech-stack-step />
@@ -28,7 +28,11 @@
   <div class="flex justify-between items-center">
     <button class="py-3 px-8 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 inline-block no-underline bg-gray-100 text-gray-600 border-2 border-gray-200 hover:bg-gray-200 hover:border-gray-300" [class.hidden]="wizardState.currentStep() === 1" (click)="previousStep()">Previous</button>
     <div class="flex-grow"></div>
-    <button class="py-3 px-8 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 inline-block no-underline bg-gradient-to-br from-purple-600 to-indigo-500 text-white transform hover:-translate-y-0.5 hover:shadow-lg" (click)="handleNextStep()">
+    <button
+      class="py-3 px-8 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 inline-block no-underline bg-gradient-to-br from-purple-600 to-indigo-500 text-white transform hover:-translate-y-0.5 hover:shadow-lg"
+      (click)="handleNextStep()"
+      [disabled]="wizardState.currentStep() === 1 && !isProjectInfoFormValid()"
+    >
       @if (wizardState.isLastStep()) {
         <span>🚀 Generate Project</span>
       } @else {

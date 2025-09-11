@@ -2,21 +2,26 @@
   <div class="max-w-7xl mx-auto bg-white/95 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-sm">
 
     <!-- Header -->
-    <header class="bg-gradient-to-br from-gray-800 to-gray-700 text-white p-4 flex justify-between items-center">
-      <!-- TODO Add an attractive logo before the text for Skelify -->
-      <div class="text-xl font-bold">
-        <a routerLink="/">Skelify</a>
+    <header class="bg-gradient-to-br from-gray-800 to-gray-700 text-white p-4 flex justify-between items-center shadow-md">
+      <div class="flex items-center">
+        <svg class="w-8 h-8 mr-2 text-purple-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+        </svg>
+        <a routerLink="/" class="text-2xl font-bold tracking-wider">Skelify</a>
       </div>
-      <!-- TODO Add a menu in tailwind with more actions: logout, about, information -->
-      <!--
-      <div class="auth-buttons">
-        @if (isAuthenticated$ | async) {
-          <button class="py-2 px-4 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 inline-block no-underline bg-gray-100 text-gray-600 border-2 border-gray-200 hover:bg-gray-200 hover:border-gray-300" (click)="logout()">Logout</button>
-        } @else {
-          <button class="py-2 px-4 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 inline-block no-underline bg-gradient-to-br from-purple-600 to-indigo-500 text-white transform hover:-translate-y-0.5 hover:shadow-lg" (click)="login()">Login</button>
+
+      <div class="relative">
+        <button (click)="toggleMenu()" class="p-2 rounded-full hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+
+        @if (isMenuOpen()) {
+          <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">About</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+          </div>
         }
       </div>
-      -->
     </header>
 
     <main>
