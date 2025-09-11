@@ -1,12 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { WizardStateService, AppState } from '../../services/wizard-state';
+import { WizardStateService } from '../../services/wizard-state';
+import { AppState } from '../../models/app-state.model';
 
 @Component({
   selector: 'app-infrastructure-step',
   templateUrl: './infrastructure-step.html',
   styleUrls: ['./infrastructure-step.css'],
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule]
 })
 export class InfrastructureStepComponent {

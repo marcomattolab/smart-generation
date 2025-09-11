@@ -1,30 +1,27 @@
-<h2 class="text-2xl font-semibold mb-6">Review Configuration</h2>
+<div class="review-container">
+  <h2 class="text-2xl font-semibold mb-6">Review Your Configuration</h2>
 
-@if (!generationCompleted()) {
-  <div id="reviewContent" class="space-y-6">
-    <div class="generation-preview bg-gray-50 rounded-lg p-6">
-      <h3 class="text-lg font-semibold text-gray-800 mb-4">📋 Project Summary</h3>
-      <div class="preview-item bg-white p-4 rounded-md mb-2 border-l-4 border-purple-500"><strong>Project:</strong> {{ wizardState.projectInfo().projectName }}</div>
-      <div class="preview-item bg-white p-4 rounded-md mb-2 border-l-4 border-purple-500"><strong>Organization:</strong> {{ wizardState.projectInfo().organization }}</div>
-      <div class="preview-item bg-white p-4 rounded-md mb-2 border-l-4 border-purple-500"><strong>Backend:</strong> {{ wizardState.techStack().backend }}</div>
-      <div class="preview-item bg-white p-4 rounded-md mb-2 border-l-4 border-purple-500"><strong>Frontend:</strong> {{ wizardState.techStack().frontend }}</div>
-      <div class="preview-item bg-white p-4 rounded-md mb-2 border-l-4 border-purple-500"><strong>Mobile:</strong> {{ wizardState.techStack().mobile }}</div>
-      <div class="preview-item bg-white p-4 rounded-md mb-2 border-l-4 border-purple-500"><strong>Database:</strong> {{ wizardState.techStack().database }}</div>
-    </div>
-  </div>
-} @else {
-  <div class="loading-animation text-center p-10" [class.hidden]="!isLoading()">
-      <div class="spinner w-12 h-12 border-4 border-gray-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
-      <h3 class="text-xl font-semibold">Generating Your Project...</h3>
-      <p class="text-gray-600">AI is crafting your custom application scaffolding with enterprise-grade best practices.</p>
+  <div class="review-section">
+    <h3 class="text-lg font-semibold mb-2">Project Information</h3>
+    <p><strong>Project Name:</strong> {{ wizardState.projectInfo().projectName }}</p>
+    <p><strong>Description:</strong> {{ wizardState.projectInfo().projectDescription }}</p>
+    <p><strong>Organization:</strong> {{ wizardState.projectInfo().organization }}</p>
+    <p><strong>Package Name:</strong> {{ wizardState.projectInfo().packageName }}</p>
   </div>
 
-  <div class="success-message text-center p-10" [class.hidden]="isLoading()">
-      <div class="icon text-6xl mb-4">✅</div>
-      <h2 class="text-2xl font-bold text-green-600 mb-2">Project Generated Successfully!</h2>
-      <p class="text-gray-600">Your enterprise-ready application scaffolding is ready for download.</p>
-      <div style="margin-top: 20px;">
-          <button class="btn btn-primary" (click)="downloadProject()">📦 Download Project</button>
-      </div>
+  <div class="review-section">
+    <h3 class="text-lg font-semibold mb-2">Technology Stack</h3>
+    <p><strong>Backend:</strong> {{ wizardState.techStack().backend }}</p>
+    <p><strong>Frontend:</strong> {{ wizardState.techStack().frontend }}</p>
+    <p><strong>Mobile:</strong> {{ wizardState.techStack().mobile }}</p>
+    <p><strong>Database:</strong> {{ wizardState.techStack().database }}</p>
   </div>
-}
+
+  <div class="review-section">
+    <h3 class="text-lg font-semibold mb-2">Infrastructure</h3>
+    <p><strong>CI/CD:</strong> {{ wizardState.infrastructure().ci_cd.join(', ') }}</p>
+    <p><strong>Containerization:</strong> {{ wizardState.infrastructure().containerization.join(', ') }}</p>
+    <p><strong>Quality:</strong> {{ wizardState.infrastructure().quality.join(', ') }}</p>
+    <p><strong>Security:</strong> {{ wizardState.infrastructure().security.join(', ') }}</p>
+  </div>
+</div>

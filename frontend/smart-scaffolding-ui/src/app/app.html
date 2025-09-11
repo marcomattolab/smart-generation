@@ -1,1 +1,17 @@
-<router-outlet></router-outlet>
+<div class="main-container">
+  <header class="header">
+    <div class="logo">
+      <a routerLink="/">Smart Scaffolding</a>
+    </div>
+    <div class="auth-buttons">
+      @if (isAuthenticated$ | async) {
+        <button class="btn btn-secondary" (click)="logout()">Logout</button>
+      } @else {
+        <button class="btn btn-primary" (click)="login()">Login</button>
+      }
+    </div>
+  </header>
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

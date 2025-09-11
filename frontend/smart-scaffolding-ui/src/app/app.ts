@@ -1,12 +1,23 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from './services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  standalone: true,
-  imports: [RouterOutlet]
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterOutlet, CommonModule]
 })
 export class AppComponent {
-  title = 'smart-scaffolding-ui';
+  authService = inject(AuthService);
+  isAuthenticated$ = this.authService.isAuthenticated$;
+
+  login() {
+    this.authService.login();
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 }

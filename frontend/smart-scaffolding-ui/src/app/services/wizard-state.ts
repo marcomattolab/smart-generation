@@ -1,26 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-
-export interface AppState {
-  currentStep: number;
-  projectInfo: {
-    projectName: string;
-    projectDescription: string;
-    organization: string;
-    packageName: string;
-  };
-  techStack: {
-    backend: string;
-    frontend: string;
-    mobile: string;
-    database: string;
-  };
-  infrastructure: {
-    ci_cd: string[];
-    containerization: string[];
-    quality: string[];
-    security: string[];
-  };
-}
+import { AppState } from '../models/app-state.model';
 
 const initialState: AppState = {
   currentStep: 1,
@@ -49,16 +28,25 @@ const initialState: AppState = {
 })
 export class WizardStateService {
   private readonly _state = signal(initialState);
+  readonly steps = signal([
+    { label: 'Project Info' },
+    { label: 'Tech Stack' },
+    { label: 'Infrastructure' },
+    { label: 'Review' }
+  ]);
 
   // Selectors
   readonly currentStep = computed(() => this._state().currentStep);
   readonly projectInfo = computed(() => this._state().projectInfo);
   readonly techStack = computed(() => this._state().techStack);
   readonly infrastructure = computed(() => this._state().infrastructure);
+  readonly isLastStep = computed(() => this.currentStep() === this.steps().length);
 
   // Actions
   nextStep() {
-    this._state.update(state => ({ ...state, currentStep: state.currentStep + 1 }));
+    if (!this.isLastStep()) {
+      this._state.update(state => ({ ...state, currentStep: state.currentStep + 1 }));
+    }
   }
 
   previousStep() {
@@ -87,5 +75,10 @@ export class WizardStateService {
         }
       };
     });
+  }
+
+  simulate() {
+    // Here you can replace the console.log with a call to your backend service
+    console.log('Simulating project generation with the following state:', this._state());
   }
 }

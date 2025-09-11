@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
 import { ProgressBarComponent } from '../progress-bar/progress-bar';
@@ -11,7 +11,7 @@ import { ReviewStepComponent } from '../review-step/review-step';
   selector: 'app-wizard',
   templateUrl: './wizard.html',
   styleUrls: ['./wizard.css'],
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     ProgressBarComponent,
@@ -24,8 +24,12 @@ import { ReviewStepComponent } from '../review-step/review-step';
 export class WizardComponent {
   wizardState = inject(WizardStateService);
 
-  nextStep() {
-    this.wizardState.nextStep();
+  handleNextStep() {
+    if (this.wizardState.isLastStep()) {
+      this.wizardState.simulate();
+    } else {
+      this.wizardState.nextStep();
+    }
   }
 
   previousStep() {
