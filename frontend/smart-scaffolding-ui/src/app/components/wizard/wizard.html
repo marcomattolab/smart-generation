@@ -5,7 +5,7 @@
   </div>
 
   <div class="wizard-container p-10">
-    <app-progress-bar [currentStep]="wizardState.currentStep()" />
+    <app-progress-bar />
 
     <div class="wizard-content bg-white rounded-lg shadow-md p-8 mb-8">
       @switch (wizardState.currentStep()) {
@@ -27,8 +27,8 @@
     <div class="navigation flex justify-between items-center">
       <button class="btn btn-secondary" [class.hidden]="wizardState.currentStep() === 1" (click)="previousStep()">Previous</button>
       <div class="flex-grow"></div>
-      <button class="btn btn-primary" (click)="nextStep()">
-        @if (wizardState.currentStep() === 4) {
+      <button class="btn btn-primary" (click)="handleNextStep()">
+        @if (wizardState.isLastStep()) {
           <span>🚀 Generate Project</span>
         } @else {
           <span>Next</span>

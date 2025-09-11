@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
 
@@ -6,7 +6,7 @@ import { WizardStateService } from '../../services/wizard-state';
   selector: 'app-tech-stack-step',
   templateUrl: './tech-stack-step.html',
   styleUrls: ['./tech-stack-step.css'],
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule]
 })
 export class TechStackStepComponent {
@@ -42,8 +42,7 @@ export class TechStackStepComponent {
     this.wizardState.updateTechStack({ [category]: techId });
   }
 
-  updateDatabase(event: Event) {
-    const selectElement = event.target as HTMLSelectElement;
-    this.wizardState.updateTechStack({ database: selectElement.value });
+  updateDatabase(database: string) {
+    this.wizardState.updateTechStack({ database });
   }
 }
