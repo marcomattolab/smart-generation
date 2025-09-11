@@ -1,24 +1,31 @@
-<div class="relative mb-8">
-  <div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-purple-200">
+<div class="relative mb-12">
+  <!-- Progress Line -->
+  <div class="overflow-hidden h-2 text-xs flex rounded bg-purple-200">
     <div [style.width]="progressWidth()" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500 transition-all duration-500"></div>
   </div>
-  <div class="flex justify-between text-xs text-gray-600">
-    @for (step of steps(); track step.label; let i = $index) {
-      <div class="w-1/4 text-center">
-        <div
-          class="mx-auto rounded-full h-8 w-8 flex items-center justify-center text-lg"
-          [class.bg-purple-500]="i + 1 <= currentStep()"
-          [class.text-white]="i + 1 <= currentStep()"
-          [class.bg-gray-300]="i + 1 > currentStep()"
-        >
-          @if (i + 1 < currentStep()) {
-            <span>&#10003;</span>
-          } @else {
-            <span>{{ i + 1 }}</span>
-          }
+
+  <!-- Steps -->
+  <div class="absolute top-1/2 left-0 w-full transform -translate-y-1/2">
+    <div class="flex justify-between text-xs text-gray-600">
+      @for (step of steps(); track step.label; let i = $index) {
+        <div class="w-1/4 text-center">
+          <div class="relative" (click)="navigateToStep(i + 1)" [class.cursor-pointer]="i + 1 < currentStep()">
+            <div
+              class="mx-auto rounded-full h-8 w-8 flex items-center justify-center text-lg"
+              [class.bg-purple-500]="i + 1 <= currentStep()"
+              [class.text-white]="i + 1 <= currentStep()"
+              [class.bg-gray-300]="i + 1 > currentStep()"
+            >
+              @if (i + 1 < currentStep()) {
+                <span>&#10003;</span>
+              } @else {
+                <span>{{ i + 1 }}</span>
+              }
+            </div>
+            <div class="absolute top-full mt-2 w-full text-center">{{ step.label }}</div>
+          </div>
         </div>
-        <div class="mt-2">{{ step.label }}</div>
-      </div>
-    }
+      }
+    </div>
   </div>
 </div>

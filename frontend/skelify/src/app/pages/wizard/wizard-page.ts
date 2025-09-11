@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
 import { ProgressBar } from '../../components/progress-bar/progress-bar';
@@ -23,6 +23,7 @@ import { ReviewStep } from '../../components/review-step/review-step';
 })
 export class WizardPage {
   wizardState = inject(WizardStateService);
+  isProjectInfoFormValid = signal(false);
 
   handleNextStep() {
     if (this.wizardState.isLastStep()) {
