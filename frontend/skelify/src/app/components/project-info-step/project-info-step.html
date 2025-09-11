@@ -2,7 +2,15 @@
 <form [formGroup]="form" class="space-y-6">
   <div class="form-group">
     <label for="projectName" class="block mb-2 font-medium text-gray-700">Project Name</label>
-    <input id="projectName" type="text" formControlName="projectName" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 outline-none transition" placeholder="Enter your project name" required>
+    <input
+      id="projectName"
+      type="text"
+      formControlName="projectName"
+      class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 outline-none transition"
+      [class.border-red-500]="form.get('projectName')?.invalid && form.get('projectName')?.touched"
+      placeholder="Enter your project name"
+      required
+    >
   </div>
   <div class="form-group">
     <label for="projectDescription" class="block mb-2 font-medium text-gray-700">Description</label>

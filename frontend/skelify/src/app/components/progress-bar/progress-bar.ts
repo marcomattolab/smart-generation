@@ -16,8 +16,4 @@ export class ProgressBar {
   progressWidth = computed(() => {
     return ((this.currentStep() - 1) / (this.steps().length - 1)) * 100 + '%';
   });
-
-  navigateToStep(step: number) {
-    this.wizardState.goToStep(step);
-  }
 }

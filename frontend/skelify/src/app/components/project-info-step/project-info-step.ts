@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WizardStateService } from '../../services/wizard-state';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, startWith } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { AppConstants } from '../../models/constant/app-constant';
 
 @Component({
@@ -15,7 +15,6 @@ import { AppConstants } from '../../models/constant/app-constant';
 export class ProjectInfoStep {
   private readonly fb = inject(FormBuilder);
   private readonly wizardState = inject(WizardStateService);
-  isFormValid = output<boolean>();
 
   form = this.fb.group({
     projectName: ['', Validators.required],
@@ -26,13 +25,6 @@ export class ProjectInfoStep {
 
   constructor() {
     this.form.patchValue(this.wizardState.projectInfo());
-
-    this.form.statusChanges.pipe(
-      startWith(this.form.status),
-      takeUntilDestroyed()
-    ).subscribe(status => {
-      this.isFormValid.emit(status === 'VALID');
-    });
 
     this.form.valueChanges
       .pipe(debounceTime(300), takeUntilDestroyed())

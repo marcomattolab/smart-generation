@@ -31,7 +31,7 @@
     <button
       class="py-3 px-8 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 inline-block no-underline bg-gradient-to-br from-purple-600 to-indigo-500 text-white transform hover:-translate-y-0.5 hover:shadow-lg"
       (click)="handleNextStep()"
-      [disabled]="wizardState.currentStep() === 1 && !isProjectInfoFormValid()"
+      [disabled]="(wizardState.currentStep() === 1 && !isProjectInfoFormValid()) || wizardState.isLoading()"
     >
       @if (wizardState.isLastStep()) {
         <span>🚀 Generate Project</span>
