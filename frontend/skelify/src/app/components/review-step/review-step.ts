@@ -5,10 +5,21 @@ import { WizardStateService } from '../../services/wizard-state';
 @Component({
   selector: 'app-review-step',
   templateUrl: './review-step.html',
-  styleUrls: ['./review-step.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule]
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ReviewStepComponent {
+export class ReviewStep {
   wizardState = inject(WizardStateService);
+
+  downloadProject() {
+    const projectName = this.wizardState.projectInfo().projectName;
+    alert(`🎉 Project "${projectName}" would be downloaded as a ZIP file with:\n\n` +
+      `• Complete source code skeleton\n` +
+      `• Docker configuration files\n` +
+      `• CI/CD pipeline configurations\n` +
+      `• Database migration scripts\n` +
+      `• Documentation and README files\n` +
+      `• Security and authentication setup\n\n` +
+      `This is a POC demo - in production, this would trigger the actual project generation and download.`);
+  }
 }

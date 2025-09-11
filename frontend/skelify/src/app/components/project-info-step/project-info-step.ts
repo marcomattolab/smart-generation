@@ -4,22 +4,22 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WizardStateService } from '../../services/wizard-state';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime } from 'rxjs/operators';
+import { AppConstants } from '../../models/constant/app-constant';
 
 @Component({
   selector: 'app-project-info-step',
   templateUrl: './project-info-step.html',
-  styleUrls: ['./project-info-step.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProjectInfoStepComponent {
+export class ProjectInfoStep {
   private readonly fb = inject(FormBuilder);
   private readonly wizardState = inject(WizardStateService);
 
   form = this.fb.group({
     projectName: ['', Validators.required],
     projectDescription: [''],
-    organization: ['ELCA'],
+    organization: [AppConstants.COMMON.COMPANY_NAME],
     packageName: ['']
   });
 
@@ -40,8 +40,8 @@ export class ProjectInfoStepComponent {
     this.form.get('projectName')?.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe(projectName => {
-        const organization = this.form.get('organization')?.value?.toLowerCase() || 'elca';
-        const packageName = `com.${organization}.${projectName?.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')}`;
+        const organization = this.form.get('organization')?.value?.toLowerCase() || AppConstants.COMMON.COMPANY_NAME;
+        const packageName = `ch.${organization}.${projectName?.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')}`;
         this.form.get('packageName')?.setValue(packageName);
       });
   }

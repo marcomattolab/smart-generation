@@ -1,12 +1,13 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { AppState } from '../models/app-state.model';
+import { WizardState } from "../models/wizard-state";
+import { AppConstants } from "../models/constant/app-constant";
 
-const initialState: AppState = {
+const initialState: WizardState = {
   currentStep: 1,
   projectInfo: {
     projectName: '',
     projectDescription: '',
-    organization: 'ELCA',
+    organization: AppConstants.COMMON.COMPANY_NAME,
     packageName: ''
   },
   techStack: {
@@ -34,6 +35,8 @@ export class WizardStateService {
     { label: 'Infrastructure' },
     { label: 'Review' }
   ]);
+  readonly isLoading = signal(false);
+  readonly isGenerated = signal(false);
 
   // Selectors
   readonly currentStep = computed(() => this._state().currentStep);
@@ -53,15 +56,15 @@ export class WizardStateService {
     this._state.update(state => ({ ...state, currentStep: state.currentStep - 1 }));
   }
 
-  updateProjectInfo(projectInfo: Partial<AppState['projectInfo']>) {
+  updateProjectInfo(projectInfo: Partial<WizardState['projectInfo']>) {
     this._state.update(state => ({ ...state, projectInfo: { ...state.projectInfo, ...projectInfo } }));
   }
 
-  updateTechStack(techStack: Partial<AppState['techStack']>) {
+  updateTechStack(techStack: Partial<WizardState['techStack']>) {
     this._state.update(state => ({ ...state, techStack: { ...state.techStack, ...techStack } }));
   }
 
-  updateInfrastructure(key: keyof AppState['infrastructure'], value: string) {
+  updateInfrastructure(key: keyof WizardState['infrastructure'], value: string) {
     this._state.update(state => {
       const currentValues = state.infrastructure[key];
       const newValues = currentValues.includes(value)
@@ -78,7 +81,11 @@ export class WizardStateService {
   }
 
   simulate() {
-    // Here you can replace the console.log with a call to your backend service
+    this.isLoading.set(true);
     console.log('Simulating project generation with the following state:', this._state());
+    setTimeout(() => {
+      this.isLoading.set(false);
+      this.isGenerated.set(true);
+    }, 3000);
   }
 }

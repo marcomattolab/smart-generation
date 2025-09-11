@@ -6,10 +6,10 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, CommonModule]
+  imports: [RouterOutlet, CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
+export class App {
   authService = inject(AuthService);
   isAuthenticated$ = this.authService.isAuthenticated$;
 

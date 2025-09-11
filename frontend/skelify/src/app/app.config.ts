@@ -1,20 +1,30 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, provideAppInitializer,
+  inject
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
-import { provideAuth, StsConfigLoader } from 'angular-auth-oidc-client';
+import { provideAuth } from 'angular-auth-oidc-client';
+import { routes } from './app.routes';
+import { AppConfigService } from './services/app-config.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
+    provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(),
+    AppConfigService,
+    provideAppInitializer(() => {
+      const appConfigService = inject(AppConfigService);
+      return appConfigService.loadAppConfig();
+    }),
     provideAuth({
       config: {
-        authority: 'https://dev-606563.okta.com/oauth2/default',
+        authority: 'http://localhost:8082/admin/realms/skelify',
         redirectUrl: window.location.origin,
         postLogoutRedirectUri: window.location.origin,
-        clientId: '0oaj4gq1q3s4s5p5u0h7',
+        clientId: 'skelify',
         scope: 'openid profile email',
         responseType: 'code',
         silentRenew: true,

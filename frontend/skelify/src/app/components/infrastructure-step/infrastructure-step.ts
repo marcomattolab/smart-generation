@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
-import { AppState } from '../../models/app-state.model';
+import { WizardState } from '../../models/wizard-state';
 
 @Component({
   selector: 'app-infrastructure-step',
   templateUrl: './infrastructure-step.html',
-  styleUrls: ['./infrastructure-step.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule]
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InfrastructureStepComponent {
+export class InfrastructureStep {
   wizardState = inject(WizardStateService);
 
   ciCdOptions = [
@@ -41,11 +40,11 @@ export class InfrastructureStepComponent {
     { id: 'ssl', label: 'SSL/TLS Configuration' }
   ];
 
-  isInfrastructureSelected(key: keyof AppState['infrastructure'], value: string): boolean {
+  isInfrastructureSelected(key: keyof WizardState['infrastructure'], value: string): boolean {
     return this.wizardState.infrastructure()[key].includes(value);
   }
 
-  updateInfrastructure(key: keyof AppState['infrastructure'], value: string) {
+  updateInfrastructure(key: keyof WizardState['infrastructure'], value: string) {
     this.wizardState.updateInfrastructure(key, value);
   }
 }

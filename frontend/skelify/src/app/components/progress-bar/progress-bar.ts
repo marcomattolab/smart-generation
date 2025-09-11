@@ -5,11 +5,10 @@ import { WizardStateService } from '../../services/wizard-state';
 @Component({
   selector: 'app-progress-bar',
   templateUrl: './progress-bar.html',
-  styleUrls: ['./progress-bar.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule]
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProgressBarComponent {
+export class ProgressBar {
   wizardState = inject(WizardStateService);
   steps = this.wizardState.steps;
   currentStep = this.wizardState.currentStep;

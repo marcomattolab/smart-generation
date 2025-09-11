@@ -55,7 +55,7 @@
   <div class="form-group">
     <label for="database" class="block mb-2 font-medium text-gray-700">Database</label>
     <select id="database" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 outline-none transition"
-            (change)="updateDatabase($any($event.target).value)">
+            (change)="onDatabaseChange($event)">
       <option value="">Select Database</option>
       @for (db of databases; track db.value) {
         <option [value]="db.value" [selected]="wizardState.techStack().database === db.value">{{ db.name }}</option>

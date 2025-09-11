@@ -1,11 +1,15 @@
 import { Routes } from '@angular/router';
-import { WizardComponent } from './components/wizard/wizard';
-import { LandingPageComponent } from './components/landing-page/landing-page';
-import { UnauthorizedComponent } from './components/unauthorized/unauthorized';
-import { authGuard } from './guards/auth.guard';
+import { WizardPage } from './pages/wizard/wizard-page';
+import { UnauthorizedPage } from './pages/unauthorized-page/unauthorized-page';
+import { LandingPage } from './pages/landing-page/landing-page';
+import { TodoListPage } from './pages/todo-list-page/todo-list-page';
+//=>import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: LandingPageComponent },
-  { path: 'wizard', component: WizardComponent, canActivate: [authGuard] },
-  { path: 'unauthorized', component: UnauthorizedComponent }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: LandingPage },
+  { path: 'todo', component: TodoListPage },
+  //=>{ path: 'wizard', component: WizardPage, canActivate: [authGuard] },
+  { path: 'wizard', component: WizardPage },
+  { path: 'unauthorized', component: UnauthorizedPage }
 ];

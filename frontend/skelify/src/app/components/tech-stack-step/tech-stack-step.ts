@@ -5,11 +5,10 @@ import { WizardStateService } from '../../services/wizard-state';
 @Component({
   selector: 'app-tech-stack-step',
   templateUrl: './tech-stack-step.html',
-  styleUrls: ['./tech-stack-step.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule]
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TechStackStepComponent {
+export class TechStackStep {
   wizardState = inject(WizardStateService);
 
   backendTechs = [
@@ -42,7 +41,8 @@ export class TechStackStepComponent {
     this.wizardState.updateTechStack({ [category]: techId });
   }
 
-  updateDatabase(database: string) {
-    this.wizardState.updateTechStack({ database });
+  onDatabaseChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.wizardState.updateTechStack({ database: selectElement.value });
   }
 }
