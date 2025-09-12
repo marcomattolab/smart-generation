@@ -32,7 +32,7 @@
 
         @if (isMenuOpen()) {
           <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">About</a>
+            <a routerLink="/about" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">About</a>
             <a (click)="logout()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
           </div>
         }
@@ -44,8 +44,23 @@
       <router-outlet></router-outlet>
     </main>
 
-    <footer class="text-center p-4 text-sm text-gray-500 border-t border-gray-200">
-      &copy; 2024 Skelify. All rights reserved.
+    <footer class="bg-gray-800 text-white">
+      <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center">
+          <div>
+            <h3 class="text-lg font-semibold">Skelify</h3>
+            <p class="text-sm text-gray-400">Smart Skeleton Generator</p>
+          </div>
+          <div class="flex space-x-6">
+            <a routerLink="/about" class="text-gray-400 hover:text-white">About</a>
+            <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
+            <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+          </div>
+        </div>
+        <div class="mt-8 border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
+          &copy; 2024 Skelify. All rights reserved.
+        </div>
+      </div>
     </footer>
   </div>
 </div>

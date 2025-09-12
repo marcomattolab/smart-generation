@@ -6,7 +6,7 @@
       id="projectName"
       type="text"
       formControlName="projectName"
-      class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 outline-none transition"
+      class="input"
       [class.border-red-500]="form.get('projectName')?.invalid && form.get('projectName')?.touched"
       placeholder="Enter your project name"
       required
@@ -14,14 +14,14 @@
   </div>
   <div class="form-group">
     <label for="projectDescription" class="block mb-2 font-medium text-gray-700">Description</label>
-    <textarea id="projectDescription" formControlName="projectDescription" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 outline-none transition" rows="3" placeholder="Describe your project..."></textarea>
+    <textarea id="projectDescription" formControlName="projectDescription" class="input" rows="3" placeholder="Describe your project..."></textarea>
   </div>
   <div class="form-group">
     <label for="organization" class="block mb-2 font-medium text-gray-700">Organization</label>
-    <input id="organization" type="text" formControlName="organization" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 outline-none transition" placeholder="ELCA">
+    <input id="organization" type="text" formControlName="organization" class="input" placeholder="ELCA">
   </div>
   <div class="form-group">
     <label for="packageName" class="block mb-2 font-medium text-gray-700">Package Name</label>
-    <input id="packageName" type="text" formControlName="packageName" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 outline-none transition" placeholder="com.elca.yourproject">
+    <input id="packageName" type="text" formControlName="packageName" class="input" placeholder="com.elca.yourproject">
   </div>
 </form>

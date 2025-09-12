@@ -1,42 +1,55 @@
-<div class="review-container">
+<div class="review-container p-4 sm:p-6 lg:p-8">
   @if (wizardState.isLoading()) {
-    <div class="flex justify-center items-center p-8">
-      <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
+    <div class="flex flex-col items-center justify-center p-8">
+      <div class="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-primary mb-4"></div>
+      <p class="text-lg font-semibold text-gray-700">Generating your project, please wait...</p>
     </div>
   } @else if (wizardState.isGenerated()) {
-    <div class="text-center p-8">
+    <div class="text-center p-8 bg-green-50 rounded-lg shadow-md">
       <div class="text-6xl mb-4">🎉</div>
-      <h2 class="text-3xl font-bold mb-4">Project Generated!</h2>
-      <p class="text-lg mb-8">Your project is ready for download.</p>
-      <button class="py-3 px-8 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 inline-block no-underline bg-gradient-to-br from-purple-600 to-indigo-500 text-white transform hover:-translate-y-0.5 hover:shadow-lg" (click)="downloadProject()">
+      <h2 class="text-3xl font-bold mb-2 text-green-800">Project Generated!</h2>
+      <p class="text-lg mb-6 text-gray-600">Congratulations! Your project is ready for download.</p>
+      <button class="btn btn-primary" (click)="downloadProject()">
         Download Project
       </button>
     </div>
   } @else {
-    <h2 class="text-2xl font-semibold mb-6">Review Your Configuration</h2>
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Review Your Configuration</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-    <div class="review-section">
-      <h3 class="text-lg font-semibold mb-2">Project Information</h3>
-      <p><strong>Project Name:</strong> {{ wizardState.projectInfo().projectName }}</p>
-      <p><strong>Description:</strong> {{ wizardState.projectInfo().projectDescription }}</p>
-      <p><strong>Organization:</strong> {{ wizardState.projectInfo().organization }}</p>
-      <p><strong>Package Name:</strong> {{ wizardState.projectInfo().packageName }}</p>
-    </div>
+      <!-- Project Information Card -->
+      <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+        <h3 class="text-xl font-bold mb-4 text-primary border-b-2 border-primary-light pb-2">Project Information</h3>
+        <div class="space-y-3 text-gray-700">
+          <p><strong>Project Name:</strong> <span class="font-mono">{{ wizardState.projectInfo().projectName }}</span></p>
+          <p><strong>Description:</strong> <span class="font-mono">{{ wizardState.projectInfo().projectDescription }}</span></p>
+          <p><strong>Organization:</strong> <span class="font-mono">{{ wizardState.projectInfo().organization }}</span></p>
+          <p><strong>Package Name:</strong> <span class="font-mono">{{ wizardState.projectInfo().packageName }}</span></p>
+        </div>
+      </div>
 
-    <div class="review-section">
-      <h3 class="text-lg font-semibold mb-2">Technology Stack</h3>
-      <p><strong>Backend:</strong> {{ wizardState.techStack().backend }}</p>
-      <p><strong>Frontend:</strong> {{ wizardState.techStack().frontend }}</p>
-      <p><strong>Mobile:</strong> {{ wizardState.techStack().mobile }}</p>
-      <p><strong>Database:</strong> {{ wizardState.techStack().database }}</p>
-    </div>
+      <!-- Technology Stack Card -->
+      <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+        <h3 class="text-xl font-bold mb-4 text-secondary border-b-2 border-secondary-light pb-2">Technology Stack</h3>
+        <div class="space-y-3 text-gray-700">
+          <p><strong>Backend:</strong> <span class="font-mono">{{ wizardState.techStack().backend }}</span></p>
+          <p><strong>Frontend:</strong> <span class="font-mono">{{ wizardState.techStack().frontend }}</span></p>
+          <p><strong>Mobile:</strong> <span class="font-mono">{{ wizardState.techStack().mobile }}</span></p>
+          <p><strong>Database:</strong> <span class="font-mono">{{ wizardState.techStack().database }}</span></p>
+        </div>
+      </div>
 
-    <div class="review-section">
-      <h3 class="text-lg font-semibold mb-2">Infrastructure</h3>
-      <p><strong>CI/CD:</strong> {{ wizardState.infrastructure().ci_cd.join(', ') }}</p>
-      <p><strong>Containerization:</strong> {{ wizardState.infrastructure().containerization.join(', ') }}</p>
-      <p><strong>Quality:</strong> {{ wizardState.infrastructure().quality.join(', ') }}</p>
-      <p><strong>Security:</strong> {{ wizardState.infrastructure().security.join(', ') }}</p>
+      <!-- Infrastructure Card -->
+      <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 md:col-span-2 lg:col-span-1">
+        <h3 class="text-xl font-bold mb-4 text-accent border-b-2 border-accent-light pb-2">Infrastructure</h3>
+        <div class="space-y-3 text-gray-700">
+          <p><strong>CI/CD:</strong> <span class="font-mono">{{ wizardState.infrastructure().ci_cd.join(', ') }}</span></p>
+          <p><strong>Containerization:</strong> <span class="font-mono">{{ wizardState.infrastructure().containerization.join(', ') }}</span></p>
+          <p><strong>Quality:</strong> <span class="font-mono">{{ wizardState.infrastructure().quality.join(', ') }}</span></p>
+          <p><strong>Security:</strong> <span class="font-mono">{{ wizardState.infrastructure().security.join(', ') }}</span></p>
+        </div>
+      </div>
+
     </div>
   }
 </div>
