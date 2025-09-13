@@ -1,38 +1,45 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AppConstants } from '../../../models/constant/app-constant';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/language.service';
+import { AppConstants } from '../../../models/constant/app-constant';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
   templateUrl: './header.html',
-  styleUrl: './header.css',
+  styleUrls: ['./header.css'],
   imports: [CommonModule, RouterModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Header {
+export class Header implements OnInit {
   isMenuOpen = signal(false);
-  @ViewChild('menu') menu!: ElementRef;
+  isAuthenticated = signal(false);
 
+  private readonly oidcSecurityService = inject(OidcSecurityService);
   private readonly languageService = inject(LanguageService);
 
   constructor() {
     this.languageService.setDefaultLanguage(AppConstants.COMMON.DEFAULT_LANGUAGE);
   }
 
-  @HostListener('document:click', ['$event'])
-  clickOutside(event: Event) {
-    if (!this.isMenuOpen()) {
-      return;
-    }
-    if (!this.menu.nativeElement.contains(event.target)) {
-      this.isMenuOpen.set(false);
-    }
+  ngOnInit() {
+    this.oidcSecurityService.isAuthenticated$.subscribe(({ isAuthenticated }) => {
+      this.isAuthenticated.set(isAuthenticated);
+    });
   }
 
   toggleMenu() {
     this.isMenuOpen.update(value => !value);
+  }
+
+  login() {
+    this.oidcSecurityService.authorize();
+  }
+
+  logout() {
+    this.oidcSecurityService.logoff();
   }
 }

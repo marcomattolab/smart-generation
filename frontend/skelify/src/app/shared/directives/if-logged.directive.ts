@@ -1,37 +1,29 @@
-import { Directive, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Subject, distinctUntilChanged, takeUntil } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
+import { Directive, TemplateRef, ViewContainerRef, inject } from '@angular/core';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged } from 'rxjs';
 
-/**
- *  To place this for conditional rendering if user is Logged In --> *appIfLogged
- *  ex. <button *appIfLogged> click </button>
- */
 @Directive({
   selector: '[appIfLogged]',
+  standalone: true,
 })
-export class IfLoggedDirective implements OnInit, OnDestroy {
-  private destroy$ = new Subject();
+export class IfLoggedDirective {
+  private readonly oidcSecurityService = inject(OidcSecurityService);
+  private readonly template = inject(TemplateRef<unknown>);
+  private readonly view = inject(ViewContainerRef);
 
-  constructor(
-    private template: TemplateRef<unknown>,
-    private view: ViewContainerRef,
-    private authService: AuthService
-  ) {}
-
-  ngOnInit(): void {
-    this.authService.isAuthenticated$
-      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe(isLogged => {
-        if (isLogged) {
+  constructor() {
+    this.oidcSecurityService.isAuthenticated$
+      .pipe(
+        distinctUntilChanged(),
+        takeUntilDestroyed()
+      )
+      .subscribe(({ isAuthenticated }) => {
+        if (isAuthenticated) {
           this.view.createEmbeddedView(this.template);
         } else {
           this.view.clear();
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(false);
-    this.destroy$.complete();
   }
 }
