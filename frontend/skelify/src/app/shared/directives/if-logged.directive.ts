@@ -4,8 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged } from 'rxjs';
 
 @Directive({
-  selector: '[appIfLogged]',
-  standalone: true,
+  selector: '[appIfLogged]'
 })
 export class IfLoggedDirective {
   private readonly oidcSecurityService = inject(OidcSecurityService);

@@ -36,7 +36,7 @@
         <li
           class="bg-gray-800 p-4 rounded-lg flex justify-between items-center shadow-md transition hover:shadow-lg"
           [class.opacity-60]="product.id"
-          data-cy="product-item-{{product.id}}"
+          data-cy="product-item"
         >
           <!-- Normal View -->
           @if (!editing || editProductForm.value.id !== product.id) {
@@ -44,7 +44,7 @@
               <button
                 class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-600 text-sm"
                 (click)="toggleCompleted(product)"
-                data-cy="complete-product-button-{{product.id}}"
+                data-cy="complete-product-button"
               >
                 <i class="material-icons text-purple-400">
                   {{ product.id ? 'check' : '' }}
@@ -53,16 +53,16 @@
               <span
                 class="flex-1 text-white"
                 [class.line-through]="product.id"
-                data-cy="product-item-name-{{product.id}}"
+                data-cy="product-item-name"
               >
                 {{ product.name }}
               </span>
             </div>
             <div class="flex gap-3 text-gray-400">
-              <button (click)="startEditing(product)" class="hover:text-purple-400" data-cy="edit-product-button-{{product.id}}">
+              <button (click)="startEditing(product)" class="hover:text-purple-400" data-cy="edit-product-button">
                 <i class="material-icons">edit</i>
               </button>
-              <button (click)="deleteProduct(product.id)" class="hover:text-red-400" data-cy="delete-product-button-{{product.id}}">
+              <button (click)="deleteProduct(product.id)" class="hover:text-red-400" data-cy="delete-product-button">
                 <i class="material-icons">clear</i>
               </button>
             </div>
@@ -70,17 +70,17 @@
 
           <!-- Edit Mode -->
           @if (editing && editProductForm.value.id === product.id) {
-            <form [formGroup]="editProductForm" class="flex flex-1 gap-3" data-cy="edit-product-form-{{product.id}}">
+            <form [formGroup]="editProductForm" class="flex flex-1 gap-3" data-cy="edit-product-form">
               <input
                 type="text"
                 class="flex-1 px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 formControlName="name"
-                data-cy="edit-product-input-{{product.id}}"
+                data-cy="edit-product-input"
               />
-              <button (click)="updateProduct()" class="text-green-400 hover:text-green-500" data-cy="save-product-button-{{product.id}}">
+              <button (click)="updateProduct()" class="text-green-400 hover:text-green-500" data-cy="save-product-button">
                 <i class="material-icons">done</i>
               </button>
-              <button (click)="cancelEditing()" class="text-red-400 hover:text-red-500" data-cy="cancel-edit-product-button-{{product.id}}">
+              <button (click)="cancelEditing()" class="text-red-400 hover:text-red-500" data-cy="cancel-edit-product-button">
                 <i class="material-icons">clear</i>
               </button>
             </form>

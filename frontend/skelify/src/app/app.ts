@@ -11,8 +11,4 @@ import { LayoutHorizontal } from './core/layout/layout-horizontal/layout-horizon
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
-  constructor() {
-    // The OIDC authentication is now handled by the guards and the header component.
-    // This component can be simplified.
-  }
 }

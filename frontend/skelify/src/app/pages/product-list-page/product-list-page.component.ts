@@ -81,15 +81,14 @@ export class ProductListPage implements OnInit {
     });
   }
 
-  // This method has a bug and is not used in the template.
-  // I will comment it out for now.
-  // toggleCompleted(product: IProduct): void {
-  //   const updatedTodo = { ...product, completed: !product.id };
-  //   this.productService.updateProduct(updatedTodo).subscribe(result => {
-  //     const index = this.products.findIndex(t => t.id === result.id);
-  //     if (index > -1) this.products[index] = result;
-  //   });
-  // }
+  // This method has a bug
+  toggleCompleted(product: IProduct): void {
+     const updatedTodo = { ...product, completed: !product.id };
+     this.productService.updateProduct(updatedTodo).subscribe(result => {
+       const index = this.products.findIndex(t => t.id === result.id);
+       if (index > -1) this.products[index] = result;
+     });
+  }
 
   cancelEditing(): void {
     this.editing = false;

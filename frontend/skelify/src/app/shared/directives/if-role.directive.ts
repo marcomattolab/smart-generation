@@ -4,8 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged } from 'rxjs';
 
 @Directive({
-  selector: '[appIfRole]',
-  standalone: true,
+  selector: '[appIfRole]'
 })
 export class IfRoleDirective {
   @Input() appIfRole: string[] = [];
