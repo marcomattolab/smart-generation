@@ -67,7 +67,7 @@
             "main": "src/test.ts",
             "karmaConfig": "karma.conf.js",
             "polyfills": ["zone.js"],
-            "tsConfig": "src/tsconfig.spec.json",
+            "tsConfig": "tsconfig.spec.json",
             "scripts": [],
             "styles": [
               "src/styles.css"
