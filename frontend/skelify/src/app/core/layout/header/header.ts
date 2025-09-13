@@ -19,7 +19,7 @@ export class Header implements OnInit {
 
   private readonly oidcSecurityService = inject(OidcSecurityService);
   private readonly languageService = inject(LanguageService);
-
+  
   constructor() {
     this.languageService.setDefaultLanguage(AppConstants.COMMON.DEFAULT_LANGUAGE);
   }
