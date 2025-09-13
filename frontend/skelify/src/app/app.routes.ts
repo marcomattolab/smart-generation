@@ -1,18 +1,40 @@
 import { Routes } from '@angular/router';
-import { WizardPage } from './pages/wizard-page/wizard-page';
-import { UnauthorizedPage } from './pages/unauthorized-page/unauthorized-page';
-import { LandingPage } from './pages/landing-page/landing-page';
-import { TodoListPage } from './pages/todo-list-page/todo-list-page';
-import { AboutPage } from './pages/about-page/about-page';
-import { authGuard } from './shared/guards/auth.guard';
-import { ProductListPage } from './pages/product-list-page/product-list-page.component';
+import { autoLoginPartialRoutesGuard } from 'angular-auth-oidc-client';
+import { RoleGuard } from './shared/guards/role.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'about', component: AboutPage },
-  { path: 'home', component: LandingPage },
-  { path: 'todo', component: TodoListPage, canActivate: [authGuard] },
-  { path: 'product', component: ProductListPage, canActivate: [authGuard] },
-  { path: 'wizard', component: WizardPage, canActivate: [authGuard] },
-  { path: 'unauthorized', component: UnauthorizedPage }
+  {
+    path: 'home',
+    loadComponent: () => import('./pages/landing-page/landing-page').then(m => m.LandingPage)
+  },
+  {
+    path: 'about',
+    loadComponent: () => import('./pages/about-page/about-page').then(m => m.AboutPage)
+  },
+  {
+    path: 'todo',
+    loadComponent: () => import('./pages/todo-list-page/todo-list-page').then(m => m.TodoListPage),
+    canActivate: [autoLoginPartialRoutesGuard]
+  },
+  {
+    path: 'product',
+    loadComponent: () => import('./pages/product-list-page/product-list-page.component').then(m => m.ProductListPage),
+    canActivate: [autoLoginPartialRoutesGuard]
+  },
+  {
+    path: 'wizard',
+    loadComponent: () => import('./pages/wizard-page/wizard-page').then(m => m.WizardPage),
+    canActivate: [autoLoginPartialRoutesGuard]
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile-page/profile-page').then(m => m.ProfilePage),
+    canActivate: [autoLoginPartialRoutesGuard, RoleGuard],
+    data: { roles: ['user'] }
+  },
+  {
+    path: 'unauthorized',
+    loadComponent: () => import('./pages/unauthorized-page/unauthorized-page').then(m => m.UnauthorizedPage)
+  }
 ];

@@ -6,7 +6,7 @@ import { IProduct } from '../../models/page/product.model';
 import { ProductService } from '../../services/product.service';
 
 @Component({
-  selector: 'app-todo-list-page',
+  selector: 'app-product-list-page',
   templateUrl: './product-list-page.component.html',
   imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -80,12 +80,13 @@ export class ProductListPage implements OnInit {
     });
   }
 
+  // This method has a bug
   toggleCompleted(product: IProduct): void {
-    const updatedTodo = { ...product, completed: !product.id };
-    this.productService.updateProduct(updatedTodo).subscribe(result => {
-      const index = this.products.findIndex(t => t.id === result.id);
-      if (index > -1) this.products[index] = result;
-    });
+     const updatedTodo = { ...product, completed: !product.id };
+     this.productService.updateProduct(updatedTodo).subscribe(result => {
+       const index = this.products.findIndex(t => t.id === result.id);
+       if (index > -1) this.products[index] = result;
+     });
   }
 
   cancelEditing(): void {
