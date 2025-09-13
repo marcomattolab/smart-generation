@@ -33,6 +33,10 @@ export class Header implements OnInit {
   toggleMenu() {
     this.isMenuOpen.update(value => !value);
   }
+  
+  closeMenu() {
+    this.isMenuOpen.set(false);
+  }
 
   login() {
     this.oidcSecurityService.authorize();
@@ -41,4 +45,5 @@ export class Header implements OnInit {
   logout() {
     this.oidcSecurityService.logoff();
   }
+
 }

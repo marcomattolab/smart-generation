@@ -14,15 +14,15 @@
 
     @if (isMenuOpen()) {
       <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Home</a>
-        <a [routerLink]="['/wizard']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Wzard</a>
-        <a [routerLink]="['/product']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Product</a>
-        <a [routerLink]="['/todo']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Todo</a>
+        <a (click)="closeMenu()" href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Home</a>
+        <a (click)="closeMenu()" [routerLink]="['/wizard']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Wzard</a>
+        <a (click)="closeMenu()" [routerLink]="['/product']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Product</a>
+        <a (click)="closeMenu()" [routerLink]="['/todo']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Todo</a>
         @if(isAuthenticated()){
-          <a [routerLink]="['/profile']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+          <a (click)="closeMenu()" [routerLink]="['/profile']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
         }
-        <a [routerLink]="['/unauthorized']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Unauthorized</a>
-        <a [routerLink]="['/about']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">About</a>
+        <a (click)="closeMenu()" [routerLink]="['/unauthorized']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Unauthorized</a>
+        <a (click)="closeMenu()" [routerLink]="['/about']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">About</a>
       </div>
     }
 
