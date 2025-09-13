@@ -1,40 +1,59 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  inject,
+  OnInit,
+  signal,
+  ViewChild
+} from '@angular/core';
 import { RouterOutlet, RouterLink } from '@angular/router';
-import { AuthService } from './services/auth.service';
+// => import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
+import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
+import { LayoutHorizontal } from './core/layout/layout-horizontal/layout-horizontal.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  imports: [RouterOutlet, CommonModule, RouterLink],
+  imports: [RouterOutlet, CommonModule, LayoutHorizontal],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class App {
-  authService = inject(AuthService);
-  isAuthenticated$ = this.authService.isAuthenticated$;
-  isMenuOpen = signal(false);
+export class App implements OnInit {
+  private readonly oidcSecurityService = inject(OidcSecurityService);
+  // authService = inject(AuthService); //FIXME => DEVELOP THIS SERVICE
+  // isAuthenticated$ = this.authService.isAuthenticated$;
 
-  @ViewChild('menu') menu!: ElementRef;
 
-  @HostListener('document:click', ['$event'])
-  clickOutside(event: Event) {
-    if (!this.isMenuOpen()) {
-      return;
-    }
-    if (!this.menu.nativeElement.contains(event.target)) {
-      this.isMenuOpen.set(false);
-    }
+  ngOnInit() {
+    this.oidcSecurityService
+      .checkAuth()
+      .subscribe((loginResponse: LoginResponse) => {
+        const { isAuthenticated, userData, accessToken, idToken, configId } =
+          loginResponse;
+          console.log("### isAuthenticated "+isAuthenticated + " accessToken: "+accessToken);
+      });
   }
 
   login() {
-    this.authService.login();
+    this.oidcSecurityService.authorize();
   }
 
   logout() {
-    this.authService.logout();
+    this.oidcSecurityService
+      .logoff()
+      .subscribe((result) => console.log(result));
   }
 
-  toggleMenu() {
-    this.isMenuOpen.update(value => !value);
-  }
+  /**
+   *   login() {
+   *     this.authService.login();
+   *   }
+   *
+   *   logout() {
+   *     this.authService.logout();
+   *   }
+   */
+
 }

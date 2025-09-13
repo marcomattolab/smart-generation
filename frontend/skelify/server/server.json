@@ -1,0 +1,41 @@
+{
+  "todo": [
+    {
+      "id": "1",
+      "title": "Introduction to Space Exploration",
+      "completed": true,
+      "createdAt": "01.06.2025"
+    },
+    {
+      "id": "2",
+      "title": "The Solar System",
+      "completed": true,
+      "createdAt": "01.07.2025"
+    }
+  ],
+  "product": [
+    {
+      "id": "1",
+      "name": "Apple iPad",
+      "price": 100
+    },
+    {
+      "id": "2",
+      "name": "Commodore 64",
+      "price": 200
+    },
+    {
+      "id": "3",
+      "name": "Microsoft PC",
+      "price": 300
+    },
+    {
+      "id": 267,
+      "price": 267
+    },
+    {
+      "id": 30,
+      "price": 30
+    }
+  ]
+}

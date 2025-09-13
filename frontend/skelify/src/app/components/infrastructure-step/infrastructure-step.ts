@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
-import { WizardState } from '../../models/wizard-state';
+import { WizardStateModel } from '../../models/page/wizard-state.model';
 
 @Component({
   selector: 'app-infrastructure-step',
@@ -40,11 +40,11 @@ export class InfrastructureStep {
     { id: 'ssl', label: 'SSL/TLS Configuration' }
   ];
 
-  isInfrastructureSelected(key: keyof WizardState['infrastructure'], value: string): boolean {
+  isInfrastructureSelected(key: keyof WizardStateModel['infrastructure'], value: string): boolean {
     return this.wizardState.infrastructure()[key].includes(value);
   }
 
-  updateInfrastructure(key: keyof WizardState['infrastructure'], value: string) {
+  updateInfrastructure(key: keyof WizardStateModel['infrastructure'], value: string) {
     this.wizardState.updateInfrastructure(key, value);
   }
 }

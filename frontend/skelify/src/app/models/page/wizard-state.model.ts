@@ -1,5 +1,5 @@
 
-export interface WizardState {
+export interface WizardStateModel {
   currentStep: number;
   projectInfo: {
     projectName: string;

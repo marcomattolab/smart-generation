@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-/* open-sans-regular - latin */
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -17,4 +16,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply py-2 px-4 rounded-lg font-semibold cursor-pointer transition-all duration-300 inline-block no-underline;
+  }
+  .btn-primary {
+    @apply bg-primary text-white;
+  }
+  .btn-primary:hover {
+    @apply bg-primary-dark;
+  }
+  .btn-secondary {
+    @apply bg-secondary text-white;
+  }
+  .btn-secondary:hover {
+    @apply bg-secondary-dark;
+  }
+  .input {
+    @apply w-full p-3 border-2 border-neutral rounded-lg focus:border-primary outline-none transition;
+  }
+}
 

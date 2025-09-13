@@ -1,8 +1,8 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { WizardState } from "../models/wizard-state";
+import { WizardStateModel } from "../models/page/wizard-state.model";
 import { AppConstants } from "../models/constant/app-constant";
 
-const initialState: WizardState = {
+const initialState: WizardStateModel = {
   currentStep: 1,
   projectInfo: {
     projectName: '',
@@ -63,15 +63,15 @@ export class WizardStateService {
     }
   }
 
-  updateProjectInfo(projectInfo: Partial<WizardState['projectInfo']>) {
+  updateProjectInfo(projectInfo: Partial<WizardStateModel['projectInfo']>) {
     this._state.update(state => ({ ...state, projectInfo: { ...state.projectInfo, ...projectInfo } }));
   }
 
-  updateTechStack(techStack: Partial<WizardState['techStack']>) {
+  updateTechStack(techStack: Partial<WizardStateModel['techStack']>) {
     this._state.update(state => ({ ...state, techStack: { ...state.techStack, ...techStack } }));
   }
 
-  updateInfrastructure(key: keyof WizardState['infrastructure'], value: string) {
+  updateInfrastructure(key: keyof WizardStateModel['infrastructure'], value: string) {
     this._state.update(state => {
       const currentValues = state.infrastructure[key];
       const newValues = currentValues.includes(value)

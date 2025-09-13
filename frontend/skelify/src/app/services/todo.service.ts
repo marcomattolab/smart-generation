@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppConfigService } from './app-config.service';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Todo } from '../models/todo';
+import { ITodo } from '../models/page/todo.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,21 +14,21 @@ export class TodoService {
 
   private readonly baseUrl = this.appConfigService.getConfig().baseUrl + '/api/todos';
 
-  getTodos(): Observable<Todo[]> {
+  getTodos(): Observable<ITodo[]> {
     //=> console.log("baseUrl: "+this.baseUrl);
-    return this.http.get<Todo[]>(this.baseUrl).pipe(
+    return this.http.get<ITodo[]>(this.baseUrl).pipe(
       catchError(error => this.handleError(error))
     );
   }
 
-  createTodo(todoData: Todo): Observable<Todo> {
-    return this.http.post<Todo>(this.baseUrl, todoData).pipe(
+  createTodo(todoData: ITodo): Observable<ITodo> {
+    return this.http.post<ITodo>(this.baseUrl, todoData).pipe(
       catchError(error => this.handleError(error))
     );
   }
 
-  updateTodo(todoData: Todo): Observable<Todo> {
-    return this.http.put<Todo>(`${this.baseUrl}/${todoData.id}`, todoData).pipe(
+  updateTodo(todoData: ITodo): Observable<ITodo> {
+    return this.http.put<ITodo>(`${this.baseUrl}/${todoData.id}`, todoData).pipe(
       catchError(error => this.handleError(error))
     );
   }

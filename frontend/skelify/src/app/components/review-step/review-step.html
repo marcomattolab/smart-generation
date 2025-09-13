@@ -6,7 +6,7 @@
     </div>
   } @else if (wizardState.isGenerated()) {
     <div class="text-center p-8 bg-green-50 rounded-lg shadow-md">
-      <div class="text-6xl mb-4">🎉</div>
+      <div class="text-6xl mb-4"><!-- TODO Add an SVG ICON --></div>
       <h2 class="text-3xl font-bold mb-2 text-green-800">Project Generated!</h2>
       <p class="text-lg mb-6 text-gray-600">Congratulations! Your project is ready for download.</p>
       <button class="py-3 px-8 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 inline-block no-underline bg-gradient-to-br from-green-500 to-green-600 text-white transform hover:-translate-y-0.5 hover:shadow-lg" (click)="downloadProject()">
@@ -21,10 +21,10 @@
       <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
         <h3 class="text-xl font-bold mb-4 text-purple-700 border-b-2 border-purple-200 pb-2">Project Information</h3>
         <div class="space-y-3 text-gray-700">
-          <p><strong>Project Name:</strong> <span class="font-mono">{{ wizardState.projectInfo().projectName }}</span></p>
-          <p><strong>Description:</strong> <span class="font-mono">{{ wizardState.projectInfo().projectDescription }}</span></p>
-          <p><strong>Organization:</strong> <span class="font-mono">{{ wizardState.projectInfo().organization }}</span></p>
-          <p><strong>Package Name:</strong> <span class="font-mono">{{ wizardState.projectInfo().packageName }}</span></p>
+          <p><strong>Project Name: </strong> <span class="font-mono">{{ wizardState.projectInfo().projectName }}</span></p>
+          <p><strong>Description: </strong> <span class="font-mono">{{ wizardState.projectInfo().projectDescription }}</span></p>
+          <p><strong>Organization: </strong> <span class="font-mono">{{ wizardState.projectInfo().organization }}</span></p>
+          <p><strong>Package Name: </strong> <span class="font-mono">{{ wizardState.projectInfo().packageName }}</span></p>
         </div>
       </div>
 
@@ -32,10 +32,10 @@
       <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
         <h3 class="text-xl font-bold mb-4 text-indigo-700 border-b-2 border-indigo-200 pb-2">Technology Stack</h3>
         <div class="space-y-3 text-gray-700">
-          <p><strong>Backend:</strong> <span class="font-mono">{{ wizardState.techStack().backend }}</span></p>
-          <p><strong>Frontend:</strong> <span class="font-mono">{{ wizardState.techStack().frontend }}</span></p>
-          <p><strong>Mobile:</strong> <span class="font-mono">{{ wizardState.techStack().mobile }}</span></p>
-          <p><strong>Database:</strong> <span class="font-mono">{{ wizardState.techStack().database }}</span></p>
+          <p><strong>Backend: </strong> <span class="font-mono">{{ wizardState.techStack().backend }}</span></p>
+          <p><strong>Frontend: </strong> <span class="font-mono">{{ wizardState.techStack().frontend }}</span></p>
+          <p><strong>Mobile: </strong> <span class="font-mono">{{ wizardState.techStack().mobile }}</span></p>
+          <p><strong>Database: </strong> <span class="font-mono">{{ wizardState.techStack().database }}</span></p>
         </div>
       </div>
 
@@ -43,10 +43,10 @@
       <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 md:col-span-2 lg:col-span-1">
         <h3 class="text-xl font-bold mb-4 text-teal-700 border-b-2 border-teal-200 pb-2">Infrastructure</h3>
         <div class="space-y-3 text-gray-700">
-          <p><strong>CI/CD:</strong> <span class="font-mono">{{ wizardState.infrastructure().ci_cd.join(', ') }}</span></p>
-          <p><strong>Containerization:</strong> <span class="font-mono">{{ wizardState.infrastructure().containerization.join(', ') }}</span></p>
-          <p><strong>Quality:</strong> <span class="font-mono">{{ wizardState.infrastructure().quality.join(', ') }}</span></p>
-          <p><strong>Security:</strong> <span class="font-mono">{{ wizardState.infrastructure().security.join(', ') }}</span></p>
+          <p><strong>CI/CD: </strong> <span class="font-mono">{{ wizardState.infrastructure().ci_cd.join(', ') }}</span></p>
+          <p><strong>Containerization: </strong> <span class="font-mono">{{ wizardState.infrastructure().containerization.join(', ') }}</span></p>
+          <p><strong>Quality: </strong> <span class="font-mono">{{ wizardState.infrastructure().quality.join(', ') }}</span></p>
+          <p><strong>Security: </strong> <span class="font-mono">{{ wizardState.infrastructure().security.join(', ') }}</span></p>
         </div>
       </div>
 

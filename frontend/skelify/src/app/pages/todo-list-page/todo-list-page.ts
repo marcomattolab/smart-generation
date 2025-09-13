@@ -1,30 +1,32 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TodoService } from '../../services/todo.service';
-import { Todo } from '../../models/todo';
+import { ITodo } from '../../models/page/todo.model';
+import {TranslateModule} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-todo-list-page',
   templateUrl: './todo-list-page.html',
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TodoListPage implements OnInit {
   private readonly todoService = inject(TodoService);
   private readonly fb = inject(FormBuilder);
 
-  todos: Todo[] = [];
+  todos: ITodo[] = [];
   editing = false;
 
-  // define reactive forms
+  // Define reactive forms
   newTodoForm!: FormGroup;
   editTodoForm!: FormGroup;
 
   ngOnInit(): void {
     this.getTodos();
 
-    this.newTodoForm = this.fb.group({
+    this.newTodoForm =
+    this.fb.group({
       title: ['', Validators.required]
     });
 
@@ -43,7 +45,7 @@ export class TodoListPage implements OnInit {
   createTodo(): void {
     if (this.newTodoForm.invalid) return;
 
-    const newTodo: Todo = {
+    const newTodo: ITodo = {
       id: '',
       title: this.newTodoForm.value.title,
       completed: false,
@@ -62,7 +64,7 @@ export class TodoListPage implements OnInit {
     });
   }
 
-  startEditing(todo: Todo): void {
+  startEditing(todo: ITodo): void {
     this.editing = true;
     this.editTodoForm.setValue({ ...todo });
   }
@@ -70,7 +72,7 @@ export class TodoListPage implements OnInit {
   updateTodo(): void {
     if (this.editTodoForm.invalid) return;
 
-    const updatedTodo: Todo = this.editTodoForm.value;
+    const updatedTodo: ITodo = this.editTodoForm.value;
     this.todoService.updateTodo(updatedTodo).subscribe(result => {
       const index = this.todos.findIndex(t => t.id === result.id);
       if (index > -1) this.todos[index] = result;
@@ -78,7 +80,7 @@ export class TodoListPage implements OnInit {
     });
   }
 
-  toggleCompleted(todo: Todo): void {
+  toggleCompleted(todo: ITodo): void {
     const updatedTodo = { ...todo, completed: !todo.completed };
     this.todoService.updateTodo(updatedTodo).subscribe(result => {
       const index = this.todos.findIndex(t => t.id === result.id);

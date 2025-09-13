@@ -1,4 +1,5 @@
 <div class="p-10">
+
   <!--
   <div class="text-center mb-8">
     <h1 class="text-4xl font-bold mb-2">Skelify - Smart Skeleton Generator</h1>
@@ -26,12 +27,12 @@
   </div>
 
   <div class="flex justify-between items-center">
-    <button class="py-3 px-8 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 inline-block no-underline bg-gray-100 text-gray-600 border-2 border-gray-200 hover:bg-gray-200 hover:border-gray-300" [class.hidden]="wizardState.currentStep() === 1" (click)="previousStep()">Previous</button>
+    <button class="btn btn-secondary" [class.hidden]="wizardState.currentStep() === 1" (click)="previousStep()">Previous</button>
     <div class="flex-grow"></div>
     <button
-      class="py-3 px-8 rounded-lg text-base font-semibold cursor-pointer transition-all duration-300 inline-block no-underline bg-gradient-to-br from-purple-600 to-indigo-500 text-white transform hover:-translate-y-0.5 hover:shadow-lg"
+      class="btn btn-primary"
       (click)="handleNextStep()"
-      [disabled]="wizardState.currentStep() === 1 && !isProjectInfoFormValid()"
+      [disabled]="(wizardState.currentStep() === 1 && !isProjectInfoFormValid()) || wizardState.isLoading()"
     >
       @if (wizardState.isLastStep()) {
         <span>Generate</span>

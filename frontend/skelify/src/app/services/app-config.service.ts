@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class AppConfigService {
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   private appConfig: any;
 

@@ -1,0 +1,59 @@
+{
+  "global": {
+    "appVersion": "1.0.0",
+    "appName": "Skelify"
+  },
+  "common": {
+    "required": "Obbligatorio",
+    "notFound": "Nessun elemento Trovato!",
+    "footer": "&copy; 2025 Skelify. Diritti riservati."
+  },
+  "buttons": {
+    "buttonNext": "Avanti",
+    "buttonBack": "Indietro",
+    "buttonAdd": "Aggiungi",
+    "buttonCancel": "Annulla",
+    "buttonClose": "Chiudi",
+    "buttonSave": "Salva",
+    "buttonEdit": "Modifica",
+    "buttonDelete": "Elimina",
+    "buttonSend": "Invia",
+    "buttonConfirm": "Conferma",
+    "buttonLogin": "Accedi"
+  },
+  "languages": {
+    "en": "Inglese",
+    "it": "Italiano",
+    "fr": "Francese",
+    "es": "Spagnolo",
+    "de": "Tedesco"
+  },
+  "menu": {
+    "Home": "Home",
+    "Login": "Accedi",
+    "Logout": "Esci"
+  },
+  "product":{
+    "title": "Prodotto",
+    "id": "Id",
+    "name": "Nome",
+    "price": "Prezzo",
+    "placeholder": "Inserisci un prodotto e premi enter..."
+  },
+  "todo": {
+    "id": "Id",
+    "title": "Titolo",
+    "completed": "Completato",
+    "createdAt": "Creato",
+    "placeholder": "Scrivi e premi enter..."
+  },
+  "loginPage": {
+    "title": "Pagina di Accesso",
+    "username": "Username",
+    "password": "Password"
+  },
+  "errorPage": {
+    "notFound": "Pagina non trovata",
+    "message": "Qualcosa è andato storto!"
+  }
+}

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
-import { DownloadModal } from '../../modals/download-modal/download-modal';
+import { DownloadModal } from '../download-modal/download-modal';
 
 @Component({
   selector: 'app-review-step',
