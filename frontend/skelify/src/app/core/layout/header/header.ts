@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
   templateUrl: './header.html',
   styleUrls: ['./header.css'],
   imports: [CommonModule, RouterModule, TranslateModule],
