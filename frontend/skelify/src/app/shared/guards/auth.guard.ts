@@ -15,7 +15,7 @@ export const authGuard: CanActivateFn = () => {
 
       // TODO => Call Login in the service
       oidcSecurityService.authorize();
-      return true;
+      return false;
       //=> return router.parseUrl('/unauthorized');
     })
   );
