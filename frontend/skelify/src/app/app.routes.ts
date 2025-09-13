@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { autoLoginPartialRoutesGuard } from 'angular-auth-oidc-client';
+import { RoleGuard } from './shared/guards/role.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -29,7 +30,8 @@ export const routes: Routes = [
   {
     path: 'profile',
     loadComponent: () => import('./pages/profile-page/profile-page').then(m => m.ProfilePage),
-    canActivate: [autoLoginPartialRoutesGuard]
+    canActivate: [autoLoginPartialRoutesGuard, RoleGuard],
+    data: { roles: ['user'] }
   },
   {
     path: 'unauthorized',
