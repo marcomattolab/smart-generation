@@ -1,14 +1,16 @@
 <div class="bg-gray-900 text-white min-h-screen py-12 px-6">
   <div class="container mx-auto max-w-3xl">
     <!-- Page Title -->
-    <h1 class="text-4xl font-extrabold mb-8 text-center" data-cy="todo-title">
+    <h1 id="page-title" class="text-4xl font-extrabold mb-8 text-center" data-cy="todo-title">
       {{ 'todo.title' | translate }}
     </h1>
 
     <!-- Reactive Form -->
     <div class="mb-12">
       <form [formGroup]="newTodoForm" (ngSubmit)="createTodo()" class="flex gap-3" data-cy="add-todo-form">
+        <label for="new-todo-title" class="sr-only">{{ 'todo.placeholder' | translate }}</label>
         <input
+          id="new-todo-title"
           type="text"
           class="input"
           [placeholder]="'todo.placeholder' | translate"
@@ -31,7 +33,7 @@
     </div>
 
     <!-- List of items -->
-    <ul class="space-y-4" data-cy="todo-list">
+    <ul class="space-y-4" data-cy="todo-list" role="region" aria-labelledby="page-title">
       @for (todo of todos; track todo.id) {
         <li
           class="bg-gray-800 p-4 rounded-lg flex justify-between items-center shadow-md transition hover:shadow-lg"
@@ -44,6 +46,8 @@
               <button
                 class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-600 text-sm"
                 (click)="toggleCompleted(todo)"
+                [attr.aria-pressed]="todo.completed ? 'true' : 'false'"
+                [attr.aria-label]="(todo.completed ? 'Mark as not complete' : 'Mark as complete') + ' ' + todo.title"
                 data-cy="complete-todo-button"
               >
                 <i class="material-icons text-purple-400">
@@ -59,10 +63,10 @@
               </span>
             </div>
             <div class="flex gap-3 text-gray-400">
-              <button (click)="startEditing(todo)" class="hover:text-purple-400" data-cy="edit-todo-button">
+              <button (click)="startEditing(todo)" class="hover:text-purple-400" [attr.aria-label]="'Edit ' + todo.title" data-cy="edit-todo-button">
                 <i class="material-icons">edit</i>
               </button>
-              <button (click)="deleteTodo(todo.id)" class="hover:text-red-400" data-cy="delete-todo-button">
+              <button (click)="deleteTodo(todo.id)" class="hover:text-red-400" [attr.aria-label]="'Delete ' + todo.title" data-cy="delete-todo-button">
                 <i class="material-icons">clear</i>
               </button>
             </div>
@@ -71,16 +75,18 @@
           <!-- Edit Mode -->
           @if (editing && editTodoForm.value.id === todo.id) {
             <form [formGroup]="editTodoForm" class="flex flex-1 gap-3" data-cy="edit-todo-form">
+              <label [for]="'edit-todo-title-' + todo.id" class="sr-only">{{ 'todo.editPlaceholder' | translate }}</label>
               <input
+                [id]="'edit-todo-title-' + todo.id"
                 type="text"
                 class="input"
                 formControlName="title"
                 data-cy="edit-todo-input"
               />
-              <button (click)="updateTodo()" class="text-green-400 hover:text-green-500" data-cy="save-todo-button">
+              <button (click)="updateTodo()" class="text-green-400 hover:text-green-500" [attr.aria-label]="'Save changes for ' + todo.title" data-cy="save-todo-button">
                 <i class="material-icons">done</i>
               </button>
-              <button (click)="cancelEditing()" class="text-red-400 hover:text-red-500" data-cy="cancel-edit-todo-button">
+              <button (click)="cancelEditing()" class="text-red-400 hover:text-red-500" [attr.aria-label]="'Cancel editing ' + todo.title" data-cy="cancel-edit-todo-button">
                 <i class="material-icons">clear</i>
               </button>
             </form>

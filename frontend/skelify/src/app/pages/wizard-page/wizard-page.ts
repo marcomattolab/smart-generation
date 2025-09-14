@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
 import { ProgressBar } from '../../components/progress-bar/progress-bar';
@@ -24,6 +24,15 @@ import { ReviewStep } from '../../components/review-step/review-step';
 export class WizardPage {
   wizardState = inject(WizardStateService);
   isProjectInfoFormValid = signal(false);
+
+  @HostListener('document:keydown.enter', ['$event'])
+  onEnterKey(event: KeyboardEvent) {
+    event.preventDefault();
+    const isButtonDisabled = (this.wizardState.currentStep() === 1 && !this.isProjectInfoFormValid()) || this.wizardState.isLoading();
+    if (!isButtonDisabled) {
+      this.handleNextStep();
+    }
+  }
 
   handleNextStep() {
     if (this.wizardState.isLastStep()) {
