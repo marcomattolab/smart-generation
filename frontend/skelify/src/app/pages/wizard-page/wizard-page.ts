@@ -26,20 +26,31 @@ export class WizardPage {
   isProjectInfoFormValid = signal(false);
 
 
-@HostListener('document:keydown.enter', ['$event'])
-onEnterKey(event: Event) {
-  const keyboardEvent = event as KeyboardEvent;
-  keyboardEvent.preventDefault();
+  @HostListener('document:keydown.enter', ['$event'])
+  onEnterKey(event: Event) {
+    const keyboardEvent = event as KeyboardEvent;
+    keyboardEvent.preventDefault();
 
-  const isButtonDisabled =
-    (this.wizardState.currentStep() === 1 && !this.isProjectInfoFormValid()) ||
-    this.wizardState.isLoading();
+    const isButtonDisabled =
+      (this.wizardState.currentStep() === 1 && !this.isProjectInfoFormValid()) ||
+      this.wizardState.isLoading();
 
-  if (!isButtonDisabled) {
-    this.handleNextStep();
+    if (!isButtonDisabled) {
+      this.handleNextStep();
+    }
   }
-}
 
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeKey(event: Event) {
+    const keyboardEvent = event as KeyboardEvent;
+    keyboardEvent.preventDefault();
+
+    const isFirstStep = this.wizardState.currentStep() === 1;
+
+    if (!isFirstStep && !this.wizardState.isLoading()) {
+      this.previousStep();
+    }
+  }
 
   handleNextStep() {
     if (this.wizardState.isLastStep()) {
