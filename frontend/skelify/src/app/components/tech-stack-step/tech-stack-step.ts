@@ -20,7 +20,7 @@ export class TechStackStep {
 
   frontendTechs = [
     { id: 'react', name: 'React', description: 'Modern web UI library', iconPath: 'assets/images/wizard/react.svg' },
-    { id: 'angular', name: 'Angular', description: 'Full-featured framework', iconPath: 'assets/images/wizard/angular.svg' },
+    { id: 'angular', name: 'Angular', description: 'Full-featured framework', iconPath: 'assets/images/wizard/angular.png' },
     { id: 'vue', name: 'Vue.js', description: 'Progressive framework', iconPath: 'assets/images/wizard/vue.svg' }
   ];
 
