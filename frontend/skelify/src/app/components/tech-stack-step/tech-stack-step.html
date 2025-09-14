@@ -3,9 +3,9 @@
 <div class="space-y-8">
   <div>
     <label class="block mb-4 font-medium text-gray-700">Backend Framework</label>
-    <div class="tech-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="tech-grid">
       @for (tech of backendTechs; track tech.id) {
-        <div class="tech-card border-2 rounded-lg p-6 text-center cursor-pointer transition-all duration-300"
+        <div class="tech-card"
              [class.border-purple-500]="wizardState.techStack().backend === tech.id"
              [class.bg-purple-50]="wizardState.techStack().backend === tech.id"
              [class.shadow-lg]="wizardState.techStack().backend === tech.id"
@@ -20,9 +20,9 @@
 
   <div>
     <label class="block mb-4 font-medium text-gray-700">Frontend Framework</label>
-    <div class="tech-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="tech-grid">
       @for (tech of frontendTechs; track tech.id) {
-        <div class="tech-card border-2 rounded-lg p-6 text-center cursor-pointer transition-all duration-300"
+        <div class="tech-card"
              [class.border-purple-500]="wizardState.techStack().frontend === tech.id"
              [class.bg-purple-50]="wizardState.techStack().frontend === tech.id"
              [class.shadow-lg]="wizardState.techStack().frontend === tech.id"
@@ -37,9 +37,9 @@
 
   <div>
     <label class="block mb-4 font-medium text-gray-700">Mobile Development</label>
-    <div class="tech-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="tech-grid">
       @for (tech of mobileTechs; track tech.id) {
-        <div class="tech-card border-2 rounded-lg p-6 text-center cursor-pointer transition-all duration-300"
+        <div class="tech-card"
              [class.border-purple-500]="wizardState.techStack().mobile === tech.id"
              [class.bg-purple-50]="wizardState.techStack().mobile === tech.id"
              [class.shadow-lg]="wizardState.techStack().mobile === tech.id"
@@ -54,8 +54,7 @@
 
   <div class="form-group">
     <label for="database" class="block mb-2 font-medium text-gray-700">Database</label>
-    <select id="database" class="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 outline-none transition"
-            (change)="onDatabaseChange($event)">
+    <select id="database" class="input" (change)="onDatabaseChange($event)">
       <option value="">Select Database</option>
       @for (db of databases; track db.value) {
         <option [value]="db.value" [selected]="wizardState.techStack().database === db.value">{{ db.name }}</option>
