@@ -13,6 +13,7 @@ import { WizardStateModel } from '../../models/page/wizard-state.model';
 export class InfrastructureStep {
   wizardState = inject(WizardStateService);
 
+  // TODO => Change this for tuning of Infrastructure Step
   ciCdOptions = [
     { id: 'jenkins', label: 'Jenkins Pipeline' },
     { id: 'gitlab-ci', label: 'GitLab CI/CD' },
