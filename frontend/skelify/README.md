@@ -61,22 +61,17 @@ For more information on using the Angular CLI, including detailed command refere
 
 ## TODO LIST
 - Refactoring of Tailwind => use Theme and use variable to change colors easily
-- Add I18N
+- Add I18N => Done
 - Add Material | PrimeNg | Bootstrap
 - Add OIDC library and logic 
-- Add common utils and directives
+- Add common utils and directives => Done
 - Add Libraries:
-    - ngx-markdown – Parsing Markdown.
-    - ngx-quill – Editor WYSIWYG.
-    - ngx-editor – Editor testuale avanzato.
-    - ngx-toastr – Notifiche toast
-    - @angular/pwa - Progressive Web App
-    - ngx-formly – Form dinamici basati su JSON.
-    - ngx-validate – Validazioni personalizzate e internazionali.
-    - @ngrx/store – Stato centralizzato tipo Redux.
-    - @ngrx/effects – Gestione effetti collaterali.
-    - @ngrx/entity – Gestione collezioni di dati.
+    - ngx-markdown – Parsing Markdown. => Done
+    - ngx-quill – Editor WYSIWYG. => Done
+    - ngx-editor – Editor testuale avanzato.    => Done
+    - ngx-toastr – Notifiche toast  => Done
+    - @angular/pwa - Progressive Web App => Done
     - Akita – Alternativa a NgRx, più semplice per stati complessi.
     - @angular/cdk – Component Dev Kit, per componenti custom.
-    - ng2-file-upload – Upload file drag & drop.
-    - ngx-charts – Grafici reattivi basati su D3.
+    - ng2-file-upload – Upload file drag & drop. => Done
+    - ngx-charts – Grafici reattivi basati su D3. => Done
