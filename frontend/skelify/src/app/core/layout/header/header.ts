@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, Component, signal, inject, OnInit } from '@ang
 import { RouterModule } from '@angular/router';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { TranslateModule } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/language.service';
-import { AppConstants } from '../../../models/constant/app-constant';
 import { CommonModule } from '@angular/common';
 
 @Component({
