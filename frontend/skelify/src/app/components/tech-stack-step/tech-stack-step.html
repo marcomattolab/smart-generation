@@ -10,7 +10,9 @@
              [class.bg-purple-50]="wizardState.techStack().backend === tech.id"
              [class.shadow-lg]="wizardState.techStack().backend === tech.id"
              (click)="updateTech('backend', tech.id)">
-          <div class="icon text-5xl mb-3">{{ tech.icon }}</div>
+          <div class="icon-container mb-3">
+            <img [src]="tech.iconPath" [alt]="tech.name" class="w-12 h-12">
+          </div>
           <h3 class="text-lg font-semibold mb-1">{{ tech.name }}</h3>
           <p class="text-sm text-gray-600">{{ tech.description }}</p>
         </div>
@@ -27,7 +29,9 @@
              [class.bg-purple-50]="wizardState.techStack().frontend === tech.id"
              [class.shadow-lg]="wizardState.techStack().frontend === tech.id"
              (click)="updateTech('frontend', tech.id)">
-          <div class="icon text-5xl mb-3">{{ tech.icon }}</div>
+          <div class="icon-container mb-3">
+            <img [src]="tech.iconPath" [alt]="tech.name" class="w-12 h-12">
+          </div>
           <h3 class="text-lg font-semibold mb-1">{{ tech.name }}</h3>
           <p class="text-sm text-gray-600">{{ tech.description }}</p>
         </div>
@@ -44,7 +48,9 @@
              [class.bg-purple-50]="wizardState.techStack().mobile === tech.id"
              [class.shadow-lg]="wizardState.techStack().mobile === tech.id"
              (click)="updateTech('mobile', tech.id)">
-          <div class="icon text-5xl mb-3">{{ tech.icon }}</div>
+          <div class="icon-container mb-3">
+            <img [src]="tech.iconPath" [alt]="tech.name" class="w-12 h-12">
+          </div>
           <h3 class="text-lg font-semibold mb-1">{{ tech.name }}</h3>
           <p class="text-sm text-gray-600">{{ tech.description }}</p>
         </div>

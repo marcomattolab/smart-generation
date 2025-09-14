@@ -1,14 +1,16 @@
 <div class="bg-gray-900 text-white min-h-screen py-12 px-6">
   <div class="container mx-auto max-w-3xl">
     <!-- Page Title -->
-    <h1 class="text-4xl font-extrabold mb-8 text-center" data-cy="product-title">
+    <h1 id="page-title" class="text-4xl font-extrabold mb-8 text-center" data-cy="product-title">
       {{ 'product.title' | translate }}
     </h1>
 
     <!-- Reactive Form -->
     <div class="mb-12">
       <form [formGroup]="productForm" (ngSubmit)="createProduct()" class="flex gap-3" data-cy="add-product-form">
+        <label for="new-product-name" class="sr-only">{{ 'product.placeholder' | translate }}</label>
         <input
+          id="new-product-name"
           type="text"
           class="input"
           [placeholder]="'product.placeholder' | translate"
@@ -31,7 +33,7 @@
     </div>
 
     <!-- List of items -->
-    <ul class="space-y-4" data-cy="product-list">
+    <ul class="space-y-4" data-cy="product-list" role="region" aria-labelledby="page-title">
       @for (product of products; track product.id) {
         <li
           class="bg-gray-800 p-4 rounded-lg flex justify-between items-center shadow-md transition hover:shadow-lg"
@@ -44,6 +46,8 @@
               <button
                 class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-600 text-sm"
                 (click)="toggleCompleted(product)"
+                [attr.aria-pressed]="product.id ? 'true' : 'false'"
+                [attr.aria-label]="(product.id ? 'Mark as not complete' : 'Mark as complete') + ' ' + product.name"
                 data-cy="complete-product-button"
               >
                 <i class="material-icons text-purple-400">
@@ -59,10 +63,10 @@
               </span>
             </div>
             <div class="flex gap-3 text-gray-400">
-              <button (click)="startEditing(product)" class="hover:text-purple-400" data-cy="edit-product-button">
+              <button (click)="startEditing(product)" class="hover:text-purple-400" [attr.aria-label]="'Edit ' + product.name" data-cy="edit-product-button">
                 <i class="material-icons">edit</i>
               </button>
-              <button (click)="deleteProduct(product.id)" class="hover:text-red-400" data-cy="delete-product-button">
+              <button (click)="deleteProduct(product.id)" class="hover:text-red-400" [attr.aria-label]="'Delete ' + product.name" data-cy="delete-product-button">
                 <i class="material-icons">clear</i>
               </button>
             </div>
@@ -71,16 +75,18 @@
           <!-- Edit Mode -->
           @if (editing && editProductForm.value.id === product.id) {
             <form [formGroup]="editProductForm" class="flex flex-1 gap-3" data-cy="edit-product-form">
+              <label [for]="'edit-product-name-' + product.id" class="sr-only">{{ 'product.editPlaceholder' | translate }}</label>
               <input
+                [id]="'edit-product-name-' + product.id"
                 type="text"
                 class="input"
                 formControlName="name"
                 data-cy="edit-product-input"
               />
-              <button (click)="updateProduct()" class="text-green-400 hover:text-green-500" data-cy="save-product-button">
+              <button (click)="updateProduct()" class="text-green-400 hover:text-green-500" [attr.aria-label]="'Save changes for ' + product.name" data-cy="save-product-button">
                 <i class="material-icons">done</i>
               </button>
-              <button (click)="cancelEditing()" class="text-red-400 hover:text-red-500" data-cy="cancel-edit-product-button">
+              <button (click)="cancelEditing()" class="text-red-400 hover:text-red-500" [attr.aria-label]="'Cancel editing ' + product.name" data-cy="cancel-edit-product-button">
                 <i class="material-icons">clear</i>
               </button>
             </form>
