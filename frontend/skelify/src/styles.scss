@@ -87,4 +87,7 @@ $neutral-dark: #D1D5DB;
   .review-container {
     @apply p-4 sm:p-6 lg:p-8;
   }
+  .dropdown-item {
+    @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100;
+  }
 }

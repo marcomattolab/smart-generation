@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, provideAppInitializer, inject } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, provideAppInitializer, inject, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { provideAuth } from 'angular-auth-oidc-client';
@@ -20,13 +20,13 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptorsFromDi()),
     AppConfigService,
     provideAuth(authConfig),
-    ...TranslateModule.forRoot({
+    importProvidersFrom(TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
-    }).providers!,
+    })),
     provideAppInitializer(() => {
       const appConfigService = inject(AppConfigService);
       return appConfigService.loadAppConfig();

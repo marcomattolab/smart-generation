@@ -17,15 +17,15 @@
 
       <!-- Dropdown -->
       <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-        <a (click)="closeMenu()" routerLink="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Home</a>
-        <a (click)="closeMenu()" [routerLink]="['/wizard']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Wizard</a>
-        <a (click)="closeMenu()" [routerLink]="['/product']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Product</a>
-        <a (click)="closeMenu()" [routerLink]="['/todo']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Todo</a>
+        <a (click)="closeMenu()" routerLink="/" class="dropdown-item">Home</a>
+        <a (click)="closeMenu()" [routerLink]="['/wizard']" class="dropdown-item">Wizard</a>
+        <a (click)="closeMenu()" [routerLink]="['/product']" class="dropdown-item">Product</a>
+        <a (click)="closeMenu()" [routerLink]="['/todo']" class="dropdown-item">Todo</a>
         @if(isAuthenticated()){
-          <a (click)="closeMenu()" [routerLink]="['/profile']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+          <a (click)="closeMenu()" [routerLink]="['/profile']" class="dropdown-item">Profile</a>
         }
-        <a (click)="closeMenu()" [routerLink]="['/unauthorized']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Unauthorized</a>
-        <a (click)="closeMenu()" [routerLink]="['/about']" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">About</a>
+        <a (click)="closeMenu()" [routerLink]="['/unauthorized']" class="dropdown-item">Unauthorized</a>
+        <a (click)="closeMenu()" [routerLink]="['/about']" class="dropdown-item">About</a>
       </div>
     }
 
