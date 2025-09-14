@@ -5,28 +5,6 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        primary: {
-          light: '#A78BFA',
-          DEFAULT: '#8B5CF6',
-          dark: '#7C3AED',
-        },
-        secondary: {
-          light: '#6EE7B7',
-          DEFAULT: '#34D399',
-          dark: '#10B981',
-        },
-        accent: {
-          light: '#FBBF24',
-          DEFAULT: '#F59E0B',
-          dark: '#D97706',
-        },
-        neutral: {
-          light: '#F3F4F6',
-          DEFAULT: '#E5E7EB',
-          dark: '#D1D5DB',
-        },
-      },
       fontSize: {
         'xs': '.75rem',
         'sm': '.875rem',

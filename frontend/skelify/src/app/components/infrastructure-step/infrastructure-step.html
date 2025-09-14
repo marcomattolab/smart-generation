@@ -3,9 +3,9 @@
 <div class="space-y-8">
   <div>
     <label class="block mb-4 font-medium text-gray-700">CI/CD Pipeline</label>
-    <div class="checkbox-group grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="checkbox-group">
       @for (item of ciCdOptions; track item.id) {
-        <div class="checkbox-item flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300"
+        <div class="checkbox-item"
              [class.border-purple-500]="isInfrastructureSelected('ci_cd', item.id)"
              [class.bg-purple-50]="isInfrastructureSelected('ci_cd', item.id)"
              (click)="updateInfrastructure('ci_cd', item.id)">
@@ -18,9 +18,9 @@
 
   <div>
     <label class="block mb-4 font-medium text-gray-700">Containerization</label>
-    <div class="checkbox-group grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="checkbox-group">
       @for (item of containerizationOptions; track item.id) {
-        <div class="checkbox-item flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300"
+        <div class="checkbox-item"
              [class.border-purple-500]="isInfrastructureSelected('containerization', item.id)"
              [class.bg-purple-50]="isInfrastructureSelected('containerization', item.id)"
              (click)="updateInfrastructure('containerization', item.id)">
@@ -33,9 +33,9 @@
 
   <div>
     <label class="block mb-4 font-medium text-gray-700">Quality & Compliance</label>
-    <div class="checkbox-group grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="checkbox-group">
       @for (item of qualityOptions; track item.id) {
-        <div class="checkbox-item flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300"
+        <div class="checkbox-item"
              [class.border-purple-500]="isInfrastructureSelected('quality', item.id)"
              [class.bg-purple-50]="isInfrastructureSelected('quality', item.id)"
              (click)="updateInfrastructure('quality', item.id)">
@@ -48,9 +48,9 @@
 
   <div>
     <label class="block mb-4 font-medium text-gray-700">Security Features</label>
-    <div class="checkbox-group grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="checkbox-group">
       @for (item of securityOptions; track item.id) {
-        <div class="checkbox-item flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300"
+        <div class="checkbox-item"
              [class.border-purple-500]="isInfrastructureSelected('security', item.id)"
              [class.bg-purple-50]="isInfrastructureSelected('security', item.id)"
              (click)="updateInfrastructure('security', item.id)">

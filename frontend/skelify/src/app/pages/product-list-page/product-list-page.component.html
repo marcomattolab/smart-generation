@@ -10,14 +10,14 @@
       <form [formGroup]="productForm" (ngSubmit)="createProduct()" class="flex gap-3" data-cy="add-product-form">
         <input
           type="text"
-          class="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          class="input"
           [placeholder]="'product.placeholder' | translate"
           formControlName="name"
           data-cy="new-product-input"
         />
         <button
           type="submit"
-          class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-lg font-semibold transition duration-300"
+          class="btn btn-primary"
           data-cy="add-product-button"
         >
           {{ 'buttons.buttonAdd' | translate }}
@@ -73,7 +73,7 @@
             <form [formGroup]="editProductForm" class="flex flex-1 gap-3" data-cy="edit-product-form">
               <input
                 type="text"
-                class="flex-1 px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                class="input"
                 formControlName="name"
                 data-cy="edit-product-input"
               />

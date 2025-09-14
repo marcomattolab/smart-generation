@@ -1,0 +1,93 @@
+/* You can add global styles to this file, and also import other style files */
+
+// SCSS variables
+$primary-light: #A78BFA;
+$primary: #8B5CF6;
+$primary-dark: #7C3AED;
+
+$secondary-light: #6EE7B7;
+$secondary: #34D399;
+$secondary-dark: #10B981;
+
+$accent-light: #FBBF24;
+$accent: #F59E0B;
+$accent-dark: #D97706;
+
+$neutral-light: #F3F4F6;
+$neutral: #E5E7EB;
+$neutral-dark: #D1D5DB;
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/open-sans-v15-latin-regular.eot'); /* IE9 Compat Modes */
+  src: local('Open Sans Regular'), local('OpenSans-Regular'),
+  url('./fonts/open-sans-v15-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('./fonts/open-sans-v15-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+  url('./fonts/open-sans-v15-latin-regular.woff') format('woff'), /* Modern Browsers */
+  url('./fonts/open-sans-v15-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+  url('./fonts/open-sans-v15-latin-regular.svg#OpenSans') format('svg'); /* Legacy iOS */
+}
+
+/** Tailwind **/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply rounded-lg font-semibold cursor-pointer transition-all duration-300 inline-block no-underline;
+  }
+  .btn-primary {
+    @apply py-2 px-6 text-base text-white transform hover:-translate-y-0.5 hover:shadow-lg;
+    background-color: $primary;
+  }
+  .btn-primary:hover {
+    background-color: $primary-dark;
+  }
+  .btn-secondary {
+    @apply py-2 px-6 text-base border-2;
+    background-color: $neutral-light;
+    color: $neutral-dark;
+    border-color: $neutral;
+  }
+  .btn-secondary:hover {
+    background-color: $neutral;
+  }
+  .btn-success {
+    @apply py-3 px-8 text-base text-white transform hover:-translate-y-0.5 hover:shadow-lg;
+    background-color: $secondary;
+  }
+  .btn-success:hover {
+    background-color: $secondary-dark;
+  }
+  .input {
+    @apply w-full p-3 border-2 rounded-lg outline-none transition;
+    border-color: $neutral;
+  }
+  .input:focus {
+    border-color: $primary;
+  }
+  .form-group {
+    @apply mb-4;
+  }
+  .tech-card {
+    @apply border-2 rounded-lg p-6 text-center cursor-pointer transition-all duration-300;
+  }
+  .tech-grid {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-6;
+  }
+  .checkbox-group {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+  }
+  .checkbox-item {
+    @apply flex items-center p-4 border-2 rounded-lg cursor-pointer transition-all duration-300;
+  }
+  .review-container {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+  .dropdown-item {
+    @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100;
+  }
+}
