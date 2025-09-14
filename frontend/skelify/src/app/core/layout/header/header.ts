@@ -16,13 +16,7 @@ import { CommonModule } from '@angular/common';
 export class Header implements OnInit {
   isMenuOpen = signal(false);
   isAuthenticated = signal(false);
-
   private readonly oidcSecurityService = inject(OidcSecurityService);
-  private readonly languageService = inject(LanguageService);
-  
-  constructor() {
-    this.languageService.setDefaultLanguage(AppConstants.COMMON.DEFAULT_LANGUAGE);
-  }
 
   ngOnInit() {
     this.oidcSecurityService.isAuthenticated$.subscribe(({ isAuthenticated }) => {
