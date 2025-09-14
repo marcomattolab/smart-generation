@@ -16,6 +16,7 @@ $accent-dark: #D97706;
 $neutral-light: #F3F4F6;
 $neutral: #E5E7EB;
 $neutral-dark: #D1D5DB;
+$footer-color: #161718;
 
 @font-face {
   font-family: 'Open Sans';
@@ -89,5 +90,10 @@ $neutral-dark: #D1D5DB;
   }
   .dropdown-item {
     @apply block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100;
+  }
+  .app-footer {
+    @apply text-center p-4 text-sm border-t;
+    color: $footer-color;
+    border-color: $neutral;
   }
 }
