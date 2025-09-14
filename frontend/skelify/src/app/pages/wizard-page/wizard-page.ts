@@ -25,6 +25,7 @@ export class WizardPage {
   wizardState = inject(WizardStateService);
   isProjectInfoFormValid = signal(false);
 
+
   @HostListener('document:keydown.enter', ['$event'])
   onEnterKey(event: Event) {
     event.preventDefault();
@@ -33,6 +34,17 @@ export class WizardPage {
       this.handleNextStep();
     }
   }
+
+  @HostListener('document:keydown.escape', ['$event'])
+  onEscapeKey(event: Event) {
+    const keyboardEvent = event as KeyboardEvent;
+    keyboardEvent.preventDefault();
+    const isFirstStep = this.wizardState.currentStep() === 1;
+    if (!isFirstStep && !this.wizardState.isLoading()) {
+      this.previousStep();
+    }
+  }
+
 
   handleNextStep() {
     if (this.wizardState.isLastStep()) {
