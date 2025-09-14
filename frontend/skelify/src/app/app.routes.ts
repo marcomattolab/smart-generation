@@ -24,8 +24,8 @@ export const routes: Routes = [
   },
   {
     path: 'wizard',
-    loadComponent: () => import('./pages/wizard-page/wizard-page').then(m => m.WizardPage),
-    canActivate: [autoLoginPartialRoutesGuard]
+    loadComponent: () => import('./pages/wizard-page/wizard-page').then(m => m.WizardPage)
+    // canActivate: [autoLoginPartialRoutesGuard]
   },
   {
     path: 'profile',
