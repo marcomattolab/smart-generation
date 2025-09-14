@@ -28,13 +28,8 @@ export class WizardPage {
 
   @HostListener('document:keydown.enter', ['$event'])
   onEnterKey(event: Event) {
-    const keyboardEvent = event as KeyboardEvent;
-    keyboardEvent.preventDefault();
-
-    const isButtonDisabled =
-      (this.wizardState.currentStep() === 1 && !this.isProjectInfoFormValid()) ||
-      this.wizardState.isLoading();
-
+    event.preventDefault();
+    const isButtonDisabled = (this.wizardState.currentStep() === 1 && !this.isProjectInfoFormValid()) || this.wizardState.isLoading();
     if (!isButtonDisabled) {
       this.handleNextStep();
     }
@@ -44,13 +39,12 @@ export class WizardPage {
   onEscapeKey(event: Event) {
     const keyboardEvent = event as KeyboardEvent;
     keyboardEvent.preventDefault();
-
     const isFirstStep = this.wizardState.currentStep() === 1;
-
     if (!isFirstStep && !this.wizardState.isLoading()) {
       this.previousStep();
     }
   }
+
 
   handleNextStep() {
     if (this.wizardState.isLastStep()) {
