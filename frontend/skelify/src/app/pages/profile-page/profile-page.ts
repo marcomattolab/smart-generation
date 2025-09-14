@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile-page',
-  imports: [CommonModule],
   templateUrl: './profile-page.html',
-  styleUrls: ['./profile-page.css'],
+  styleUrls: ['./profile-page.scss'],
+  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfilePage implements OnInit {

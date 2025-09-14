@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-about-page',
   templateUrl: './about-page.html',
+  styleUrls: ['./about-page.scss'],
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

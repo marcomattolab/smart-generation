@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.html',
+  styleUrls: ['./landing-page.scss'],
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

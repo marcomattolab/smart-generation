@@ -7,7 +7,8 @@ import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-product-list-page',
-  templateUrl: './product-list-page.component.html',
+  templateUrl: './product-list-page.html',
+  styleUrls: ['./product-list-page.scss'],
   imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

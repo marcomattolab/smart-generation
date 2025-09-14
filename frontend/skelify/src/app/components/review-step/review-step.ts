@@ -6,6 +6,7 @@ import { DownloadModal } from '../download-modal/download-modal';
 @Component({
   selector: 'app-review-step',
   templateUrl: './review-step.html',
+  styleUrls: ['./review-step.scss'],
   imports: [CommonModule, DownloadModal],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

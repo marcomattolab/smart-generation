@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-download-modal',
   templateUrl: './download-modal.html',
-  styleUrls: ['./download-modal.css'],
+  styleUrls: ['./download-modal.scss'],
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

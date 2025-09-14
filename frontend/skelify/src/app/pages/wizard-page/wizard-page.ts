@@ -10,7 +10,7 @@ import { ReviewStep } from '../../components/review-step/review-step';
 @Component({
   selector: 'app-wizard-page',
   templateUrl: './wizard-page.html',
-  styleUrls: ['./wizard-page.css'],
+  styleUrls: ['./wizard-page.scss'],
   imports: [
     CommonModule,
     ProgressBar,

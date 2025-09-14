@@ -5,6 +5,7 @@ import { WizardStateService } from '../../services/wizard-state';
 @Component({
   selector: 'app-tech-stack-step',
   templateUrl: './tech-stack-step.html',
+  styleUrls: ['./tech-stack-step.scss'],
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

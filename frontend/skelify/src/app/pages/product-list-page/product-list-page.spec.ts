@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductListPage } from './product-list-page.component';
+import { ProductListPage } from './product-list-page';
 import { ProductService } from '../../services/product.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';

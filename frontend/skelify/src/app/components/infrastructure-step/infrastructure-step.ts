@@ -6,6 +6,7 @@ import { WizardStateModel } from '../../models/page/wizard-state.model';
 @Component({
   selector: 'app-infrastructure-step',
   templateUrl: './infrastructure-step.html',
+  styleUrls: ['./infrastructure-step.scss'],
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

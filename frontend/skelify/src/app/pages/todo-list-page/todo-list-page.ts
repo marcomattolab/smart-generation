@@ -8,6 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-todo-list-page',
   templateUrl: './todo-list-page.html',
+  styleUrls: ['./todo-list-page.scss'],
   imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

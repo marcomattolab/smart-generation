@@ -5,6 +5,7 @@ import { WizardStateService } from '../../services/wizard-state';
 @Component({
   selector: 'app-progress-bar',
   templateUrl: './progress-bar.html',
+  styleUrls: ['./progress-bar.scss'],
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

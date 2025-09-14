@@ -19,7 +19,7 @@ export const routes: Routes = [
   },
   {
     path: 'product',
-    loadComponent: () => import('./pages/product-list-page/product-list-page.component').then(m => m.ProductListPage),
+    loadComponent: () => import('./pages/product-list-page/product-list-page').then(m => m.ProductListPage),
     canActivate: [autoLoginPartialRoutesGuard]
   },
   {

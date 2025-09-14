@@ -9,6 +9,7 @@ import { AppConstants } from '../../models/constant/app-constant';
 @Component({
   selector: 'app-project-info-step',
   templateUrl: './project-info-step.html',
+  styleUrls: ['./project-info-step.scss'],
   imports: [CommonModule, ReactiveFormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
