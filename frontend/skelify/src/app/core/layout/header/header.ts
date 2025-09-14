@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-header',
   templateUrl: './header.html',
-  styleUrls: ['./header.css'],
+  styleUrls: ['./header.scss'],
   imports: [CommonModule, RouterModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

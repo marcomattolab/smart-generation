@@ -8,7 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-layout-horizontal',
   imports: [CommonModule, Header, Footer, TranslateModule],
   templateUrl: './layout-horizontal.component.html',
-  styleUrl: './layout-horizontal.component.css',
+  styleUrl: './layout-horizontal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutHorizontal {}

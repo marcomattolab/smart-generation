@@ -1,12 +1,13 @@
 {
   "global": {
     "appVersion": "1.0.0",
-    "appName": "Skelify"
+    "appName": "Skelify",
+    "footer": "@2025 Skelify. Diritti riservati.",
+    "about":"Informazioni su Skelify"
   },
   "common": {
     "required": "Obbligatorio",
-    "notFound": "Nessun elemento Trovato!",
-    "footer": "&copy; 2025 Skelify. Diritti riservati."
+    "notFound": "Nessun elemento Trovato!"
   },
   "buttons": {
     "buttonNext": "Avanti",
