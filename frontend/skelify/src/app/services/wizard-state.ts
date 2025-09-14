@@ -23,6 +23,10 @@ export class WizardStateService {
   readonly infrastructure = computed(() => this.state().infrastructure);
   readonly isLastStep = computed(() => this.currentStep() === this.steps().length);
 
+  get initialState(): WizardStateModel {
+    return AppConstants.WIZARD.INITIAL_STATE
+  }
+
   // Actions
   nextStep() {
     if (!this.isLastStep()) {
@@ -68,13 +72,12 @@ export class WizardStateService {
   simulate() {
     this.isLoading.set(true);
     console.log('Simulating project generation with the following state:', this.state());
+
+    // Simulate a delay
     setTimeout(() => {
       this.isLoading.set(false);
       this.isGenerated.set(true);
-    }, AppConstants.COMMON.SIMULATED_TIMEOUT);
+    }, AppConstants.WIZARD.SIMULATED_TIME);
   }
 
-  get initialState(): WizardStateModel {
-    return AppConstants.WIZARD.INITIAL_STATE
-  }
 }

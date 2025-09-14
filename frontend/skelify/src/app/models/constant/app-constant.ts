@@ -4,10 +4,10 @@ export const AppConstants = {
     DEFAULT_LANGUAGE: 'en',
     SUPPORTED_LANGUAGES: ['en', 'it'],
     DEFAULT_DATE_LOCAL: 'en-US',
-    DEFAULT_DATE_FORMAT: 'dd.MM.yyyy',
-    SIMULATED_TIMEOUT: 3000,
+    DEFAULT_DATE_FORMAT: 'dd.MM.yyyy'
   },
   WIZARD: {
+    SIMULATED_TIME: 5000,
     INITIAL_STATE: {
       currentStep: 1,
       projectInfo: {

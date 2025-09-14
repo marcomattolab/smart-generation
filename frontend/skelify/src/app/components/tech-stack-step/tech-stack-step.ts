@@ -12,6 +12,7 @@ import { WizardStateService } from '../../services/wizard-state';
 export class TechStackStep {
   wizardState = inject(WizardStateService);
 
+  // TODO => FIXME Remove these below icon and use a SVG placed on path assets/images/wizard/
   backendTechs = [
     { id: 'spring-boot', name: 'Spring Boot', description: 'Java enterprise framework with OAuth2', icon: '☕' },
     { id: 'node-express', name: 'Node.js + Express', description: 'JavaScript backend with JWT auth', icon: '🟢' },
