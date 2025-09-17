@@ -1,63 +1,83 @@
-<h2 class="text-2xl font-semibold mb-6">Infrastructure & DevOps</h2>
+<h2 class="text-2xl font-semibold mb-6">Infrastructure Pipeline</h2>
 
-<div class="space-y-8">
-  <div>
-    <label class="block mb-4 font-medium text-gray-700">CI/CD Pipeline</label>
-    <div class="checkbox-group">
-      @for (item of ciCdOptions; track item.id) {
-        <div class="checkbox-item"
-             [class.border-purple-500]="isInfrastructureSelected('ci_cd', item.id)"
-             [class.bg-purple-50]="isInfrastructureSelected('ci_cd', item.id)"
-             (click)="updateInfrastructure('ci_cd', item.id)">
-          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('ci_cd', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
-        </div>
-      }
+<div class="pipeline">
+  @for (step of pipelineSteps; track step.id; let i = $index) {
+    <div class="pipeline-step" [class.active]="activeStep() === step.id" (click)="setActiveStep(step.id)">
+      <div class="step-icon" [class.active]="activeStep() === step.id">
+        <span>&check;</span>
+      </div>
+      <span>{{ step.name }}</span>
     </div>
-  </div>
+    @if (i < pipelineSteps.length - 1) {
+      <div class="pipeline-connector"></div>
+    }
+  }
+</div>
 
-  <div>
-    <label class="block mb-4 font-medium text-gray-700">Containerization</label>
-    <div class="checkbox-group">
-      @for (item of containerizationOptions; track item.id) {
-        <div class="checkbox-item"
-             [class.border-purple-500]="isInfrastructureSelected('containerization', item.id)"
-             [class.bg-purple-50]="isInfrastructureSelected('containerization', item.id)"
-             (click)="updateInfrastructure('containerization', item.id)">
-          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('containerization', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
+<div class="step-options">
+  @switch (activeStep()) {
+    @case ('scm') {
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Checkout SCM Options</h3>
+        <div class="form-group">
+          <label for="scm-flow">Git Flow</label>
+          <select id="scm-flow" [ngModel]="wizardState.infrastructure().scm.flow" (change)="onScmFlowChange($event)">
+            <option value="gitflow">GitFlow</option>
+            <option value="trunk">Trunk Based</option>
+          </select>
         </div>
-      }
-    </div>
-  </div>
-
-  <div>
-    <label class="block mb-4 font-medium text-gray-700">Quality & Compliance</label>
-    <div class="checkbox-group">
-      @for (item of qualityOptions; track item.id) {
-        <div class="checkbox-item"
-             [class.border-purple-500]="isInfrastructureSelected('quality', item.id)"
-             [class.bg-purple-50]="isInfrastructureSelected('quality', item.id)"
-             (click)="updateInfrastructure('quality', item.id)">
-          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('quality', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
+        <div class="form-group">
+          <label for="team-roles">Team & Roles</label>
+          <input type="text" id="team-roles" [ngModel]="wizardState.infrastructure().scm.teamRoles" (change)="onTeamRolesChange($event)" placeholder="e.g., Developers, Testers">
         </div>
-      }
-    </div>
-  </div>
-
-  <div>
-    <label class="block mb-4 font-medium text-gray-700">Security Features</label>
-    <div class="checkbox-group">
-      @for (item of securityOptions; track item.id) {
-        <div class="checkbox-item"
-             [class.border-purple-500]="isInfrastructureSelected('security', item.id)"
-             [class.bg-purple-50]="isInfrastructureSelected('security', item.id)"
-             (click)="updateInfrastructure('security', item.id)">
-          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('security', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
+        <div class="form-group">
+          <label for="default-reviewers">Default Reviewers</label>
+          <input type="text" id="default-reviewers" [ngModel]="wizardState.infrastructure().scm.defaultReviewers" (change)="onDefaultReviewersChange($event)" placeholder="e.g., user1, user2">
         </div>
-      }
-    </div>
-  </div>
+      </div>
+    }
+    @case ('maven') {
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Maven Options</h3>
+        <p>No options available for this step.</p>
+      </div>
+    }
+    @case ('xray') {
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Xray Options</h3>
+        <div class="form-group checkbox-label">
+          <input type="checkbox" id="vuln-scan" [ngModel]="wizardState.infrastructure().xray.vulnerabilityScan" (change)="onVulnerabilityScanChange($event)">
+          <label for="vuln-scan">Scan for Vulnerabilities</label>
+        </div>
+        @if (wizardState.infrastructure().xray.vulnerabilityScan) {
+          <div class="form-group">
+            <label for="vuln-threshold">Vulnerability Threshold (%)</label>
+            <input type="number" id="vuln-threshold" [ngModel]="wizardState.infrastructure().xray.vulnerabilityThreshold" (change)="onVulnerabilityThresholdChange($event)" min="0" max="100">
+          </div>
+        }
+        <div class="form-group checkbox-label">
+          <input type="checkbox" id="license-scan" [ngModel]="wizardState.infrastructure().xray.licenseScan" (change)="onLicenseScanChange($event)">
+          <label for="license-scan">Scan for Licenses</label>
+        </div>
+      </div>
+    }
+    @case ('sonarqube') {
+      <div>
+        <h3 class="text-xl font-semibold mb-4">SonarQube Options</h3>
+        <p>No options available for this step.</p>
+      </div>
+    }
+    @case ('deployment') {
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Deployment Options</h3>
+        <div class="form-group">
+          <label for="deployment-type">Deployment Type</label>
+          <select id="deployment-type" [ngModel]="wizardState.infrastructure().deployment.type" (change)="onDeploymentTypeChange($event)">
+            <option value="vm">Virtual Machine</option>
+            <option value="okd">OKD</option>
+          </select>
+        </div>
+      </div>
+    }
+  }
 </div>

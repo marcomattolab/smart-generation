@@ -14,9 +14,20 @@ export interface WizardStateModel {
     database: string;
   };
   infrastructure: {
-    ci_cd: string[];
-    containerization: string[];
-    quality: string[];
-    security: string[];
+    scm: {
+      flow: 'gitflow' | 'trunk';
+      teamRoles: string;
+      defaultReviewers: string;
+    };
+    maven: any;
+    xray: {
+      vulnerabilityScan: boolean;
+      vulnerabilityThreshold: number;
+      licenseScan: boolean;
+    };
+    sonarQube: any;
+    deployment: {
+      type: 'vm' | 'okd';
+    };
   };
 }

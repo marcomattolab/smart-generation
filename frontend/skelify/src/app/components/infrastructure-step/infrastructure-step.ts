@@ -1,52 +1,64 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
-import { WizardStateModel } from '../../models/page/wizard-state.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-infrastructure-step',
   templateUrl: './infrastructure-step.html',
   styleUrls: ['./infrastructure-step.scss'],
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InfrastructureStep {
   wizardState = inject(WizardStateService);
 
-  // TODO => Change this for tuning of Infrastructure Step
-  ciCdOptions = [
-    { id: 'jenkins', label: 'Jenkins Pipeline' },
-    { id: 'gitlab-ci', label: 'GitLab CI/CD' },
-    { id: 'github-actions', label: 'GitHub Actions' },
-    { id: 'azure-devops', label: 'Azure DevOps' }
+  pipelineSteps = [
+    { id: 'scm', name: 'Checkout SCM' },
+    { id: 'maven', name: 'Maven' },
+    { id: 'xray', name: 'Xray' },
+    { id: 'sonarqube', name: 'SonarQube' },
+    { id: 'deployment', name: 'Deployment' },
   ];
 
-  containerizationOptions = [
-    { id: 'docker', label: 'Docker Containers' },
-    { id: 'docker-compose', label: 'Docker Compose' },
-    { id: 'kubernetes', label: 'Kubernetes Deployment' },
-    { id: 'nginx', label: 'Nginx Reverse Proxy' }
-  ];
+  activeStep = signal('scm');
 
-  qualityOptions = [
-    { id: 'sonarqube', label: 'SonarQube Code Quality' },
-    { id: 'eslint', label: 'ESLint/Prettier' },
-    { id: 'unit-tests', label: 'Unit Test Framework' },
-    { id: 'integration-tests', label: 'Integration Tests' }
-  ];
-
-  securityOptions = [
-    { id: 'oauth2', label: 'OAuth2 Authentication' },
-    { id: 'jwt', label: 'JWT Token Management' },
-    { id: 'cors', label: 'CORS Configuration' },
-    { id: 'ssl', label: 'SSL/TLS Configuration' }
-  ];
-
-  isInfrastructureSelected(key: keyof WizardStateModel['infrastructure'], value: string): boolean {
-    return this.wizardState.infrastructure()[key].includes(value);
+  setActiveStep(stepId: string) {
+    this.activeStep.set(stepId);
   }
 
-  updateInfrastructure(key: keyof WizardStateModel['infrastructure'], value: string) {
-    this.wizardState.updateInfrastructure(key, value);
+  onScmFlowChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.wizardState.updateScm({ flow: target.value as 'gitflow' | 'trunk' });
+  }
+
+  onTeamRolesChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.wizardState.updateScm({ teamRoles: target.value });
+  }
+
+  onDefaultReviewersChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.wizardState.updateScm({ defaultReviewers: target.value });
+  }
+
+  onVulnerabilityScanChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.wizardState.updateXray({ vulnerabilityScan: target.checked });
+  }
+
+  onVulnerabilityThresholdChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.wizardState.updateXray({ vulnerabilityThreshold: +target.value });
+  }
+
+  onLicenseScanChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.wizardState.updateXray({ licenseScan: target.checked });
+  }
+
+  onDeploymentTypeChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.wizardState.updateDeployment({ type: target.value as 'vm' | 'okd' });
   }
 }

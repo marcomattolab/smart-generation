@@ -24,7 +24,7 @@ export class WizardStateService {
   readonly isLastStep = computed(() => this.currentStep() === this.steps().length);
 
   get initialState(): WizardStateModel {
-    return AppConstants.WIZARD.INITIAL_STATE
+    return AppConstants.WIZARD.INITIAL_STATE;
   }
 
   // Actions
@@ -53,20 +53,25 @@ export class WizardStateService {
     this.state.update(state => ({ ...state, techStack: { ...state.techStack, ...techStack } }));
   }
 
-  updateInfrastructure(key: keyof WizardStateModel['infrastructure'], value: string) {
-    this.state.update(state => {
-      const currentValues = state.infrastructure[key];
-      const newValues = currentValues.includes(value)
-        ? currentValues.filter(v => v !== value)
-        : [...currentValues, value];
-      return {
-        ...state,
-        infrastructure: {
-          ...state.infrastructure,
-          [key]: newValues
-        }
-      };
-    });
+  updateScm(scm: Partial<WizardStateModel['infrastructure']['scm']>) {
+    this.state.update(state => ({
+      ...state,
+      infrastructure: { ...state.infrastructure, scm: { ...state.infrastructure.scm, ...scm } }
+    }));
+  }
+
+  updateXray(xray: Partial<WizardStateModel['infrastructure']['xray']>) {
+    this.state.update(state => ({
+      ...state,
+      infrastructure: { ...state.infrastructure, xray: { ...state.infrastructure.xray, ...xray } }
+    }));
+  }
+
+  updateDeployment(deployment: Partial<WizardStateModel['infrastructure']['deployment']>) {
+    this.state.update(state => ({
+      ...state,
+      infrastructure: { ...state.infrastructure, deployment: { ...state.infrastructure.deployment, ...deployment } }
+    }));
   }
 
   simulate() {
