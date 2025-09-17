@@ -45,9 +45,10 @@
       <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 md:col-span-2 lg:col-span-1">
         <h3 class="text-xl font-bold mb-4 text-teal-700 border-b-2 border-teal-200 pb-2">Infrastructure</h3>
         <div class="space-y-3 text-gray-700">
-          <p><strong>SCM Flow: </strong> <span class="font-mono">{{ wizardState.infrastructure().scm.flow }}</span></p>
-          <p><strong>Xray License Scan: </strong> <span class="font-mono">{{ wizardState.infrastructure().xray.licenseScan ? 'Enabled' : 'Disabled' }}</span></p>
-          <p><strong>Deployment: </strong> <span class="font-mono">{{ wizardState.infrastructure().deployment.type }}</span></p>
+          <p><strong>CI/CD: </strong> <span class="font-mono">{{ wizardState.infrastructure().ci_cd.join(', ') }}</span></p>
+          <p><strong>Containerization: </strong> <span class="font-mono">{{ wizardState.infrastructure().containerization.join(', ') }}</span></p>
+          <p><strong>Quality: </strong> <span class="font-mono">{{ wizardState.infrastructure().quality.join(', ') }}</span></p>
+          <p><strong>Security: </strong> <span class="font-mono">{{ wizardState.infrastructure().security.join(', ') }}</span></p>
         </div>
       </div>
 
