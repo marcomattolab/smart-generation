@@ -61,4 +61,14 @@ export class InfrastructureStep {
     const target = event.target as HTMLSelectElement;
     this.wizardState.updateDeployment({ type: target.value as 'vm' | 'okd' });
   }
+
+  onQualityGateFEChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.wizardState.updateSonarQube({ qualityGateFE: +target.value });
+  }
+
+  onQualityGateBEChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.wizardState.updateSonarQube({ qualityGateBE: +target.value });
+  }
 }

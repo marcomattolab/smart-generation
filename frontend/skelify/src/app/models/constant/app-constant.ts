@@ -48,7 +48,10 @@ export const AppConstants: {
           vulnerabilityThreshold: 70,
           licenseScan: false
         },
-        sonarQube: {},
+        sonarQube: {
+          qualityGateFE: 80,
+          qualityGateBE: 80
+        },
         deployment: {
           type: 'vm'
         }

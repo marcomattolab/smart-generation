@@ -19,13 +19,16 @@ export interface WizardStateModel {
       teamRoles: string;
       defaultReviewers: string;
     };
-    maven: any;
+    maven: {};
     xray: {
       vulnerabilityScan: boolean;
       vulnerabilityThreshold: number;
       licenseScan: boolean;
     };
-    sonarQube: any;
+    sonarQube: {
+      qualityGateFE: number;
+      qualityGateBE: number;
+    };
     deployment: {
       type: 'vm' | 'okd';
     };

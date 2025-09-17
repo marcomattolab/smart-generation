@@ -74,6 +74,13 @@ export class WizardStateService {
     }));
   }
 
+  updateSonarQube(sonarQube: Partial<WizardStateModel['infrastructure']['sonarQube']>) {
+    this.state.update(state => ({
+      ...state,
+      infrastructure: { ...state.infrastructure, sonarQube: { ...state.infrastructure.sonarQube, ...sonarQube } }
+    }));
+  }
+
   simulate() {
     this.isLoading.set(true);
     console.log('Simulating project generation with the following state:', this.state());
