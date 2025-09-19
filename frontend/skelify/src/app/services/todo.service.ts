@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AppConfigService } from './app-config.service';
 import { Observable, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { ITodo } from '../models/page/todo.model';
 
@@ -10,12 +10,10 @@ import { ITodo } from '../models/page/todo.model';
 })
 export class TodoService {
   private readonly http = inject(HttpClient);
-  private readonly appConfigService = inject(AppConfigService);
-
-  private readonly baseUrl = this.appConfigService.getConfig().baseUrl + '/api/todos';
+  private readonly baseUrl =  environment.apiUrl + '/todo';
 
   getTodos(): Observable<ITodo[]> {
-    //=> console.log("baseUrl: "+this.baseUrl);
+    console.log(`API baseUrl: ${this.baseUrl}`);
     return this.http.get<ITodo[]>(this.baseUrl).pipe(
       catchError(error => this.handleError(error))
     );
@@ -33,7 +31,7 @@ export class TodoService {
     );
   }
 
-  deleteTodo(id: string): Observable<void> {
+  deleteTodo(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       catchError(error => this.handleError(error))
     );

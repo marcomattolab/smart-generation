@@ -38,6 +38,7 @@
           <p><strong>Frontend: </strong> <span class="font-mono">{{ wizardState.techStack().frontend }}</span></p>
           <p><strong>Mobile: </strong> <span class="font-mono">{{ wizardState.techStack().mobile }}</span></p>
           <p><strong>Database: </strong> <span class="font-mono">{{ wizardState.techStack().database }}</span></p>
+          <p><strong>Security: </strong> <span class="font-mono">{{ wizardState.techStack().security }}</span></p>
         </div>
       </div>
 
@@ -45,10 +46,47 @@
       <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 md:col-span-2 lg:col-span-1">
         <h3 class="text-xl font-bold mb-4 text-teal-700 border-b-2 border-teal-200 pb-2">Infrastructure</h3>
         <div class="space-y-3 text-gray-700">
-          <p><strong>CI/CD: </strong> <span class="font-mono">{{ wizardState.infrastructure().ci_cd.join(', ') }}</span></p>
-          <p><strong>Containerization: </strong> <span class="font-mono">{{ wizardState.infrastructure().containerization.join(', ') }}</span></p>
-          <p><strong>Quality: </strong> <span class="font-mono">{{ wizardState.infrastructure().quality.join(', ') }}</span></p>
-          <p><strong>Security: </strong> <span class="font-mono">{{ wizardState.infrastructure().security.join(', ') }}</span></p>
+          <p>
+            <strong>Bitbucket: </strong> <span class="font-mono">{{ wizardState.infrastructure().bitbucket.flow }}</span>
+          </p>
+          <p>
+            <strong>Deployment: </strong> <span class="font-mono">{{ wizardState.infrastructure().deployment.type }}</span>
+          </p>
+
+          <p class="flex items-center gap-2">
+              <strong>Xray: </strong>
+              <span class="font-mono flex-1">
+                {{ wizardState.infrastructure().xray.vulnerabilityScan ? 'Enabled' : 'Disabled' }}
+              </span>
+              @if (wizardState.infrastructure().xray.vulnerabilityScan ){
+                <svg
+                  class="w-5 h-5 text-green-500"
+                  fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  [hidden]="!wizardState.infrastructure().xray.vulnerabilityScan">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              }
+            </p>
+
+            <p class="flex items-center gap-2">
+              <strong>SonarQube: </strong>
+              <span class="font-mono flex-1">
+                {{ wizardState.infrastructure().sonarQube.enabled ? 'Enabled' : 'Disabled' }}
+              </span>
+              @if (wizardState.infrastructure().sonarQube.enabled ){
+                <svg
+                  class="w-5 h-5 text-green-500"
+                  fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  [hidden]="!wizardState.infrastructure().sonarQube.enabled">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+              }
+            </p>
+
         </div>
       </div>
 

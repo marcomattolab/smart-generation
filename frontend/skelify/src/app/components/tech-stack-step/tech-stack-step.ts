@@ -38,8 +38,19 @@ export class TechStackStep {
     { value: 'sql-server', name: 'SQL Server' }
   ];
 
+  securities = [
+    { value: 'basic', name: 'Basic Authentication' },
+    { value: 'oauth2', name: 'OIDC Authentication Stateless' },
+    { value: 'resource', name: 'OIDC Authentication Stateful' }
+  ];
+
   updateTech(category: 'backend' | 'frontend' | 'mobile', techId: string) {
     this.wizardState.updateTechStack({ [category]: techId });
+  }
+
+  onSecurityChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.wizardState.updateTechStack({ security: selectElement.value });
   }
 
   onDatabaseChange(event: Event) {

@@ -1,11 +1,54 @@
-<div class="container mx-auto p-4">
-  <h1 class="text-2xl font-bold mb-4">User Profile</h1>
-
-  @if (userData()) {
-    <div class="bg-white shadow-md rounded-lg p-6">
-      <pre>{{ userData() | json }}</pre>
+<div class="bg-gray-50 min-h-screen">
+  <div class="container mx-auto py-20 px-6">
+    <!-- Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+        User <span class="text-indigo-600">Profile</span>
+      </h1>
+      <p class="mt-4 text-lg md:text-xl text-gray-600">
+        Manage and review your profile details.
+      </p>
     </div>
-  } @else {
-    <p>Loading user data...</p>
-  }
+
+    @if (userData()) {
+      <!-- Profile Card -->
+      <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition p-8 max-w-2xl mx-auto">
+        <div class="flex flex-col items-center text-center">
+          <!-- Profile Picture Placeholder -->
+          <div class="w-32 h-32 rounded-full bg-gray-200 mb-4 flex items-center justify-center shadow-md">
+            <i class="material-icons text-gray-400 text-6xl">person</i>
+          </div>
+
+          <!-- User Name and Email -->
+          @if (userData()?.name) {
+            <h2 class="text-2xl font-bold text-gray-900">{{ userData()?.name }}</h2>
+          }
+          @if (userData()?.email) {
+            <p class="text-gray-600">{{ userData()?.email }}</p>
+          }
+          @if (userData()?.family_name) {
+            <p class="text-gray-600">{{ userData()?.family_name }}</p>
+          }
+          @if (userData()?.preferred_username) {
+            <p class="text-gray-600">{{ userData()?.preferred_username }}</p>
+          }
+        </div>
+
+        <!-- Raw User Data -->
+        <div class="mt-8 text-left">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Raw User Data</h3>
+          <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+            <pre class="text-sm text-gray-700 whitespace-pre-wrap break-all">
+              {{ userData() | json }}
+            </pre>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <!-- Loading State -->
+      <div class="text-center text-gray-600">
+        <p>Loading user data...</p>
+      </div>
+    }
+  </div>
 </div>

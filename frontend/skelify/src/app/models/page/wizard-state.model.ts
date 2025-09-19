@@ -1,6 +1,19 @@
 
+export interface Person {
+  name: string;
+  username: string;
+  defaultFE: boolean;
+  defaultBE: boolean;
+}
+
+export interface DeploymentEnv {
+  enabled: boolean;
+  namespace: string;
+}
+
 export interface WizardStateModel {
   currentStep: number;
+  currentSubstep: number;
   projectInfo: {
     projectName: string;
     projectDescription: string;
@@ -12,11 +25,43 @@ export interface WizardStateModel {
     frontend: string;
     mobile: string;
     database: string;
+    security: string;
   };
   infrastructure: {
-    ci_cd: string[];
-    containerization: string[];
-    quality: string[];
-    security: string[];
+    bitbucket: {
+      flow: string;
+      repoFE?: string;
+      repoBE?: string;
+      minReviewers: number;
+      reviewers: Person[];
+      sourceBranch: any;
+      targetBranch: any;
+    };
+    xray: {
+      vulnerabilityScan: boolean;
+      vulnerabilityThreshold: string;
+      licenseScan: boolean;
+      checkOpensource: boolean;
+      checkSBOM: boolean;
+      reportOnSonar: boolean;
+    };
+    sonarQube: {
+      enabled: boolean,
+      qualityGateFE: string,
+      qualityGateBE: string,
+      sonarNameFE: string,
+      sonarNameBE: string
+    };
+    deployment: {
+      type: string;
+      dev: DeploymentEnv;
+      test: DeploymentEnv;
+      acceptance: DeploymentEnv;
+    };
   };
+}
+
+export interface PipelineStep {
+  id: string;
+  name: string;
 }

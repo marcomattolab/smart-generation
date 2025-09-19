@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, signal, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class Header implements OnInit {
   isMenuOpen = signal(false);
+
   isAuthenticated = signal(false);
   private readonly oidcSecurityService = inject(OidcSecurityService);
 
@@ -25,7 +26,7 @@ export class Header implements OnInit {
   toggleMenu() {
     this.isMenuOpen.update(value => !value);
   }
-  
+
   closeMenu() {
     this.isMenuOpen.set(false);
   }

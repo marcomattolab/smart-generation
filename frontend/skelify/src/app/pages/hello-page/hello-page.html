@@ -1,0 +1,14 @@
+<div class="bg-gray-900 text-white min-h-screen py-16 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+  <div class="container mx-auto max-w-3xl">
+    <!-- Page Title -->
+    <h1 id="hello-title" class="title-gradient mb-12" data-cy="hello-title">
+      {{ 'hello.title' | translate }}
+    </h1>
+
+    <div class="user-card">
+      <p><span>{{ 'hello.username' | translate }}: </span> {{ item()?.username }}</p>
+      <p><span>{{ 'hello.firstName' | translate }}: </span> {{ item()?.firstName }}</p>
+      <p><span>{{ 'hello.lastName' | translate }}: </span> {{ item()?.lastName }}</p>
+      <p><span>{{ 'hello.email' | translate }}: </span> {{ item()?.email }}</p>
+    </div>
+</div>

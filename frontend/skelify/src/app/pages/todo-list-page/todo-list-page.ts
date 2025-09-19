@@ -47,7 +47,7 @@ export class TodoListPage implements OnInit {
     if (this.newTodoForm.invalid) return;
 
     const newTodo: ITodo = {
-      id: '',
+      id: 0,
       title: this.newTodoForm.value.title,
       completed: false,
       createdAt: new Date()
@@ -59,7 +59,7 @@ export class TodoListPage implements OnInit {
     });
   }
 
-  deleteTodo(id: string): void {
+  deleteTodo(id: number): void {
     this.todoService.deleteTodo(id).subscribe(() => {
       this.todos = this.todos.filter(todo => todo.id !== id);
     });

@@ -1,30 +1,22 @@
-import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
-} from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpEvent, HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-@Injectable()
-export class HandleErrorsInterceptor implements HttpInterceptor {
-  constructor(private readonly route: Router) {}
+export const handleErrorsInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
 
-  public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (req.method !== 'DELETE' && req.headers.has('X-Exclude-Interceptor')) {
-      return next.handle(req).pipe(
-        catchError((err: HttpErrorResponse) => {
-          this.route.navigate(['**']);
-          const error = new Error(err?.message);
-          return throwError(() => error);
-        })
-      ) as Observable<HttpEvent<unknown>>;
-    } else {
-      return next.handle(req);
-    }
+  // If method is not DELETE and header 'X-Exclude-Interceptor' exists
+  if (req.method !== 'DELETE' && req.headers.has('X-Exclude-Interceptor')) {
+    return next(req).pipe(
+      catchError((err: HttpErrorResponse) => {
+        router.navigate(['**']); // Navigate to not-found/error page
+        const error = new Error(err?.message);
+        return throwError(() => error);
+      })
+    ) as Observable<HttpEvent<unknown>>;
+  } else {
+    return next(req);
   }
-}
+};

@@ -67,4 +67,14 @@
       }
     </select>
   </div>
+
+  <div class="form-group">
+    <label for="security" class="block mb-2 font-medium text-gray-700">Security</label>
+    <select id="security" class="input" (change)="onSecurityChange($event)">
+      <option value="">Select Security Features</option>
+      @for (security of securities; track security.value) {
+        <option [value]="security.value" [selected]="wizardState.techStack().security === security.value">{{ security.name }}</option>
+      }
+    </select>
+  </div>
 </div>

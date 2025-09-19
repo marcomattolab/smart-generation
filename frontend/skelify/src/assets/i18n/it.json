@@ -34,6 +34,13 @@
     "Login": "Accedi",
     "Logout": "Esci"
   },
+  "hello":{
+    "title": "Pagina Hello",
+    "username": "Username",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "email": "Email"
+  },
   "product":{
     "title": "Prodotto",
     "id": "Id",

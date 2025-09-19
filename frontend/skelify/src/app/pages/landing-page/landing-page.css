@@ -1,0 +1,12 @@
+.landing-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #f0f2f5;
+}
+
+.landing-content {
+  max-width: 600px;
+}

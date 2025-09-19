@@ -13,9 +13,25 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/about-page/about-page').then(m => m.AboutPage)
   },
   {
+    path: 'wizard',
+    loadComponent: () => import('./pages/wizard-page/wizard-page').then(m => m.WizardPage),
+    canActivate: [autoLoginPartialRoutesGuard]
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile-page/profile-page').then(m => m.ProfilePage),
+    canActivate: [autoLoginPartialRoutesGuard]
+  },
+  {
+    path: 'hello',
+    loadComponent: () => import('./pages/hello-page/hello-page').then(m => m.HelloPage),
+    canActivate: [autoLoginPartialRoutesGuard]
+  },
+  {
     path: 'todo',
     loadComponent: () => import('./pages/todo-list-page/todo-list-page').then(m => m.TodoListPage),
-    canActivate: [autoLoginPartialRoutesGuard]
+    canActivate: [autoLoginPartialRoutesGuard, RoleGuard],
+    data: { roles: ['user'] }
   },
   {
     path: 'product',
@@ -23,18 +39,7 @@ export const routes: Routes = [
     canActivate: [autoLoginPartialRoutesGuard]
   },
   {
-    path: 'wizard',
-    loadComponent: () => import('./pages/wizard-page/wizard-page').then(m => m.WizardPage)
-    // canActivate: [autoLoginPartialRoutesGuard]
-  },
-  {
-    path: 'profile',
-    loadComponent: () => import('./pages/profile-page/profile-page').then(m => m.ProfilePage),
-    canActivate: [autoLoginPartialRoutesGuard, RoleGuard],
-    data: { roles: ['user'] }
-  },
-  {
-    path: 'unauthorized',
+    path: '**',
     loadComponent: () => import('./pages/unauthorized-page/unauthorized-page').then(m => m.UnauthorizedPage)
   }
 ];

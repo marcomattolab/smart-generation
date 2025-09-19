@@ -1,41 +1,39 @@
 {
   "todo": [
     {
-      "id": "1",
-      "title": "Introduction to Space Exploration",
-      "completed": true,
-      "createdAt": "01.06.2025"
+      "id": 1,
+      "title": "Finish Angular component",
+      "completed": false,
+      "createdAt": "2025-09-17T10:00:00Z"
     },
     {
-      "id": "2",
-      "title": "The Solar System",
+      "id": 2,
+      "title": "Review Tailwind layout",
       "completed": true,
-      "createdAt": "01.07.2025"
+      "createdAt": "2025-09-16T14:30:00Z"
     }
   ],
   "product": [
     {
-      "id": "1",
+      "id": 1,
       "name": "Apple iPad",
       "price": 100
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Commodore 64",
       "price": 200
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "Microsoft PC",
       "price": 300
-    },
-    {
-      "id": 267,
-      "price": 267
-    },
-    {
-      "id": 30,
-      "price": 30
     }
-  ]
+  ],
+  "hello": {
+    "username": "jdoe",
+    "email": "jdoe@example.com",
+    "firstName": "John",
+    "lastName": "Doe"
+  }
 }

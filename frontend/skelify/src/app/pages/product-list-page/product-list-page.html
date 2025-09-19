@@ -10,13 +10,23 @@
       <form [formGroup]="productForm" (ngSubmit)="createProduct()" class="flex gap-3" data-cy="add-product-form">
         <label for="new-product-name" class="sr-only">{{ 'product.placeholder' | translate }}</label>
         <input
-          id="new-product-name"
+          id="product-name"
           type="text"
           class="input"
           [placeholder]="'product.placeholder' | translate"
           formControlName="name"
-          data-cy="new-product-input"
+          data-cy="product-name"
         />
+        <label for="new-product-price" class="sr-only">{{ 'product.placeholder' | translate }}</label>
+        <input
+          id="product-price"
+          type="number"
+          class="input"
+          [placeholder]="'product.placeholder' | translate"
+          formControlName="price"
+          data-cy="product-price"
+        />
+
         <button
           type="submit"
           class="btn btn-primary"
@@ -33,33 +43,21 @@
     </div>
 
     <!-- List of items -->
-    <ul class="space-y-4" data-cy="product-list" role="region" aria-labelledby="page-title">
-      @for (product of products; track product.id) {
+    <ul class="space-y-4" data-cy="product-list" aria-labelledby="page-title">
+      @for (product of products(); track product.id) {
         <li
           class="bg-gray-800 p-4 rounded-lg flex justify-between items-center shadow-md transition hover:shadow-lg"
           [class.opacity-60]="product.id"
           data-cy="product-item"
         >
           <!-- Normal View -->
-          @if (!editing || editProductForm.value.id !== product.id) {
+          @if (!editing() || editProductForm.value.id !== product.id) {
             <div class="flex items-center gap-3 flex-1">
-              <button
-                class="w-6 h-6 flex items-center justify-center rounded-full border border-gray-600 text-sm"
-                (click)="toggleCompleted(product)"
-                [attr.aria-pressed]="product.id ? 'true' : 'false'"
-                [attr.aria-label]="(product.id ? 'Mark as not complete' : 'Mark as complete') + ' ' + product.name"
-                data-cy="complete-product-button"
-              >
-                <i class="material-icons text-purple-400">
-                  {{ product.id ? 'check' : '' }}
-                </i>
-              </button>
               <span
                 class="flex-1 text-white"
-                [class.line-through]="product.id"
                 data-cy="product-item-name"
               >
-                {{ product.name }}
+                {{ product.name }} - {{ product.price | currency }}
               </span>
             </div>
             <div class="flex gap-3 text-gray-400">
@@ -73,7 +71,7 @@
           }
 
           <!-- Edit Mode -->
-          @if (editing && editProductForm.value.id === product.id) {
+          @if (editing() && editProductForm.value.id === product.id) {
             <form [formGroup]="editProductForm" class="flex flex-1 gap-3" data-cy="edit-product-form">
               <label [for]="'edit-product-name-' + product.id" class="sr-only">{{ 'product.editPlaceholder' | translate }}</label>
               <input
@@ -82,6 +80,14 @@
                 class="input"
                 formControlName="name"
                 data-cy="edit-product-input"
+              />
+              <label [for]="'edit-product-price-' + product.id" class="sr-only">{{ 'product.editPlaceholder' | translate }}</label>
+              <input
+                [id]="'edit-product-price-' + product.id"
+                type="number"
+                class="input"
+                formControlName="price"
+                data-cy="edit-product-price-input"
               />
               <button (click)="updateProduct()" class="text-green-400 hover:text-green-500" [attr.aria-label]="'Save changes for ' + product.name" data-cy="save-product-button">
                 <i class="material-icons">done</i>
@@ -96,7 +102,7 @@
     </ul>
 
     <!-- Empty State -->
-    @if (products.length === 0) {
+    @if (products().length === 0) {
       <div class="mt-12 text-center text-gray-400" data-cy="empty-product-list">
         <p>{{ 'common.notFound' | translate }}</p>
       </div>

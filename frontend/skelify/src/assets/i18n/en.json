@@ -34,6 +34,13 @@
     "Login": "Login",
     "Logout": "Logout"
   },
+  "hello":{
+    "title": "Page Hello",
+    "username": "Username",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email"
+  },
   "product":{
     "title": "Product",
     "id": "Id",

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AppConfigService } from './app-config.service';
 import { Observable, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { IProduct } from '../models/page/product.model';
 
@@ -10,13 +10,10 @@ import { IProduct } from '../models/page/product.model';
 })
 export class ProductService {
   private readonly http = inject(HttpClient);
-  private readonly appConfigService = inject(AppConfigService);
-
-  // => private readonly baseUrl = this.appConfigService.getConfig().baseUrl + '/hello';
-  private readonly baseUrl = this.appConfigService.getConfig().baseUrl + '/product';
+  private readonly baseUrl =  environment.apiUrl + '/product';
 
   getProducts(): Observable<IProduct[]> {
-    //=> console.log("baseUrl: "+this.baseUrl);
+    console.log(`API baseUrl: ${this.baseUrl}`);
     return this.http.get<IProduct[]>(this.baseUrl).pipe(
       catchError(error => this.handleError(error))
     );

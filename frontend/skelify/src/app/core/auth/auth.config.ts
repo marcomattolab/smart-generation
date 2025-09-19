@@ -3,15 +3,15 @@ import { environment } from '../../../environments/environment';
 
 export const authConfig: PassedInitialConfig = {
   config: {
-              authority: 'http://localhost:8444/realms/skelify',
-              redirectUrl: window.location.origin,
-              postLogoutRedirectUri: window.location.origin,
-              clientId: 'skelify',
-              scope: 'openid profile email offline_access',
-              responseType: 'code',
-              silentRenew: true,
-              useRefreshToken: true,
-              renewTimeBeforeTokenExpiresInSeconds: 30,
-              logLevel: environment.production ? LogLevel.None : LogLevel.None,
-          }
+      authority: environment.authority,
+      redirectUrl: window.location.origin,
+      postLogoutRedirectUri: window.location.origin,
+      clientId: environment.clientId,
+      scope: 'openid profile email offline_access',
+      responseType: 'code',
+      silentRenew: true,
+      useRefreshToken: true,
+      renewTimeBeforeTokenExpiresInSeconds: 30,
+      logLevel: environment.production ? LogLevel.Debug : LogLevel.None
+  }
 }

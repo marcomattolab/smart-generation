@@ -45,7 +45,6 @@ export class WizardPage {
     }
   }
 
-
   handleNextStep() {
     if (this.wizardState.isLastStep()) {
       this.wizardState.simulate();

@@ -1,14 +1,13 @@
-
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, provideAppInitializer, inject, importProvidersFrom, isDevMode } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChangeDetection, provideAppInitializer, inject, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAuth } from 'angular-auth-oidc-client';
 import { routes } from './app.routes';
-import { AppConfigService } from './services/app-config.service';
 import { authConfig } from './core/auth/auth.config';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { provideServiceWorker } from '@angular/service-worker';
+import { authInterceptor } from './shared/interceptors/auth.interceptor';
+import { handleErrorsInterceptor } from './shared/interceptors/handle-errors.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -19,8 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(withInterceptorsFromDi()),
-    AppConfigService,
+    provideHttpClient(withInterceptors([authInterceptor, handleErrorsInterceptor])),
     provideAuth(authConfig),
     importProvidersFrom(TranslateModule.forRoot({
       loader: {
@@ -28,13 +26,6 @@ export const appConfig: ApplicationConfig = {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
       },
-    })),
-    provideAppInitializer(() => {
-      const appConfigService = inject(AppConfigService);
-      return appConfigService.loadAppConfig();
-    }), provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          })
+    }))
   ]
 };

@@ -1,63 +1,323 @@
-<h2 class="text-2xl font-semibold mb-6">Infrastructure & DevOps</h2>
+<h2 class="text-2xl font-semibold mb-6">Infrastructure Pipeline</h2>
 
-<div class="space-y-8">
-  <div>
-    <label class="block mb-4 font-medium text-gray-700">CI/CD Pipeline</label>
-    <div class="checkbox-group">
-      @for (item of ciCdOptions; track item.id) {
-        <div class="checkbox-item"
-             [class.border-purple-500]="isInfrastructureSelected('ci_cd', item.id)"
-             [class.bg-purple-50]="isInfrastructureSelected('ci_cd', item.id)"
-             (click)="updateInfrastructure('ci_cd', item.id)">
-          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('ci_cd', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
-        </div>
-      }
+<div class="flex flex-col md:flex-row items-center justify-center mb-8">
+  @for (step of pipelineSteps(); track step.id; let i = $index) {
+    <div class="flex items-center cursor-pointer p-2 rounded-lg transition-colors hover:bg-gray-100"
+         [class.bg-purple-100]="activeSubstep() === step.id" (click)="setActiveSubstep(step.id)">
+      <div class="flex items-center justify-center w-6 h-6 rounded-full mr-2"
+           [ngClass]="activeSubstep() === step.id ? 'bg-purple-600 text-white' : 'bg-gray-300'">
+        <span>&check;</span>
+      </div>
+      <span class="font-medium" [ngClass]="{ 'text-purple-700': activeSubstep() === step.id }">{{ step.name }}</span>
     </div>
-  </div>
+    @if (i < pipelineSteps().length - 1) {
+      <div class="flex-grow h-0.5 bg-gray-300 mx-2 hidden md:block"></div>
+      <div class="w-px h-6 bg-gray-300 my-1 md:hidden"></div>
+    }
+  }
+</div>
 
-  <div>
-    <label class="block mb-4 font-medium text-gray-700">Containerization</label>
-    <div class="checkbox-group">
-      @for (item of containerizationOptions; track item.id) {
-        <div class="checkbox-item"
-             [class.border-purple-500]="isInfrastructureSelected('containerization', item.id)"
-             [class.bg-purple-50]="isInfrastructureSelected('containerization', item.id)"
-             (click)="updateInfrastructure('containerization', item.id)">
-          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('containerization', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
-        </div>
-      }
-    </div>
-  </div>
+<div class="step-options">
+  @switch (activeSubstep()) {
+    @case ('bitbucket') {
+      <h3 class="text-xl font-semibold mb-4">Bitbucket</h3>
+      <div class="form-group">
+        <label for="bitbucket-flow">Workflow</label>
+        <select id="bitbucket-flow" [ngModel]="wizardState.infrastructure().bitbucket.flow" (change)="onBitbucketFlowChange($event)" class="input">
+          <option value="gitflow">GitFlow</option>
+          <option value="trunk">Trunk Based</option>
+        </select>
+      </div>
 
-  <div>
-    <label class="block mb-4 font-medium text-gray-700">Quality & Compliance</label>
-    <div class="checkbox-group">
-      @for (item of qualityOptions; track item.id) {
-        <div class="checkbox-item"
-             [class.border-purple-500]="isInfrastructureSelected('quality', item.id)"
-             [class.bg-purple-50]="isInfrastructureSelected('quality', item.id)"
-             (click)="updateInfrastructure('quality', item.id)">
-          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('quality', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
-        </div>
-      }
-    </div>
-  </div>
+      <!-- Repository Names -->
+      <div class="form-group">
+        <label for="repo-fe">FE Repository Name</label>
+        <input type="text" id="repo-fe" class="input"
+               [ngModel]="wizardState.infrastructure().bitbucket.repoFE"
+               (change)="onRepoFEChange($event)">
+      </div>
+      <div class="form-group">
+        <label for="repo-be">BE Repository Name</label>
+        <input type="text" id="repo-be" class="input"
+               [ngModel]="wizardState.infrastructure().bitbucket.repoBE"
+               (change)="onRepoBEChange($event)">
+      </div>
 
-  <div>
-    <label class="block mb-4 font-medium text-gray-700">Security Features</label>
-    <div class="checkbox-group">
-      @for (item of securityOptions; track item.id) {
-        <div class="checkbox-item"
-             [class.border-purple-500]="isInfrastructureSelected('security', item.id)"
-             [class.bg-purple-50]="isInfrastructureSelected('security', item.id)"
-             (click)="updateInfrastructure('security', item.id)">
-          <input type="checkbox" [id]="item.id" [value]="item.id" [checked]="isInfrastructureSelected('security', item.id)" class="mr-3 h-5 w-5 text-purple-600 focus:ring-purple-500 border-gray-300 rounded">
-          <label [for]="item.id" class="text-gray-700">{{ item.label }}</label>
+      <!-- Minimum Reviewers -->
+      <div class="form-group">
+        <label for="min-reviewers">Min Number of reviewers</label>
+        <input type="number" id="min-reviewers"
+               class="input"
+               min="1"
+               [ngModel]="wizardState.infrastructure().bitbucket.minReviewers"
+               (change)="onMinReviewersChange($event)">
+      </div>
+
+      <!-- People Management -->
+      <div class="form-group">
+        <label class="block font-medium mb-2">Team Member / Reviewer</label>
+        <div class="flex items-center gap-2">
+          <!-- Person Name -->
+          <input type="text"
+                 placeholder="Person Name"
+                 class="input flex-1"
+                 [(ngModel)]="newPerson.name">
+
+          <!-- Username -->
+          <input type="text"
+                 placeholder="Username"
+                 class="input flex-1"
+                 [(ngModel)]="newPerson.username">
+
+          <!-- Checkboxes -->
+          <label class="flex items-center gap-1">
+            <input type="checkbox" [(ngModel)]="newPerson.defaultFE"> Reviewer FE
+          </label>
+          <label class="flex items-center gap-1">
+            <input type="checkbox" [(ngModel)]="newPerson.defaultBE"> Reviewer BE
+          </label>
+
+          <!-- Add button aligned right -->
+          <button class="btn btn-primary ml-auto" (click)="addPerson()">Add</button>
         </div>
-      }
-    </div>
-  </div>
+      </div>
+
+      <!-- People Table -->
+      <div class="overflow-x-auto mt-4">
+        <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+          <thead class="bg-gray-100 text-left">
+          <tr>
+            <th class="px-4 py-2 border-b">Person Name</th>
+            <th class="px-4 py-2 border-b">Username</th>
+            <th class="px-4 py-2 border-b">Reviewer FE</th>
+            <th class="px-4 py-2 border-b">Reviewer BE</th>
+            <th class="px-4 py-2 border-b">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+            @for (person of people; track person; let i = $index) {
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-2 border-b">{{ person.name }}</td>
+                <td class="px-4 py-2 border-b">{{ person.username }}</td>
+                <td class="px-4 py-2 border-b text-center">
+                  <input type="checkbox" [checked]="person.defaultFE" disabled>
+                </td>
+                <td class="px-4 py-2 border-b text-center">
+                  <input type="checkbox" [checked]="person.defaultBE" disabled>
+                </td>
+                <td class="px-4 py-2 border-b">
+                  <button class="btn btn-secondary" (click)="removePerson(i)">
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+    }
+    @case ('maven') {
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Maven Options</h3>
+        <p>No options available for this step.</p>
+      </div>
+    }
+    @case ('xray') {
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Xray Options</h3>
+
+        <!-- Enable XRay -->
+        <div class="form-group flex items-center gap-2">
+          <input type="checkbox" id="vuln-scan" [ngModel]="wizardState.infrastructure().xray.vulnerabilityScan"
+                 (change)="onVulnerabilityScanChange($event)">
+          <label for="vuln-scan">Enable XRay</label>
+        </div>
+
+        @if (wizardState.infrastructure().xray.vulnerabilityScan) {
+          <!-- Vulnerability Threshold -->
+          <div class="form-group">
+            <label for="vuln-threshold">Vulnerability Threshold:</label>
+            <select id="vuln-threshold" class="input w-full max-w-xs"
+                    [ngModel]="wizardState.infrastructure().xray.vulnerabilityThreshold"
+                    (change)="onVulnerabilityThresholdChange($event)">
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+            </select>
+          </div>
+
+          <!-- Check Opensource -->
+          <div class="form-group">
+            <span class="mb-2 font-semibold">Check Opensource Licenses:</span>
+            <div class="flex gap-4">
+              <label class="flex items-center gap-2">
+                <input type="radio" name="check-opensource" value="yes"
+                       [checked]="wizardState.infrastructure().xray.checkOpensource"
+                       (change)="onCheckOpensourceChange($event)">
+                Yes
+              </label>
+              <label class="flex items-center gap-2">
+                <input type="radio" name="check-opensource" value="no"
+                       [checked]="!wizardState.infrastructure().xray.checkOpensource"
+                       (change)="onCheckOpensourceChange($event)">
+                No
+              </label>
+            </div>
+          </div>
+
+          <!-- Create SBOM report -->
+          <div class="form-group">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" [ngModel]="wizardState.infrastructure().xray.checkSBOM"
+                     (change)="onCheckSBOMChange($event)">
+              Create SBOM report
+            </label>
+          </div>
+
+          <!-- Report Vulnerability on Sonar -->
+          <div class="form-group">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" [ngModel]="wizardState.infrastructure().xray.reportOnSonar"
+                     (change)="onReportOnSonarChange($event)">
+              Report Vulnerability on Sonar
+            </label>
+          </div>
+        }
+      </div>
+    }
+
+
+
+    @case ('sonarqube') {
+      <div>
+        <h3 class="text-xl font-semibold mb-4">SonarQube Options</h3>
+
+        <!-- Enable Sonar -->
+        <div class="form-group flex items-center gap-2">
+          <input type="checkbox" id="enable-sonar" [ngModel]="wizardState.infrastructure().sonarQube.enabled"
+                 (change)="onEnableSonarChange($event)">
+          <label for="enable-sonar">Enable Sonar</label>
+        </div>
+
+        @if (wizardState.infrastructure().sonarQube.enabled) {
+
+          <!-- Sonar Name FE -->
+          <div class="form-group">
+            <label for="sonar-name-fe">Sonar Name FE</label>
+            <input type="text" id="sonar-name-fe" class="input"
+                   [value]="sonarNameFE()"
+                   (input)="onSonarNameFEChange($event)">
+          </div>
+
+          <!-- Quality Gate FE -->
+          <div class="form-group">
+            <label for="quality-gate-fe">Quality Gate FE</label>
+            <select id="quality-gate-fe" class="input w-full max-w-xs"
+                    [ngModel]="wizardState.infrastructure().sonarQube.qualityGateFE"
+                    (change)="onQualityGateFEChange($event)">
+              <option [value]="qualityOptions[0]">{{ qualityOptions[0] }}</option>
+              <option [value]="qualityOptions[1]">{{ qualityOptions[1] }}</option>
+              <option [value]="qualityOptions[2]">{{ qualityOptions[2] }}</option>
+              <option [value]="qualityOptions[3]">{{ qualityOptions[3] }}</option>
+              <option [value]="qualityOptions[4]">{{ qualityOptions[4] }}</option>
+              <option [value]="qualityOptions[5]">{{ qualityOptions[5] }}</option>
+              <option [value]="qualityOptions[6]">{{ qualityOptions[6] }}</option>
+              <option [value]="qualityOptions[7]">{{ qualityOptions[7] }}</option>
+              <option [value]="qualityOptions[8]">{{ qualityOptions[8] }}</option>
+              <option [value]="qualityOptions[9]">{{ qualityOptions[9] }}</option>
+              <option [value]="qualityOptions[10]">{{ qualityOptions[10] }}</option>
+            </select>
+          </div>
+
+          <!-- Sonar Name BE -->
+          <div class="form-group">
+            <label for="sonar-name-be">Sonar Name BE</label>
+            <input type="text" id="sonar-name-be" class="input"
+                   [value]="sonarNameBE()"
+                   (input)="onSonarNameBEChange($event)">
+          </div>
+
+          <!-- Quality Gate BE -->
+          <div class="form-group">
+            <label for="quality-gate-be">Quality Gate BE</label>
+            <select id="quality-gate-be" class="input w-full max-w-xs"
+                    [ngModel]="wizardState.infrastructure().sonarQube.qualityGateBE"
+                    (change)="onQualityGateBEChange($event)">
+              <option [value]="qualityOptions[0]">{{ qualityOptions[0] }}</option>
+              <option [value]="qualityOptions[1]">{{ qualityOptions[1] }}</option>
+              <option [value]="qualityOptions[2]">{{ qualityOptions[2] }}</option>
+              <option [value]="qualityOptions[3]">{{ qualityOptions[3] }}</option>
+              <option [value]="qualityOptions[4]">{{ qualityOptions[4] }}</option>
+              <option [value]="qualityOptions[5]">{{ qualityOptions[5] }}</option>
+              <option [value]="qualityOptions[6]">{{ qualityOptions[6] }}</option>
+              <option [value]="qualityOptions[7]">{{ qualityOptions[7] }}</option>
+              <option [value]="qualityOptions[8]">{{ qualityOptions[8] }}</option>
+              <option [value]="qualityOptions[9]">{{ qualityOptions[9] }}</option>
+              <option [value]="qualityOptions[10]">{{ qualityOptions[10] }}</option>
+            </select>
+          </div>
+
+        }
+      </div>
+    }
+
+    @case('deployment') {
+      <div>
+        <h3 class="text-xl font-semibold mb-4">Deployment Options</h3>
+
+        <div class="form-group">
+          <label for="deployment-type">Deployment Type</label>
+          <select id="deployment-type" [ngModel]="wizardState.infrastructure().deployment.type"
+                  (change)="onDeploymentTypeChange($event)" class="input">
+            <option value="okd">OKD</option>
+            <option value="vm">Virtual Machine</option>
+          </select>
+        </div>
+
+        <!-- Environment Namespaces -->
+        <div class="form-group flex flex-col gap-4 mt-4">
+
+          <!-- Development -->
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1 w-32">
+              <input type="checkbox" id="dev-check"
+                     [(ngModel)]="wizardState.infrastructure().deployment.dev.enabled">
+              <label for="dev-check" class="truncate">Development</label>
+            </div>
+            <input type="text" class="input flex-1"
+                   [value]="deploymentDevNamespace()"
+                   (input)="onNamespaceChange('dev', $event)">
+          </div>
+
+          <!-- Test -->
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1 w-32">
+              <input type="checkbox" id="test-check"
+                     [(ngModel)]="wizardState.infrastructure().deployment.test.enabled">
+              <label for="test-check" class="truncate">Test</label>
+            </div>
+            <input type="text" class="input flex-1"
+                   [value]="deploymentTestNamespace()"
+                   (input)="onNamespaceChange('test', $event)">
+          </div>
+
+          <!-- Acceptance -->
+          <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1 w-32">
+              <input type="checkbox" id="acceptance-check"
+                     [(ngModel)]="wizardState.infrastructure().deployment.acceptance.enabled">
+              <label for="acceptance-check" class="truncate">Acceptance</label>
+            </div>
+            <input type="text" class="input flex-1"
+                   [value]="deploymentAcceptanceNamespace()"
+                   (input)="onNamespaceChange('acceptance', $event)">
+          </div>
+
+        </div>
+      </div>
+    }
+
+
+  }
 </div>
