@@ -1,0 +1,51 @@
+.tech-stack-title {
+  @apply text-2xl font-semibold mb-6;
+}
+
+.tech-stack-container {
+  @apply space-y-8;
+}
+
+.tech-category-label {
+  @apply block mb-4 font-medium text-gray-700;
+}
+
+.tech-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+}
+
+.tech-card {
+  @apply p-4 border rounded-lg cursor-pointer transition-all duration-200;
+}
+
+.tech-card-selected {
+  @apply border-purple-500 bg-purple-50 shadow-lg;
+}
+
+.icon-container {
+  @apply mb-3;
+}
+
+.tech-icon {
+  @apply w-12 h-12;
+}
+
+.tech-name {
+  @apply text-lg font-semibold mb-1;
+}
+
+.tech-description {
+  @apply text-sm text-gray-600;
+}
+
+.form-group {
+  /* No specific styles needed here as margin is handled by space-y-8 on the container */
+}
+
+.form-label {
+  @apply block mb-2 font-medium text-gray-700;
+}
+
+.form-select {
+  @apply input; /* Assuming 'input' is a global style or a custom class in styles.scss */
+}

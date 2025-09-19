@@ -1,0 +1,47 @@
+.progress-bar-container {
+  @apply relative mb-12;
+}
+
+.progress-line {
+  @apply overflow-hidden h-2 text-xs flex rounded bg-purple-200 mx-4;
+}
+
+.progress-line-inner {
+  @apply shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-purple-500 transition-all duration-500;
+}
+
+.steps-container {
+  @apply absolute top-1/2 left-0 w-full transform -translate-y-1/2;
+}
+
+.steps-wrapper {
+  @apply flex justify-between text-xs text-gray-600;
+}
+
+.step-item {
+  @apply w-1/4 text-center;
+}
+
+.step-content {
+  @apply relative;
+}
+
+.step-clickable {
+  @apply cursor-pointer;
+}
+
+.step-circle {
+  @apply mx-auto rounded-full h-8 w-8 flex items-center justify-center text-lg;
+}
+
+.step-circle-active {
+  @apply bg-purple-500 text-white;
+}
+
+.step-circle-inactive {
+  @apply bg-gray-300;
+}
+
+.step-label {
+  @apply absolute top-full mt-2 w-full text-center;
+}

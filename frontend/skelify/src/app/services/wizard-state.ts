@@ -1,11 +1,14 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { PipelineStep, WizardStateModel } from "../models/page/wizard-state.model";
 import { AppConstants } from "../models/constant/app-constant";
+import { GenerationService } from './generation.service';
+import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WizardStateService {
+  private readonly generationService = inject(GenerationService);
   private readonly state = signal(this.initialState);
   readonly steps = signal([
     { label: 'Project Info' },
@@ -120,15 +123,49 @@ export class WizardStateService {
     }));
   }
 
-  simulate() {
-    this.isLoading.set(true);
-    console.log('Simulating project generation with the following state:', this.state());
+  addPerson(person: Person) {
+    this.state.update(state => ({
+      ...state,
+      infrastructure: {
+        ...state.infrastructure,
+        bitbucket: {
+          ...state.infrastructure.bitbucket,
+          reviewers: [...state.infrastructure.bitbucket.reviewers, person]
+        }
+      }
+    }));
+  }
 
-    // Simulate a delay
-    setTimeout(() => {
-      this.isLoading.set(false);
-      this.isGenerated.set(true);
-    }, AppConstants.WIZARD.SIMULATED_TIME);
+  removePerson(index: number) {
+    this.state.update(state => {
+      const reviewers = [...state.infrastructure.bitbucket.reviewers];
+      reviewers.splice(index, 1);
+      return {
+        ...state,
+        infrastructure: {
+          ...state.infrastructure,
+          bitbucket: {
+            ...state.infrastructure.bitbucket,
+            reviewers
+          }
+        }
+      };
+    });
+  }
+
+  generateProject() {
+    this.isLoading.set(true);
+    this.generationService.generateProject(this.state())
+      .pipe(
+        finalize(() => {
+          this.isLoading.set(false);
+          this.isGenerated.set(true);
+        })
+      )
+      .subscribe({
+        next: (response) => console.log('Project generation successful:', response),
+        error: (error) => console.error('Project generation failed:', error)
+      });
   }
 
 }

@@ -2,14 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
 import { FormsModule } from '@angular/forms';
-import {AppConstants} from '../../models/constant/app-constant';
-
-interface Person {
-  name: string;
-  username: string;
-  defaultFE: boolean;
-  defaultBE: boolean;
-}
+import { AppConstants } from '../../models/constant/app-constant';
+import { Person } from '../../models/page/wizard-state.model';
 
 @Component({
   selector: 'app-infrastructure-step',
@@ -25,7 +19,7 @@ export class InfrastructureStep {
   pipelineSteps = computed(() => this.wizardState.pipelineSteps());
 
   // People management state
-  people: Person[] = AppConstants.WIZARD.INITIAL_STATE.infrastructure.bitbucket.reviewers; // FIXME
+  people = this.wizardState.infrastructure().bitbucket.reviewers;
   newPerson: Person = { name: '', username: '', defaultFE: false, defaultBE: false };
 
   // Coverage options
@@ -45,26 +39,24 @@ export class InfrastructureStep {
 
   projectInfo = this.wizardState.projectInfo();
 
-  PREFIX_SONAR = ""; // FIXME => move into the constant
   sonarNameFE = computed(() =>
-    `${this.PREFIX_SONAR}${this.projectInfo.packageName}.fe`
+    `${AppConstants.WIZARD.PREFIX_SONAR}${this.projectInfo.packageName}.fe`
   );
 
   sonarNameBE = computed(() =>
-    `${this.PREFIX_SONAR}${this.projectInfo.packageName}.be`
+    `${AppConstants.WIZARD.PREFIX_SONAR}${this.projectInfo.packageName}.be`
   );
 
-  PREFIX_DEPLOYMENT = "prj-elca-"; // FIXME => move into the constant
   deploymentDevNamespace = computed(() =>
-    `${this.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-dev`
+    `${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-dev`
   );
 
   deploymentTestNamespace = computed(() =>
-    `${this.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-test`
+    `${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-test`
   );
 
   deploymentAcceptanceNamespace = computed(() =>
-    `${this.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-acceptance`
+    `${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-acceptance`
   );
 
 
@@ -97,18 +89,16 @@ export class InfrastructureStep {
       return;
     }
 
-    const person = { ...this.newPerson };
-    this.people.push(person);
-    this.wizardState.infrastructure().bitbucket.reviewers = [...this.people];
+    this.wizardState.addPerson({ ...this.newPerson });
     this.newPerson = { name: '', username: '', defaultFE: false, defaultBE: false };
   }
 
   onMinReviewersChange(event: any) {
-    this.wizardState.infrastructure().bitbucket.minReviewers = Number(event.target.value);
+    this.wizardState.updateBitbucket({ minReviewers: Number(event.target.value) });
   }
 
   removePerson(index: number) {
-    this.people.splice(index, 1);
+    this.wizardState.removePerson(index);
   }
 
   onDeploymentTypeChange(event: Event) {
@@ -168,7 +158,13 @@ export class InfrastructureStep {
 
   onNamespaceChange(env: 'dev' | 'test' | 'acceptance', event: Event) {
     const target = event.target as HTMLInputElement;
-    this.wizardState.infrastructure().deployment[env].namespace = target.value;
+    this.wizardState.updateDeployment({
+      ...this.wizardState.infrastructure().deployment,
+      [env]: {
+        ...this.wizardState.infrastructure().deployment[env],
+        namespace: target.value
+      }
+    });
   }
 
 }

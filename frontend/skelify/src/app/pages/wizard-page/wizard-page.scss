@@ -1,0 +1,19 @@
+.wizard-container {
+  @apply p-10;
+}
+
+.wizard-content {
+  @apply bg-white rounded-lg shadow-md p-8 mb-8;
+}
+
+.wizard-actions {
+  @apply flex justify-between items-center;
+}
+
+.previous-button {
+  @apply btn btn-secondary;
+}
+
+.next-button {
+  @apply btn btn-primary;
+}

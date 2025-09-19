@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WizardStateService } from '../../services/wizard-state';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, startWith } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { debounceTime } from 'rxjs/operators';
 import { AppConstants } from '../../models/constant/app-constant';
 
 @Component({
@@ -25,33 +25,31 @@ export class ProjectInfoStep {
     packageName: ['']
   });
 
+  private formValue = toSignal(this.form.valueChanges.pipe(debounceTime(300)));
+  private formStatus = toSignal(this.form.statusChanges);
+
   constructor() {
     this.form.patchValue(this.wizardState.projectInfo());
 
-    this.form.statusChanges.pipe(
-      startWith(this.form.status),
-      takeUntilDestroyed()
-    ).subscribe(status => {
-      this.isFormValid.emit(status === 'VALID');
-    });
-
-    this.form.valueChanges
-      .pipe(debounceTime(300), takeUntilDestroyed())
-      .subscribe(value => {
+    effect(() => {
+      const value = this.formValue();
+      if (value) {
         this.wizardState.updateProjectInfo({
           projectName: value.projectName ?? '',
           projectDescription: value.projectDescription ?? '',
           organization: value.organization ?? '',
           packageName: value.packageName ?? ''
         });
-      });
 
-    this.form.get('projectName')?.valueChanges
-      .pipe(takeUntilDestroyed())
-      .subscribe(projectName => {
-        const organization = this.form.get('organization')?.value?.toLowerCase() || AppConstants.COMMON.COMPANY_NAME;
-        const packageName = `ch.${organization}.${projectName?.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')}`;
-        this.form.get('packageName')?.setValue(packageName);
-      });
+        const organization = value.organization?.toLowerCase() || AppConstants.COMMON.COMPANY_NAME;
+        const packageName = `ch.${organization}.${value.projectName?.toLowerCase().replace(/[^a-zA-Z0-9]/g, '')}`;
+        this.form.get('packageName')?.setValue(packageName, { emitEvent: false });
+      }
+    });
+
+    effect(() => {
+      const status = this.formStatus();
+      this.isFormValid.emit(status === 'VALID');
+    });
   }
 }

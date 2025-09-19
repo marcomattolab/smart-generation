@@ -10,6 +10,8 @@ export const AppConstants = {
   },
   WIZARD: {
     SIMULATED_TIME: 3500,
+    PREFIX_SONAR: '',
+    PREFIX_DEPLOYMENT: 'prj-elca-',
     SKELETON_GENERATED: "assets/skeleton/generated-skeleton.zip",
     INITIAL_STATE: {
       currentStep: 1,

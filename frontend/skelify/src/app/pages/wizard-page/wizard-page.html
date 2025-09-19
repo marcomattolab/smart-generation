@@ -1,8 +1,8 @@
-<div class="p-10">
+<div class="wizard-container">
 
   <app-progress-bar />
 
-  <div class="bg-white rounded-lg shadow-md p-8 mb-8">
+  <div class="wizard-content">
     @switch (wizardState.currentStep()) {
       @case (1) {
         <app-project-info-step (isFormValid)="isProjectInfoFormValid.set($event)" />
@@ -19,11 +19,11 @@
     }
   </div>
 
-  <div class="flex justify-between items-center">
-    <button class="btn btn-secondary" [class.hidden]="wizardState.currentStep() === 1" (click)="previousStep()">Previous</button>
+  <div class="wizard-actions">
+    <button class="previous-button" [class.hidden]="wizardState.currentStep() === 1" (click)="previousStep()">Previous</button>
     <div class="flex-grow"></div>
     <button
-      class="btn btn-primary"
+      class="next-button"
       (click)="handleNextStep()"
       [disabled]="(wizardState.currentStep() === 1 && !isProjectInfoFormValid()) || wizardState.isLoading()"
     >

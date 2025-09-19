@@ -1,0 +1,8 @@
+<svg width="100" height="30" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+  <!-- Diamond Shape -->
+  <path d="M15 2 L28 15 L15 28 L2 15 Z" fill="#333" />
+  <!-- Lightning Bolt -->
+  <path d="M15 8 L10 15 L18 15 L13 22" stroke="#FFF" stroke-width="2" fill="none" />
+  <!-- Text -->
+  <text x="35" y="22" font-family="Arial, sans-serif" font-size="14" fill="#333" font-weight="bold">SKELIFY</text>
+</svg>

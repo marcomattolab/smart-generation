@@ -1,28 +1,28 @@
-<h2 class="text-2xl font-semibold mb-6" data-cy="projectInformation">Project Information</h2>
-<form [formGroup]="form" class="space-y-6">
+<h2 class="project-info-title" data-cy="projectInformation">Project Information</h2>
+<form [formGroup]="form" class="project-info-form">
   <div class="form-group">
-    <label for="projectName" class="block mb-2 font-medium text-gray-700" data-cy="projectNameLabel">Project Name</label>
+    <label for="projectName" class="form-label" data-cy="projectNameLabel">Project Name</label>
     <input
       id="projectName"
       type="text"
       formControlName="projectName"
-      class="input"
-      [class.border-red-500]="form.get('projectName')?.invalid && form.get('projectName')?.touched"
+      class="form-input"
+      [class.form-input-error]="form.get('projectName')?.invalid && form.get('projectName')?.touched"
       placeholder="Enter your project name"
       data-cy="projectName"
       required
     >
   </div>
   <div class="form-group">
-    <label for="projectDescription" class="block mb-2 font-medium text-gray-700">Description</label>
-    <textarea id="projectDescription" data-cy="projectDescription" formControlName="projectDescription" class="input" rows="3" placeholder="Describe your project..."></textarea>
+    <label for="projectDescription" class="form-label">Description</label>
+    <textarea id="projectDescription" data-cy="projectDescription" formControlName="projectDescription" class="form-input" rows="3" placeholder="Describe your project..."></textarea>
   </div>
   <div class="form-group">
-    <label for="organization" class="block mb-2 font-medium text-gray-700">Organization</label>
-    <input id="organization" data-cy="organization" type="text" formControlName="organization" class="input" placeholder="ELCA">
+    <label for="organization" class="form-label">Organization</label>
+    <input id="organization" data-cy="organization" type="text" formControlName="organization" class="form-input" placeholder="ELCA">
   </div>
   <div class="form-group">
-    <label for="packageName" class="block mb-2 font-medium text-gray-700">Package Name</label>
-    <input id="packageName" data-cy="packageName" type="text" formControlName="packageName" class="input" placeholder="com.elca.yourproject">
+    <label for="packageName" class="form-label">Package Name</label>
+    <input id="packageName" data-cy="packageName" type="text" formControlName="packageName" class="form-input" placeholder="com.elca.yourproject">
   </div>
 </form>
