@@ -275,29 +275,34 @@
         <div class="deployment-namespaces">
 
           <!-- Development -->
+          <!-- TODO FIXME => Improve this layout Development -->
           <div class="namespace-group">
             <div class="namespace-label-group">
               <input type="checkbox" id="dev-check"
                      [(ngModel)]="wizardState.infrastructure().deployment.dev.enabled">
               <label for="dev-check" class="form-label">Development</label>
             </div>
+            <label for="namespace-dev" class="form-label">Namespace</label>
             <input type="text" class="form-input"
                    [value]="deploymentDevNamespace()"
                    (input)="onNamespaceChange('dev', $event)">
           </div>
 
           <!-- Test -->
+          <!-- TODO FIXME => Improve this layout Test -->
           <div class="namespace-group">
             <div class="namespace-label-group">
               <input type="checkbox" id="test-check"
                      [(ngModel)]="wizardState.infrastructure().deployment.test.enabled">
               <label for="test-check" class="form-label">Test</label>
             </div>
+            <label for="namespace-test" class="form-label">Namespace</label>
             <input type="text" class="form-input"
                    [value]="deploymentTestNamespace()"
                    (input)="onNamespaceChange('test', $event)">
           </div>
 
+          <!-- TODO FIXME => Improve this layout Acceptance -->
           <!-- Acceptance -->
           <div class="namespace-group">
             <div class="namespace-label-group">
@@ -305,6 +310,7 @@
                      [(ngModel)]="wizardState.infrastructure().deployment.acceptance.enabled">
               <label for="acceptance-check" class="form-label">Acceptance</label>
             </div>
+            <label for="namespace-acceptance" class="form-label">Namespace</label>
             <input type="text" class="form-input"
                    [value]="deploymentAcceptanceNamespace()"
                    (input)="onNamespaceChange('acceptance', $event)">
