@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class GenerationService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+  private readonly apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // FIXME
 
   generateProject(state: WizardStateModel): Observable<any> {
     console.log('Generating project with the following state:', state);

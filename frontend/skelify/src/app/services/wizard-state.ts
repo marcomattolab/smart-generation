@@ -153,7 +153,9 @@ export class WizardStateService {
     });
   }
 
+
   generateProject() {
+    console.log("generateProject ....");
     this.isLoading.set(true);
     this.generationService.generateProject(this.state())
       .pipe(
