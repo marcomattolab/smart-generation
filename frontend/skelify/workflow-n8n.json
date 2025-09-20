@@ -1,0 +1,198 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "transform-to-template"
+      },
+      "id": "Webhook_1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "command": "mkdir -p /tmp/project && unzip -o {{$json[\"body\"][\"projectZip\"]}} -d /tmp/project"
+      },
+      "id": "ExecuteCommand_1",
+      "name": "Unzip Project",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "command": "find /tmp/project -type f",
+        "options": {}
+      },
+      "id": "ExecuteCommand_2",
+      "name": "List Files",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [750, 300]
+    },
+    {
+      "parameters": {
+        "functionCode": "return items[0].json.stdout.split('\\n').filter(f => f.endsWith('.java') || f.endsWith('.ts') || f.endsWith('.html')).map(file => ({json:{filename:file}}));"
+      },
+      "id": "Function_1",
+      "name": "Prepare File List",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [950, 300]
+    },
+    {
+      "parameters": {
+        "filePath": "={{$json[\"filename\"]}}"
+      },
+      "id": "ReadBinaryFile_1",
+      "name": "Read File",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "typeVersion": 1,
+      "position": [1200, 300]
+    },
+    {
+      "parameters": {
+        "url": "https://api.openai.com/v1/chat/completions",
+        "authentication": "headerAuth",
+        "sendBody": true,
+        "jsonBody": "={\"model\":\"gpt-4o-mini\",\"messages\":[{\"role\":\"system\",\"content\":\"Sei un trasformatore di codice: da sorgente Java/Angular crei template Apache FreeMarker (.ftl). Usa ${entityName}, ${fields}, ecc. Restituisci solo il file trasformato.\"},{\"role\":\"user\",\"content\":\"Filename: {{$json[\\\"filename\\\"]}}\\nContent: {{$binary.data.toString('utf8')}}\"}]}",
+        "options": {}
+      },
+      "id": "HTTPRequest_1",
+      "name": "Call LLM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1450, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "your-credential-id"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fileName": "={{$json[\"filename\"]}}.ftl",
+        "fileContent": "={{$json[\"choices\"][0][\"message\"][\"content\"]}}",
+        "options": {}
+      },
+      "id": "WriteBinaryFile_1",
+      "name": "Write Template File",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [1700, 300]
+    },
+    {
+      "parameters": {
+        "command": "cd /tmp && zip -r templates.zip project"
+      },
+      "id": "ExecuteCommand_3",
+      "name": "Zip Templates",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1950, 300]
+    },
+    {
+      "parameters": {
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "RespondToWebhook_1",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2200, 300]
+    }
+  ],
+  "connections": {
+    "Webhook_1": {
+      "main": [
+        [
+          {
+            "node": "Unzip Project",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Unzip Project": {
+      "main": [
+        [
+          {
+            "node": "List Files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List Files": {
+      "main": [
+        [
+          {
+            "node": "Prepare File List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare File List": {
+      "main": [
+        [
+          {
+            "node": "Read File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read File": {
+      "main": [
+        [
+          {
+            "node": "Call LLM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call LLM": {
+      "main": [
+        [
+          {
+            "node": "Write Template File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Template File": {
+      "main": [
+        [
+          {
+            "node": "Zip Templates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zip Templates": {
+      "main": [
+        [
+          {
+            "node": "Respond",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
