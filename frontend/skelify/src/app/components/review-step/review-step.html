@@ -1,66 +1,66 @@
-<div class="review-container p-4 sm:p-6 lg:p-8">
+<div class="review-container">
   @if (wizardState.isLoading()) {
-    <div class="flex flex-col items-center justify-center p-8">
-      <div class="animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-purple-500 mb-4"></div>
-      <p class="text-lg font-semibold text-gray-700">Generating your project, please wait...</p>
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p class="loading-text">Generating your project, please wait...</p>
     </div>
   } @else if (wizardState.isGenerated()) {
-    <div class="text-center p-8 bg-green-50 rounded-lg shadow-md">
-      <div class="text-6xl mb-4">
-        <svg class="w-16 h-16 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <div class="generated-container">
+      <div class="generated-icon">
+        <svg class="generated-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
       </div>
-      <h2 class="text-3xl font-bold mb-2 text-green-800">Project Generated!</h2>
-      <p class="text-lg mb-6 text-gray-600">Congratulations! Your project is ready for download.</p>
-      <button class="btn btn-success" (click)="downloadProject()">
+      <h2 class="generated-title">Project Generated!</h2>
+      <p class="generated-text">Congratulations! Your project is ready for download.</p>
+      <button class="download-button" (click)="downloadProject()">
         Download Project
       </button>
     </div>
   } @else {
-    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Review Your Configuration</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <h2 class="review-title">Review Your Configuration</h2>
+    <div class="review-grid">
 
       <!-- Project Information Card -->
-      <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-        <h3 class="text-xl font-bold mb-4 text-purple-700 border-b-2 border-purple-200 pb-2">Project Information</h3>
-        <div class="space-y-3 text-gray-700">
-          <p><strong>Project Name: </strong> <span class="font-mono">{{ wizardState.projectInfo().projectName }}</span></p>
-          <p><strong>Description: </strong> <span class="font-mono">{{ wizardState.projectInfo().projectDescription }}</span></p>
-          <p><strong>Organization: </strong> <span class="font-mono">{{ wizardState.projectInfo().organization }}</span></p>
-          <p><strong>Package Name: </strong> <span class="font-mono">{{ wizardState.projectInfo().packageName }}</span></p>
+      <div class="review-card">
+        <h3 class="card-title project-info-title">Project Information</h3>
+        <div class="card-content">
+          <p class="info-row"><strong class="info-label">Project Name: </strong> <span class="info-value">{{ wizardState.projectInfo().projectName }}</span></p>
+          <p class="info-row"><strong class="info-label">Description: </strong> <span class="info-value">{{ wizardState.projectInfo().projectDescription }}</span></p>
+          <p class="info-row"><strong class="info-label">Organization: </strong> <span class="info-value">{{ wizardState.projectInfo().organization }}</span></p>
+          <p class="info-row"><strong class="info-label">Package Name: </strong> <span class="info-value">{{ wizardState.projectInfo().packageName }}</span></p>
         </div>
       </div>
 
       <!-- Technology Stack Card -->
-      <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
-        <h3 class="text-xl font-bold mb-4 text-indigo-700 border-b-2 border-indigo-200 pb-2">Technology Stack</h3>
-        <div class="space-y-3 text-gray-700">
-          <p><strong>Backend: </strong> <span class="font-mono">{{ wizardState.techStack().backend }}</span></p>
-          <p><strong>Frontend: </strong> <span class="font-mono">{{ wizardState.techStack().frontend }}</span></p>
-          <p><strong>Mobile: </strong> <span class="font-mono">{{ wizardState.techStack().mobile }}</span></p>
-          <p><strong>Database: </strong> <span class="font-mono">{{ wizardState.techStack().database }}</span></p>
-          <p><strong>Security: </strong> <span class="font-mono">{{ wizardState.techStack().security }}</span></p>
+      <div class="review-card">
+        <h3 class="card-title tech-stack-title">Technology Stack</h3>
+        <div class="card-content">
+          <p class="info-row"><strong class="info-label">Backend: </strong> <span class="info-value">{{ wizardState.techStack().backend }}</span></p>
+          <p class="info-row"><strong class="info-label">Frontend: </strong> <span class="info-value">{{ wizardState.techStack().frontend }}</span></p>
+          <p class="info-row"><strong class="info-label">Mobile: </strong> <span class="info-value">{{ wizardState.techStack().mobile }}</span></p>
+          <p class="info-row"><strong class="info-label">Database: </strong> <span class="info-value">{{ wizardState.techStack().database }}</span></p>
+          <p class="info-row"><strong class="info-label">Security: </strong> <span class="info-value">{{ wizardState.techStack().security }}</span></p>
         </div>
       </div>
 
       <!-- Infrastructure Card -->
-      <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300 md:col-span-2 lg:col-span-1">
-        <h3 class="text-xl font-bold mb-4 text-teal-700 border-b-2 border-teal-200 pb-2">Infrastructure</h3>
-        <div class="space-y-3 text-gray-700">
-          <p>
-            <strong>Bitbucket: </strong> <span class="font-mono">{{ wizardState.infrastructure().bitbucket.flow }}</span>
+      <div class="review-card infrastructure-card">
+        <h3 class="card-title infrastructure-title">Infrastructure</h3>
+        <div class="card-content">
+          <p class="info-row">
+            <strong class="info-label">Bitbucket: </strong> <span class="info-value">{{ wizardState.infrastructure().bitbucket.flow }}</span>
           </p>
-          <p>
-            <strong>Deployment: </strong> <span class="font-mono">{{ wizardState.infrastructure().deployment.type }}</span>
+          <p class="info-row">
+            <strong class="info-label">Deployment: </strong> <span class="info-value">{{ wizardState.infrastructure().deployment.type }}</span>
           </p>
 
-          <p class="flex items-center gap-2">
-              <strong>Xray: </strong>
-              <span class="font-mono flex-1">
+          <p class="info-row-flex">
+              <strong class="info-label">Xray: </strong>
+              <span class="info-value flex-1">
                 {{ wizardState.infrastructure().xray.vulnerabilityScan ? 'Enabled' : 'Disabled' }}
               </span>
               @if (wizardState.infrastructure().xray.vulnerabilityScan ){
                 <svg
-                  class="w-5 h-5 text-green-500"
+                  class="status-icon"
                   fill="none" stroke="currentColor"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
@@ -70,14 +70,14 @@
               }
             </p>
 
-            <p class="flex items-center gap-2">
-              <strong>SonarQube: </strong>
-              <span class="font-mono flex-1">
+            <p class="info-row-flex">
+              <strong class="info-label">SonarQube: </strong>
+              <span class="info-value flex-1">
                 {{ wizardState.infrastructure().sonarQube.enabled ? 'Enabled' : 'Disabled' }}
               </span>
               @if (wizardState.infrastructure().sonarQube.enabled ){
                 <svg
-                  class="w-5 h-5 text-green-500"
+                  class="status-icon"
                   fill="none" stroke="currentColor"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"

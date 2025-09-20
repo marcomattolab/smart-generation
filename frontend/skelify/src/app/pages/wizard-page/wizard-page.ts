@@ -47,7 +47,7 @@ export class WizardPage {
 
   handleNextStep() {
     if (this.wizardState.isLastStep()) {
-      this.wizardState.simulate();
+      this.wizardState.generateProject();
     } else {
       this.wizardState.nextStep();
     }

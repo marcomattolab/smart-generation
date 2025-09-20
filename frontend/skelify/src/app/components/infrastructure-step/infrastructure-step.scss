@@ -1,79 +1,147 @@
 :host {
   .pipeline {
-    display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
+    @apply flex items-center mb-8;
   }
 
   .pipeline-step {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s;
+    @apply flex items-center cursor-pointer p-2 rounded-lg transition-colors;
 
     &:hover {
-      background-color: #f3f4f6;
+      @apply bg-gray-100;
     }
 
     &.active {
-      background-color: #e9d5ff;
-      font-weight: 600;
+      @apply bg-purple-100 font-semibold;
     }
 
     .step-icon {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background-color: #9ca3af;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 0.5rem;
+      @apply w-6 h-6 rounded-full bg-gray-300 text-white flex items-center justify-center mr-2;
 
       &.active {
-        background-color: #8b5cf6;
+        @apply bg-purple-600;
       }
     }
   }
 
   .pipeline-connector {
-    flex-grow: 1;
-    height: 2px;
-    background-color: #d1d5db;
-    margin: 0 0.5rem;
+    @apply flex-grow h-0.5 bg-gray-300 mx-2 hidden md:block;
   }
 
   .step-options {
-    padding: 1.5rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
+    @apply p-6 border border-gray-200 rounded-lg;
   }
 
   .form-group {
-    margin-bottom: 1rem;
+    @apply mb-4;
   }
 
   label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
+    @apply block mb-2 font-medium;
   }
 
   input[type="text"],
   select,
   input[type="number"] {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.25rem;
+    @apply w-full p-2 border border-gray-300 rounded;
   }
 
   .checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    @apply flex items-center gap-2;
   }
+}
+
+.infrastructure-title {
+  @apply text-2xl font-semibold mb-6;
+}
+
+.pipeline-nav {
+  @apply flex flex-col md:flex-row items-center justify-center mb-8;
+}
+
+.pipeline-step-active {
+  @apply bg-purple-100;
+}
+
+.pipeline-icon {
+  @apply flex items-center justify-center w-6 h-6 rounded-full mr-2 bg-gray-300;
+}
+
+.pipeline-icon-active {
+  @apply bg-purple-600 text-white;
+}
+
+.pipeline-label {
+  @apply font-medium;
+}
+
+.pipeline-label-active {
+  @apply text-purple-700;
+}
+
+.pipeline-connector-vertical {
+  @apply w-px h-6 bg-gray-300 my-1 md:hidden;
+}
+
+.step-title {
+  @apply text-xl font-semibold mb-4;
+}
+
+.form-label {
+  @apply block font-medium mb-2;
+}
+
+.form-input {
+  @apply input; /* Assuming 'input' is a global style or a custom class in styles.scss */
+}
+
+.people-management-group {
+  @apply flex items-center gap-2;
+}
+
+.add-person-btn {
+  @apply ml-auto;
+}
+
+.table-container {
+  @apply overflow-x-auto mt-4;
+}
+
+.table {
+  @apply min-w-full border border-gray-200 rounded-lg overflow-hidden;
+}
+
+.table-header {
+  @apply bg-gray-100 text-left;
+}
+
+.table-row {
+  @apply hover:bg-gray-50;
+}
+
+.table-cell {
+  @apply px-4 py-2 border-b;
+}
+
+.checkbox-group {
+  @apply flex items-center gap-2;
+}
+
+.radio-group {
+  @apply flex gap-4;
+}
+
+.radio-label {
+  @apply flex items-center gap-2;
+}
+
+.deployment-namespaces {
+  @apply flex flex-col gap-4 mt-4;
+}
+
+.namespace-group {
+  @apply flex items-center gap-2;
+}
+
+.namespace-label-group {
+  @apply flex items-center gap-1 w-32;
 }
