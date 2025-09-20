@@ -19,7 +19,7 @@ export class InfrastructureStep {
   pipelineSteps = computed(() => this.wizardState.pipelineSteps());
 
   // People management state
-  people = this.wizardState.infrastructure().bitbucket.reviewers;
+  people = this.wizardState.infrastructure().bitbucket.reviewers; // FIXME => I dont see the added person in the UI
   newPerson: Person = { name: '', username: '', defaultFE: false, defaultBE: false };
 
   // Coverage options
@@ -80,6 +80,7 @@ export class InfrastructureStep {
   }
 
   addPerson() {
+    debugger;
     if (!this.newPerson.name.trim() || !this.newPerson.username.trim()) {
       return;
     }
