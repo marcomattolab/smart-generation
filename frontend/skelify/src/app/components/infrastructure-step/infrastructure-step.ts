@@ -40,6 +40,7 @@ export class InfrastructureStep {
 
   projectInfo = this.wizardState.projectInfo();
 
+  // FIXME > sonarNameFE it is empty when generate json / state in the GenerationService.generateProject() inside the state
   sonarNameFE = computed(() =>
     `${AppConstants.WIZARD.PREFIX_SONAR}${this.projectInfo.packageName}.fe`
   );
