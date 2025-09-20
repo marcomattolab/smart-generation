@@ -1,17 +1,26 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WizardStateModel } from '../models/page/wizard-state.model';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
+// import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GenerationService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'https://jsonplaceholder.typicode.com/posts'; // FIXME
+  private readonly baseUrl = 'https://jsonplaceholder.typicode.com/posts'; // FIXME
+  // => private readonly baseUrl =  environment.apiUrl + '/generate';
 
   generateProject(state: WizardStateModel): Observable<any> {
     console.log('Generating project with the following state:', state);
-    return this.http.post(this.apiUrl, state);
+    return this.http.post<any>(`${this.baseUrl}`, state).pipe(
+      catchError(error => this.handleError(error))
+    );
+  }
+
+  private handleError(error: any): Observable<never> {
+    console.error('Some error occurred', error);
+    return throwError(() => new Error(error.message || error));
   }
 }
