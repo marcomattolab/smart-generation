@@ -1,5 +1,5 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { PipelineStep, WizardStateModel } from "../models/page/wizard-state.model";
+import { Person, PipelineStep, WizardStateModel } from "../models/page/wizard-state.model";
 import { AppConstants } from "../models/constant/app-constant";
 import { GenerationService } from './generation.service';
 import { finalize } from 'rxjs';
