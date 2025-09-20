@@ -38,9 +38,7 @@ export const AppConstants = {
           reviewers: [
             { name:"Valentino Rossi", username:"valentino.rossi@elca.ch", defaultBE:true, defaultFE:false },
             { name:"Mario Bianchi", username:"mario.bianchi@elca.ch", defaultBE:false, defaultFE:true }
-          ] as Person[],
-          sourceBranch: {},
-          targetBranch: {},
+          ] as Person[]
         },
         xray: {
           vulnerabilityScan: true,

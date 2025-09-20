@@ -34,8 +34,6 @@ export interface WizardStateModel {
       repoBE?: string;
       minReviewers: number;
       reviewers: Person[];
-      sourceBranch: any;
-      targetBranch: any;
     };
     xray: {
       vulnerabilityScan: boolean;
