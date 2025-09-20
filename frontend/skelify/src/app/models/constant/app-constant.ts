@@ -36,8 +36,7 @@ export const AppConstants = {
           repoBE: '',
           minReviewers: 1,
           reviewers: [
-            { name:"Valentino Rossi", username:"valentino.rossi@elca.ch", defaultBE:true, defaultFE:false },
-            { name:"Mario Bianchi", username:"mario.bianchi@elca.ch", defaultBE:false, defaultFE:true }
+            { name: "Valentino Rossi", username: "valentino.rossi@elca.ch", defaultBE: true, defaultFE: true }
           ] as Person[]
         },
         xray: {

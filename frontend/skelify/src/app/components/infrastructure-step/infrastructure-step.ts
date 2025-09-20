@@ -19,7 +19,8 @@ export class InfrastructureStep {
   pipelineSteps = computed(() => this.wizardState.pipelineSteps());
 
   // People management state
-  people = this.wizardState.infrastructure().bitbucket.reviewers; // FIXME => I dont see the added person in the UI
+  people = computed(() => this.wizardState.infrastructure().bitbucket.reviewers);
+ 
   newPerson: Person = { name: '', username: '', defaultFE: false, defaultBE: false };
 
   // Coverage options
@@ -85,7 +86,7 @@ export class InfrastructureStep {
     if (!this.newPerson.name.trim() || !this.newPerson.username.trim()) {
       return;
     }
-    const exists = this.people.some(p => p.username === this.newPerson.username);
+    const exists = this.people().some(p => p.username === this.newPerson.username);
     if (exists) {
       alert('Person Already Added');
       return;
