@@ -95,7 +95,7 @@
           </tr>
           </thead>
           <tbody>
-            @for (person of people; track person; let i = $index) {
+            @for (person of people(); track person; let i = $index) {
               <tr class="table-row">
                 <td class="table-cell">{{ person.name }}</td>
                 <td class="table-cell">{{ person.username }}</td>
