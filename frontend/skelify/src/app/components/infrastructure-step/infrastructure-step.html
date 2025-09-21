@@ -280,52 +280,66 @@
           </select>
         </div>
 
-        <!-- Environment Namespaces -->
-        <div class="deployment-namespaces">
+       <!-- Environment Namespaces -->
+        <div class="deployment-namespaces space-y-4">
 
-        <!-- Development -->
-          <div class="namespace-group">
-            <div class="namespace-label-group">
+          <!-- Development -->
+          <div class="namespace-group flex flex-col md:flex-row md:items-center md:space-x-4">
+            <div class="namespace-label-group flex items-center space-x-2 md:w-48">
               <input type="checkbox" id="dev-check"
-                     [checked]="wizardState.infrastructure().deployment.dev.enabled"
-                     (change)="onDeploymentEnabledChange('dev', $event)">
+                    [checked]="wizardState.infrastructure().deployment.dev.enabled"
+                    (change)="onDeploymentEnabledChange('dev', $event)">
               <label for="dev-check" class="form-label">Development</label>
             </div>
-            <label for="namespace-dev" class="form-label">Namespace</label>
-            <input type="text" class="form-input"
-                   [value]="deploymentDevNamespace()"
-                   (input)="onNamespaceChange('dev', $event)">
+
+            @if (wizardState.infrastructure().deployment.dev.enabled) {
+              <label for="namespace-dev" class="form-label md:w-32 text-right">Namespace:</label>
+              <input type="text" id="namespace-dev" class="form-input flex-1"
+                    [value]="deploymentDevNamespace()"
+                    (input)="onNamespaceChange('dev', $event)">
+            }
           </div>
 
           <!-- Test -->
-          <div class="namespace-group">
-            <div class="namespace-label-group">
+          <div class="namespace-group flex flex-col md:flex-row md:items-center md:space-x-4">
+            <div class="namespace-label-group flex items-center space-x-2 md:w-48">
               <input type="checkbox" id="test-check"
                     [checked]="wizardState.infrastructure().deployment.test.enabled"
                     (change)="onDeploymentEnabledChange('test', $event)">
               <label for="test-check" class="form-label">Test</label>
             </div>
-            <label for="namespace-test" class="form-label">Namespace</label>
-            <input type="text" class="form-input"
-                   [value]="deploymentTestNamespace()"
-                   (input)="onNamespaceChange('test', $event)">
+
+            @if (wizardState.infrastructure().deployment.test.enabled) {
+              <label for="namespace-test" class="form-label md:w-32 text-right">Namespace:</label>
+              <input type="text" id="namespace-test" class="form-input flex-1"
+                    [value]="deploymentTestNamespace()"
+                    (input)="onNamespaceChange('test', $event)">
+            }
           </div>
 
           <!-- Acceptance -->
-          <div class="namespace-group">
-            <div class="namespace-label-group">
+          <div class="namespace-group flex flex-col md:flex-row md:items-center md:space-x-4">
+            <div class="namespace-label-group flex items-center space-x-2 md:w-48">
               <input type="checkbox" id="acceptance-check"
                     [checked]="wizardState.infrastructure().deployment.acceptance.enabled"
                     (change)="onDeploymentEnabledChange('acceptance', $event)">
               <label for="acceptance-check" class="form-label">Acceptance</label>
             </div>
-            <label for="namespace-acceptance" class="form-label">Namespace</label>
-            <input type="text" class="form-input"
-                   [value]="deploymentAcceptanceNamespace()"
-                   (input)="onNamespaceChange('acceptance', $event)">
+
+            @if (wizardState.infrastructure().deployment.acceptance.enabled) {
+              <label for="namespace-acceptance" class="form-label md:w-32 text-right">Namespace:</label>
+              <input type="text" id="namespace-acceptance" class="form-input flex-1"
+                    [value]="deploymentAcceptanceNamespace()"
+                    (input)="onNamespaceChange('acceptance', $event)">
+            }
           </div>
 
         </div>
+
+
+
+
+
       </div>
     }
 
