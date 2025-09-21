@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WizardStateService } from '../../services/wizard-state';
 import { FormsModule } from '@angular/forms';
@@ -12,7 +12,7 @@ import { Person } from '../../models/page/wizard-state.model';
   imports: [CommonModule, FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InfrastructureStep {
+export class InfrastructureStep implements OnInit{
   wizardState = inject(WizardStateService);
 
   activeSubstep = computed(() => this.wizardState.pipelineSteps()[this.wizardState.currentSubstep()-1]?.id);
@@ -40,7 +40,6 @@ export class InfrastructureStep {
 
   projectInfo = this.wizardState.projectInfo();
 
-  // FIXME these fields
   qualityGateFE = computed(() => this.wizardState.infrastructure().sonarQube.qualityGateFE);
   qualityGateBE = computed(() => this.wizardState.infrastructure().sonarQube.qualityGateBE);
   sonarNameFE = computed(() => `${AppConstants.WIZARD.PREFIX_SONAR}${this.projectInfo.packageName}.fe`);
@@ -48,7 +47,18 @@ export class InfrastructureStep {
   deploymentDevNamespace = computed(() =>`${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-dev`);
   deploymentTestNamespace = computed(() =>`${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-test`);
   deploymentAcceptanceNamespace = computed(() =>`${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-acceptance`);
-  //
+  
+  ngOnInit(): void {
+    this.wizardState.updateSonarQube({
+      sonarNameFE: this.sonarNameFE(),
+      sonarNameBE: this.sonarNameBE(),
+    });
+    this.wizardState.updateDeployment({
+      dev: { ...this.wizardState.infrastructure().deployment.dev, namespace: this.deploymentDevNamespace() },
+      test: { ...this.wizardState.infrastructure().deployment.test, namespace: this.deploymentTestNamespace() },
+      acceptance: { ...this.wizardState.infrastructure().deployment.acceptance, namespace: this.deploymentAcceptanceNamespace() },
+    });
+  }
 
   setActiveSubstep(substepId: string) {
     this.wizardState.updateSubstep(substepId);
