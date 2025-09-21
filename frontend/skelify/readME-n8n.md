@@ -24,7 +24,9 @@ Output: zip templates.zip con la struttura trasformata in .ftl.
 docker run -it --rm \
   -p 5678:5678 \
   -v ~/.n8n:/home/node/.n8n \
+  -e N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true \
   n8nio/n8n
+
 
   
   Now open http://localhost:5678
@@ -35,7 +37,7 @@ docker run -it --rm \
 Ecco il file JSON di workflow per n8n che puoi importare direttamente.
 
 - Legge i dati da Google Sheets (ticker, prezzoMedio, quantita)
-- Recupera i prezzi da Yahoo Finance
+- Recupera i prezzi da Yahoo Finance => https://www.alphavantage.co/
 - Calcola P/L e strategia
 - Crea una Dashboard HTML
 - Invia il report via Gmail
