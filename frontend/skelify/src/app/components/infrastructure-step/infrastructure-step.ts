@@ -171,4 +171,15 @@ export class InfrastructureStep {
     });
   }
 
+  onDeploymentEnabledChange(env: 'dev' | 'test' | 'acceptance', event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.wizardState.updateDeployment({
+      ...this.wizardState.infrastructure().deployment,
+      [env]: {
+        ...this.wizardState.infrastructure().deployment[env],
+        enabled: target.checked
+      }
+    });
+  }
+
 }
