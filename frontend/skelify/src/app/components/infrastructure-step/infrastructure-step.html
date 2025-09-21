@@ -23,7 +23,7 @@
       <h3 class="step-title">Bitbucket</h3>
       <div class="form-group">
         <label for="bitbucket-flow" class="form-label">Workflow</label>
-        <select id="bitbucket-flow" [ngModel]="wizardState.infrastructure().bitbucket.flow" (change)="onBitbucketFlowChange($event)" class="form-input">
+        <select id="bitbucket-flow" [value]="wizardState.infrastructure().bitbucket.flow" (input)="onBitbucketFlowChange($event)" class="form-input">
           <option value="gitflow">GitFlow</option>
           <option value="trunk">Trunk Based</option>
         </select>
@@ -33,14 +33,14 @@
       <div class="form-group">
         <label for="repo-fe" class="form-label">FE Repository Name</label>
         <input type="text" id="repo-fe" class="form-input"
-               [ngModel]="wizardState.infrastructure().bitbucket.repoFE"
-               (change)="onRepoFEChange($event)">
+               [value]="wizardState.infrastructure().bitbucket.repoFE"
+               (input)="onRepoFEChange($event)">
       </div>
       <div class="form-group">
         <label for="repo-be" class="form-label">BE Repository Name</label>
         <input type="text" id="repo-be" class="form-input"
-               [ngModel]="wizardState.infrastructure().bitbucket.repoBE"
-               (change)="onRepoBEChange($event)">
+               [value]="wizardState.infrastructure().bitbucket.repoBE"
+               (input)="onRepoBEChange($event)">
       </div>
 
       <!-- Minimum Reviewers -->
@@ -49,8 +49,8 @@
         <input type="number" id="min-reviewers"
                class="form-input"
                min="1"
-               [ngModel]="wizardState.infrastructure().bitbucket.minReviewers"
-               (change)="onMinReviewersChange($event)">
+               [value]="wizardState.infrastructure().bitbucket.minReviewers"
+               (input)="onMinReviewersChange($event)">
       </div>
 
       <!-- People Management -->
@@ -61,20 +61,22 @@
           <input type="text"
                  placeholder="Person Name"
                  class="form-input"
-                 [(ngModel)]="newPerson.name">
+                 [value]="newPerson.name"
+                 (input)="newPerson.name = $event.target.value">
 
           <!-- Username -->
           <input type="text"
                  placeholder="Username"
                  class="form-input"
-                 [(ngModel)]="newPerson.username">
+                 [value]="newPerson.username"
+                 (input)="newPerson.username = $event.target.value">
 
           <!-- Checkboxes -->
           <label class="checkbox-label">
-            <input type="checkbox" [(ngModel)]="newPerson.defaultFE"> Reviewer FE
+            <input type="checkbox" [checked]="newPerson.defaultFE" (change)="newPerson.defaultFE = $event.target.checked"> Reviewer FE
           </label>
           <label class="checkbox-label">
-            <input type="checkbox" [(ngModel)]="newPerson.defaultBE"> Reviewer BE
+            <input type="checkbox" [checked]="newPerson.defaultBE" (change)="newPerson.defaultBE = $event.target.checked"> Reviewer BE
           </label>
 
           <!-- Add button aligned right -->
@@ -95,7 +97,7 @@
           </tr>
           </thead>
           <tbody>
-            @for (person of people; track person; let i = $index) {
+            @for (person of people(); track person; let i = $index) {
               <tr class="table-row">
                 <td class="table-cell">{{ person.name }}</td>
                 <td class="table-cell">{{ person.username }}</td>
@@ -129,7 +131,7 @@
 
         <!-- Enable XRay -->
         <div class="form-group checkbox-group">
-          <input type="checkbox" id="vuln-scan" [ngModel]="wizardState.infrastructure().xray.vulnerabilityScan"
+          <input type="checkbox" id="vuln-scan" [checked]="wizardState.infrastructure().xray.vulnerabilityScan"
                  (change)="onVulnerabilityScanChange($event)">
           <label for="vuln-scan" class="form-label">Enable XRay</label>
         </div>
@@ -139,8 +141,8 @@
           <div class="form-group">
             <label for="vuln-threshold" class="form-label">Vulnerability Threshold:</label>
             <select id="vuln-threshold" class="form-input"
-                    [ngModel]="wizardState.infrastructure().xray.vulnerabilityThreshold"
-                    (change)="onVulnerabilityThresholdChange($event)">
+                    [value]="wizardState.infrastructure().xray.vulnerabilityThreshold"
+                    (input)="onVulnerabilityThresholdChange($event)">
               <option value="medium">Medium</option>
               <option value="high">High</option>
               <option value="critical">Critical</option>
@@ -168,14 +170,14 @@
 
           <!-- Create SBOM report -->
           <div class="form-group checkbox-group">
-            <input type="checkbox" [ngModel]="wizardState.infrastructure().xray.checkSBOM"
+            <input type="checkbox" [checked]="wizardState.infrastructure().xray.checkSBOM"
                      (change)="onCheckSBOMChange($event)">
             <label class="form-label">Create SBOM report</label>
           </div>
 
           <!-- Report Vulnerability on Sonar -->
           <div class="form-group checkbox-group">
-            <input type="checkbox" [ngModel]="wizardState.infrastructure().xray.reportOnSonar"
+            <input type="checkbox" [checked]="wizardState.infrastructure().xray.reportOnSonar"
                      (change)="onReportOnSonarChange($event)">
             <label class="form-label">Report Vulnerability on Sonar</label>
           </div>
@@ -191,7 +193,7 @@
 
         <!-- Enable Sonar -->
         <div class="form-group checkbox-group">
-          <input type="checkbox" id="enable-sonar" [ngModel]="wizardState.infrastructure().sonarQube.enabled"
+          <input type="checkbox" id="enable-sonar" [checked]="wizardState.infrastructure().sonarQube.enabled"
                  (change)="onEnableSonarChange($event)">
           <label for="enable-sonar" class="form-label">Enable Sonar</label>
         </div>
@@ -210,8 +212,8 @@
           <div class="form-group">
             <label for="quality-gate-fe" class="form-label">Quality Gate FE</label>
             <select id="quality-gate-fe" class="form-input"
-                    [ngModel]="wizardState.infrastructure().sonarQube.qualityGateFE"
-                    (change)="onQualityGateFEChange($event)">
+                    [value]="wizardState.infrastructure().sonarQube.qualityGateFE"
+                    (input)="onQualityGateFEChange($event)">
               <option [value]="qualityOptions[0]">{{ qualityOptions[0] }}</option>
               <option [value]="qualityOptions[1]">{{ qualityOptions[1] }}</option>
               <option [value]="qualityOptions[2]">{{ qualityOptions[2] }}</option>
@@ -238,8 +240,8 @@
           <div class="form-group">
             <label for="quality-gate-be" class="form-label">Quality Gate BE</label>
             <select id="quality-gate-be" class="form-input"
-                    [ngModel]="wizardState.infrastructure().sonarQube.qualityGateBE"
-                    (change)="onQualityGateBEChange($event)">
+                    [value]="wizardState.infrastructure().sonarQube.qualityGateBE"
+                    (input)="onQualityGateBEChange($event)">
               <option [value]="qualityOptions[0]">{{ qualityOptions[0] }}</option>
               <option [value]="qualityOptions[1]">{{ qualityOptions[1] }}</option>
               <option [value]="qualityOptions[2]">{{ qualityOptions[2] }}</option>
@@ -264,8 +266,8 @@
 
         <div class="form-group">
           <label for="deployment-type" class="form-label">Deployment Type</label>
-          <select id="deployment-type" [ngModel]="wizardState.infrastructure().deployment.type"
-                  (change)="onDeploymentTypeChange($event)" class="form-input">
+          <select id="deployment-type" [value]="wizardState.infrastructure().deployment.type"
+                  (input)="onDeploymentTypeChange($event)" class="form-input">
             <option value="okd">OKD</option>
             <option value="vm">Virtual Machine</option>
           </select>
@@ -278,7 +280,8 @@
           <div class="namespace-group">
             <div class="namespace-label-group">
               <input type="checkbox" id="dev-check"
-                     [(ngModel)]="wizardState.infrastructure().deployment.dev.enabled">
+                     [checked]="wizardState.infrastructure().deployment.dev.enabled"
+                     (change)="onDeploymentEnabledChange('dev', $event)">
               <label for="dev-check" class="form-label">Development</label>
             </div>
             <input type="text" class="form-input"
@@ -290,7 +293,8 @@
           <div class="namespace-group">
             <div class="namespace-label-group">
               <input type="checkbox" id="test-check"
-                     [(ngModel)]="wizardState.infrastructure().deployment.test.enabled">
+                     [checked]="wizardState.infrastructure().deployment.test.enabled"
+                      (change)="onDeploymentEnabledChange('test', $event)">
               <label for="test-check" class="form-label">Test</label>
             </div>
             <input type="text" class="form-input"
@@ -302,7 +306,8 @@
           <div class="namespace-group">
             <div class="namespace-label-group">
               <input type="checkbox" id="acceptance-check"
-                     [(ngModel)]="wizardState.infrastructure().deployment.acceptance.enabled">
+                     [checked]="wizardState.infrastructure().deployment.acceptance.enabled"
+                      (change)="onDeploymentEnabledChange('acceptance', $event)">
               <label for="acceptance-check" class="form-label">Acceptance</label>
             </div>
             <input type="text" class="form-input"
