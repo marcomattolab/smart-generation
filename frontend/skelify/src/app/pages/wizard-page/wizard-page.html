@@ -25,7 +25,7 @@
     <button
       class="next-button"
       (click)="handleNextStep()"
-      [disabled]="(wizardState.currentStep() === 1 && !isProjectInfoFormValid()) || wizardState.isLoading()"
+      [disabled]="(wizardState.currentStep() === 1 && !isProjectInfoFormValid()) || wizardState.isLoading() || wizardState.isGenerated()"ß
     >
       @if (wizardState.isLastStep()) {
         <span>Generate</span>
