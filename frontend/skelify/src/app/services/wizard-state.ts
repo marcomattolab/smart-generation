@@ -155,8 +155,10 @@ export class WizardStateService {
 
 
   generateProject() {
-    console.log("generateProject ....");
+    console.log("## generateProject ....");
     this.isLoading.set(true);
+
+
     this.generationService.generateProject(this.state())
       .pipe(
         finalize(() => {
@@ -165,8 +167,8 @@ export class WizardStateService {
         })
       )
       .subscribe({
-        next: (response) => console.log('Project generation successful:', response),
-        error: (error) => console.error('Project generation failed:', error)
+        next: (response) => console.log('Project generation successful: ', response),
+        error: (error) => console.error('Project generation failed: ', error)
       });
   }
 

@@ -40,28 +40,15 @@ export class InfrastructureStep {
 
   projectInfo = this.wizardState.projectInfo();
 
-  // FIXME > sonarNameFE it is empty when generate json / state in the GenerationService.generateProject() inside the state
-  sonarNameFE = computed(() =>
-    `${AppConstants.WIZARD.PREFIX_SONAR}${this.projectInfo.packageName}.fe`
-  );
-
-  // FIXME => sonarNameBE it is empty when generate json / state in the GenerationService.generateProject() inside the state
-  sonarNameBE = computed(() =>
-    `${AppConstants.WIZARD.PREFIX_SONAR}${this.projectInfo.packageName}.be`
-  );
-
-  deploymentDevNamespace = computed(() =>
-    `${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-dev`
-  );
-
-  deploymentTestNamespace = computed(() =>
-    `${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-test`
-  );
-
-  deploymentAcceptanceNamespace = computed(() =>
-    `${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-acceptance`
-  );
-
+  // FIXME these fields
+  qualityGateFE = computed(() => this.wizardState.infrastructure().sonarQube.qualityGateFE);
+  qualityGateBE = computed(() => this.wizardState.infrastructure().sonarQube.qualityGateBE);
+  sonarNameFE = computed(() => `${AppConstants.WIZARD.PREFIX_SONAR}${this.projectInfo.packageName}.fe`);
+  sonarNameBE = computed(() => `${AppConstants.WIZARD.PREFIX_SONAR}${this.projectInfo.packageName}.be`);
+  deploymentDevNamespace = computed(() =>`${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-dev`);
+  deploymentTestNamespace = computed(() =>`${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-test`);
+  deploymentAcceptanceNamespace = computed(() =>`${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-acceptance`);
+  //
 
   setActiveSubstep(substepId: string) {
     this.wizardState.updateSubstep(substepId);
