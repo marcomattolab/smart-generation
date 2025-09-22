@@ -40,8 +40,6 @@ export class InfrastructureStep implements OnInit{
 
   projectInfo = this.wizardState.projectInfo();
 
-  qualityGateFE = computed(() => this.wizardState.infrastructure().sonarQube.qualityGateFE);
-  qualityGateBE = computed(() => this.wizardState.infrastructure().sonarQube.qualityGateBE);
   sonarNameFE = computed(() => `${AppConstants.WIZARD.PREFIX_SONAR}${this.projectInfo.packageName}.fe`);
   sonarNameBE = computed(() => `${AppConstants.WIZARD.PREFIX_SONAR}${this.projectInfo.packageName}.be`);
   deploymentDevNamespace = computed(() =>`${AppConstants.WIZARD.PREFIX_DEPLOYMENT}${this.wizardState.projectInfo().projectName}-dev`);
@@ -108,12 +106,12 @@ export class InfrastructureStep implements OnInit{
   }
 
   onQualityGateFEChange(event: Event) {
-    const target = event.target as HTMLInputElement;
+    const target = event.target as HTMLSelectElement;
     this.wizardState.updateSonarQube({ qualityGateFE: target.value });
   }
 
   onQualityGateBEChange(event: Event) {
-    const target = event.target as HTMLInputElement;
+    const target = event.target as HTMLSelectElement;
     this.wizardState.updateSonarQube({ qualityGateBE: target.value });
   }
 

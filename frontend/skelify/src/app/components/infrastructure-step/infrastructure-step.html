@@ -220,18 +220,10 @@
             <label for="quality-gate-fe" class="form-label">Quality Gate FE</label>
             <select id="quality-gate-fe" class="form-input"
                     [value]="wizardState.infrastructure().sonarQube.qualityGateFE"
-                    (input)="onQualityGateFEChange($event)">
-              <option [value]="qualityOptions[0]">{{ qualityOptions[0] }}</option>
-              <option [value]="qualityOptions[1]">{{ qualityOptions[1] }}</option>
-              <option [value]="qualityOptions[2]">{{ qualityOptions[2] }}</option>
-              <option [value]="qualityOptions[3]">{{ qualityOptions[3] }}</option>
-              <option [value]="qualityOptions[4]">{{ qualityOptions[4] }}</option>
-              <option [value]="qualityOptions[5]">{{ qualityOptions[5] }}</option>
-              <option [value]="qualityOptions[6]">{{ qualityOptions[6] }}</option>
-              <option [value]="qualityOptions[7]">{{ qualityOptions[7] }}</option>
-              <option [value]="qualityOptions[8]">{{ qualityOptions[8] }}</option>
-              <option [value]="qualityOptions[9]">{{ qualityOptions[9] }}</option>
-              <option [value]="qualityOptions[10]">{{ qualityOptions[10] }}</option>
+                    (change)="onQualityGateFEChange($event)">
+              @for (option of qualityOptions; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
             </select>
           </div>
 
@@ -248,18 +240,10 @@
             <label for="quality-gate-be" class="form-label">Quality Gate BE</label>
             <select id="quality-gate-be" class="form-input"
                     [value]="wizardState.infrastructure().sonarQube.qualityGateBE"
-                    (input)="onQualityGateBEChange($event)">
-              <option [value]="qualityOptions[0]">{{ qualityOptions[0] }}</option>
-              <option [value]="qualityOptions[1]">{{ qualityOptions[1] }}</option>
-              <option [value]="qualityOptions[2]">{{ qualityOptions[2] }}</option>
-              <option [value]="qualityOptions[3]">{{ qualityOptions[3] }}</option>
-              <option [value]="qualityOptions[4]">{{ qualityOptions[4] }}</option>
-              <option [value]="qualityOptions[5]">{{ qualityOptions[5] }}</option>
-              <option [value]="qualityOptions[6]">{{ qualityOptions[6] }}</option>
-              <option [value]="qualityOptions[7]">{{ qualityOptions[7] }}</option>
-              <option [value]="qualityOptions[8]">{{ qualityOptions[8] }}</option>
-              <option [value]="qualityOptions[9]">{{ qualityOptions[9] }}</option>
-              <option [value]="qualityOptions[10]">{{ qualityOptions[10] }}</option>
+                    (change)="onQualityGateBEChange($event)">
+              @for (option of qualityOptions; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
             </select>
           </div>
 
