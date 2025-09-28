@@ -6,6 +6,7 @@ import { ProjectInfoStep } from '../../components/project-info-step/project-info
 import { TechStackStep } from '../../components/tech-stack-step/tech-stack-step';
 import { InfrastructureStep } from '../../components/infrastructure-step/infrastructure-step';
 import { ReviewStep } from '../../components/review-step/review-step';
+import { DomainStepComponent } from '../../components/domain-step/domain-step';
 
 @Component({
   selector: 'app-wizard-page',
@@ -15,6 +16,7 @@ import { ReviewStep } from '../../components/review-step/review-step';
     CommonModule,
     ProgressBar,
     ProjectInfoStep,
+    DomainStepComponent,
     TechStackStep,
     InfrastructureStep,
     ReviewStep

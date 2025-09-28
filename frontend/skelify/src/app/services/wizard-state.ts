@@ -1,5 +1,5 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { Person, PipelineStep, WizardStateModel } from "../models/page/wizard-state.model";
+import {Domain, Person, PipelineStep, WizardStateModel} from "../models/page/wizard-state.model";
 import { AppConstants } from "../models/constant/app-constant";
 import { GenerationService } from './generation.service';
 import { finalize } from 'rxjs';
@@ -12,6 +12,7 @@ export class WizardStateService {
   private readonly state = signal(this.initialState);
   readonly steps = signal([
     { label: 'Project Info' },
+    { label: 'Domain' },
     { label: 'Tech Stack' },
     { label: 'Infrastructure' },
     { label: 'Review' }
@@ -31,11 +32,12 @@ export class WizardStateService {
   readonly currentStep = computed(() => this.state().currentStep);
   readonly currentSubstep = computed(() => this.state().currentSubstep);
   readonly projectInfo = computed(() => this.state().projectInfo);
+  readonly domain = computed(() => this.state().domain);
   readonly techStack = computed(() => this.state().techStack);
   readonly infrastructure = computed(() => this.state().infrastructure);
   readonly isLastStep = computed(() => this.currentStep() === this.steps().length);
 
-  readonly isPipelineStep = computed(() => this.currentStep() === 3);
+  readonly isPipelineStep = computed(() => this.currentStep() === 4);
   readonly isLastPipelineStep = computed(() => this.currentSubstep() === this.pipelineSteps().length);
 
   get initialState(): WizardStateModel {
@@ -89,6 +91,10 @@ export class WizardStateService {
 
   updateProjectInfo(projectInfo: Partial<WizardStateModel['projectInfo']>) {
     this.state.update(state => ({ ...state, projectInfo: { ...state.projectInfo, ...projectInfo } }));
+  }
+
+  updateDomain(domain: Partial<Domain>) {
+    this.state.update(state => ({ ...state, domain: { ...state.domain, ...domain } }));
   }
 
   updateTechStack(techStack: Partial<WizardStateModel['techStack']>) {
