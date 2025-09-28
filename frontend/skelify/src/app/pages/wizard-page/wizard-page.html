@@ -8,12 +8,15 @@
         <app-project-info-step (isFormValid)="isProjectInfoFormValid.set($event)" />
       }
       @case (2) {
-        <app-tech-stack-step />
+        <app-domain-step />
       }
       @case (3) {
-        <app-infrastructure-step />
+        <app-tech-stack-step />
       }
       @case (4) {
+        <app-infrastructure-step />
+      }
+      @case (5) {
         <app-review-step />
       }
     }

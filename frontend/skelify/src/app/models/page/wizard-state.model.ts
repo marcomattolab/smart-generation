@@ -11,9 +11,25 @@ export interface DeploymentEnv {
   namespace: string;
 }
 
+export interface Column {
+  name: string;
+  type: string;
+  required: boolean;
+}
+
+export interface Entity {
+  name: string;
+  columns: Column[];
+}
+
+export interface Domain {
+  entities: Entity[];
+}
+
 export interface WizardStateModel {
   currentStep: number;
   currentSubstep: number;
+  domain: Domain;
   projectInfo: {
     projectName: string;
     projectDescription: string;
