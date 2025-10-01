@@ -25,6 +25,14 @@ export const AppConstants = {
               { name: 'username', type: 'string', required: true }, 
               { name: 'email', type: 'string', required: true }
             ] 
+          },
+          { 
+            name: 'Product', 
+            columns: [
+              { name: 'id', type: 'number', required: true }, 
+              { name: 'name', type: 'string', required: true }, 
+              { name: 'price', type: 'number', required: false }
+            ] 
           }
         ]
       },

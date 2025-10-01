@@ -94,7 +94,7 @@ export class WizardStateService {
   }
 
   updateDomain(domain: Partial<Domain>) {
-    //this.state.update(state => ({ ...state, domain: { ...state.domain, ...domain } }));
+    this.state.update(state => ({ ...state, domain: { ...state.domain, ...domain } }));
   }
 
   updateTechStack(techStack: Partial<WizardStateModel['techStack']>) {
