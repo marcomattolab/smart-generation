@@ -16,6 +16,18 @@ export const AppConstants = {
     INITIAL_STATE: {
       currentStep: 1,
       currentSubstep: 1,
+      domain: {
+        entities: [
+          { 
+            name: 'User', 
+            columns: [
+              { name: 'id', type: 'number', required: true }, 
+              { name: 'username', type: 'string', required: true }, 
+              { name: 'email', type: 'string', required: true }
+            ] 
+          }
+        ]
+      },
       projectInfo: {
         projectName: '',
         projectDescription: '',
